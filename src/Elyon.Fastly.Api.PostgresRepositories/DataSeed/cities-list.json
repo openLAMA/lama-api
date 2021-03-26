@@ -1,0 +1,524 @@
+[
+  {
+	"Id": "6a16f6ec-1cfb-465e-be5d-9e96b477e43b",
+    "Zip Code": 4147,
+    "Name of Location": "Aesch (BL)",
+    "Type of Location": "Gemeinde"
+  },
+  {
+  	"Id": "c8028390-a5b1-4441-8ead-79420b84c5f7",
+    "Zip Code": 4123,
+    "Name of Location": "Allschwil",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "bcbefa58-8ad7-4d6a-bdbd-7d38850c8a9f",
+    "Zip Code": 4469,
+    "Name of Location": "Anwil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f30883a5-2ba4-4c20-b9f4-7dac2bfd6eb7",
+    "Zip Code": 4424,
+    "Name of Location": "Arboldswil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "58df162a-12b5-4afb-b612-e3b8e572b4c7",
+    "Zip Code": 4422,
+    "Name of Location": "Arisdorf",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "8449ce80-e3ea-44ee-96fc-abf9af0309ff",
+    "Zip Code": 4144,
+    "Name of Location": "Arlesheim",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "b0486622-3b7e-4c78-bc3b-5307830867f2",
+    "Zip Code": 4302,
+    "Name of Location": "Augst",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "ba1ee371-aea8-494e-938f-a7d1456d9a0f",
+    "Zip Code": 4431,
+    "Name of Location": "Bennwil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "db2a8854-cf75-46f4-b590-703de1df0c4b",
+    "Zip Code": 4105,
+    "Name of Location": "Biel-Benken",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "16ea13eb-f74f-4785-a860-e28add9a2ee9",
+    "Zip Code": 4101,
+    "Name of Location": "Binningen",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "95ba6878-d6f9-41ff-9b1a-cda4d09a23d9",
+    "Zip Code": 4127,
+    "Name of Location": "Birsfelden",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "3dfe5d4c-c02e-4c9a-b5e4-2a452ad63677",
+    "Zip Code": 4223,
+    "Name of Location": "Blauen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "667f4f8a-3d7a-43d8-94fb-2c114284a897",
+    "Zip Code": 4461,
+    "Name of Location": "Böckten",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f2c24d84-2d9b-4b07-8fe6-d34aafe5363a",
+    "Zip Code": 4103,
+    "Name of Location": "Bottmingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "bdb71127-3a86-445e-991e-7ecf54acdf66",
+    "Zip Code": 4207,
+    "Name of Location": "Bretzwil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "3fdfc425-c0b4-44f1-948d-f474c354d1c0",
+    "Zip Code": 4225,
+    "Name of Location": "Brislach",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "34863dcf-c956-4b92-bd92-decc00f3f166",
+    "Zip Code": 4416,
+    "Name of Location": "Bubendorf",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "7a7b9061-8378-4f6a-bb2a-b7f701187fe8",
+    "Zip Code": 4446,
+    "Name of Location": "Buckten",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "e596762b-9a0b-45d7-8b06-26daedd1aa13",
+    "Zip Code": 4117,
+    "Name of Location": "Burg im Leimental",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "3341c73c-de40-4363-94fb-1f3c82f2eb18",
+    "Zip Code": 4463,
+    "Name of Location": "Buus",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "ab0c8028-0992-4fb2-8ee9-6e961036d224",
+    "Zip Code": 4457,
+    "Name of Location": "Diegten",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "ee6109db-6206-4dff-aade-b1980986c8f1",
+    "Zip Code": 4442,
+    "Name of Location": "Diepflingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "0af9771f-8f3c-4ac9-8f9b-5529f128e57a",
+    "Zip Code": 4243,
+    "Name of Location": "Dittingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "b6958641-a535-4b0c-8c0b-3ac786751e46",
+    "Zip Code": 4202,
+    "Name of Location": "Duggingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "bf558c66-a77f-496c-9ffa-1528b2bafd3a",
+    "Zip Code": 4458,
+    "Name of Location": "Eptingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "7c2d1d35-c0f6-4010-be73-a8eea7614b24",
+    "Zip Code": 4107,
+    "Name of Location": "Ettingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "fd49eb6c-8eb2-4b54-a69e-26d68b3c94c2",
+    "Zip Code": 4402,
+    "Name of Location": "Frenkendorf",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "49de07a8-1a7a-40f6-bd2f-7b710adcb840",
+    "Zip Code": 4414,
+    "Name of Location": "Füllinsdorf",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "0a19530c-a378-4220-b6f4-e1113d3ac8f7",
+    "Zip Code": 4460,
+    "Name of Location": "Gelterkinden",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f75ec56e-dfc6-431b-b0f3-afd114990fec",
+    "Zip Code": 4304,
+    "Name of Location": "Giebenach",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "cc2f6cec-a11a-4bd3-9a5d-85b655d1cccb",
+    "Zip Code": 4203,
+    "Name of Location": "Grellingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f0cd07ae-6076-464b-b9b5-5f450db117ae",
+    "Zip Code": 4445,
+    "Name of Location": "Häfelfingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "6ec67058-b6bc-4db0-af0e-cadc56c30a61",
+    "Zip Code": 4465,
+    "Name of Location": "Hemmiken",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "5c255305-e61b-42db-b29b-67a75a316d30",
+    "Zip Code": 4423,
+    "Name of Location": "Hersberg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "7f0f8a9a-b420-4e24-b2e2-ead08400d6fa",
+    "Zip Code": 4434,
+    "Name of Location": "Hölstein",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "8c398866-d726-4cf6-b2e1-94241c38e26f",
+    "Zip Code": 4452,
+    "Name of Location": "Itingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f69372a3-0c4f-486d-b512-87aca63b71af",
+    "Zip Code": 4447,
+    "Name of Location": "Känerkinden",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "440f3ca5-159b-4b2c-88b6-531ccd8daf23",
+    "Zip Code": 4496,
+    "Name of Location": "Kilchberg (BL)",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "1094661b-acfa-4cef-bf49-b3b96da7bc05",
+    "Zip Code": 4432,
+    "Name of Location": "Lampenberg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "bf5ba1d0-740c-4689-af9f-a20e39427d1e",
+    "Zip Code": 4438,
+    "Name of Location": "Langenbruck",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "ca610793-6bf2-4f8d-ab82-82eb7b714444",
+    "Zip Code": 4448,
+    "Name of Location": "Läufelfingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "5aa9adbd-642b-443b-9e6c-b83af4246465",
+    "Zip Code": 4242,
+    "Name of Location": "Laufen",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "7214e98e-9774-4aab-aa5f-b8a6672aa41b",
+    "Zip Code": 4415,
+    "Name of Location": "Lausen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "379f78b2-1f47-4b37-b22c-c0c2c291a5ed",
+    "Zip Code": 4426,
+    "Name of Location": "Lauwil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "14cd1881-af07-4a77-b798-5dda33cc0275",
+    "Zip Code": 4436,
+    "Name of Location": "Liedertswil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f4330e65-8900-4b6a-8331-6928eb5fab8b",
+    "Zip Code": 4253,
+    "Name of Location": "Liesberg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "3e68fda1-cbf2-4f1a-8111-60af6514ae31",
+    "Zip Code": 4410,
+    "Name of Location": "Liestal",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "714f5425-21f2-472f-a93d-9bfe1dbbdbd7",
+    "Zip Code": 4419,
+    "Name of Location": "Lupsingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "a8e33de7-a1e6-40e6-9a08-6394a504f791",
+    "Zip Code": 4464,
+    "Name of Location": "Maisprach",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "43d7590e-4847-4eec-b2cf-7b29d2fbfff8",
+    "Zip Code": 4142,
+    "Name of Location": "Münchenstein",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "2aebb383-6aee-422f-adff-8aefae14dcf4",
+    "Zip Code": 4132,
+    "Name of Location": "Muttenz",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "2d693d94-caf5-44d8-b76c-ab1bec9be043",
+    "Zip Code": 4224,
+    "Name of Location": "Nenzlingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "a5b934b7-6406-4b6f-a598-290fb56f5eb8",
+    "Zip Code": 4435,
+    "Name of Location": "Niederdorf",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "13a82b53-84e1-4de4-b77b-912a268a2057",
+    "Zip Code": 4453,
+    "Name of Location": "Nusshof",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "648a2908-c3e7-4c3c-a784-a8647f866683",
+    "Zip Code": 4436,
+    "Name of Location": "Oberdorf (BL)",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "478bc21f-ceef-4141-81fd-f280dc3df1d3",
+    "Zip Code": 4104,
+    "Name of Location": "Oberwil (BL)",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "1ca2c9b6-fa55-47a2-8e25-ed2f5fd412bb",
+    "Zip Code": 4494,
+    "Name of Location": "Oltingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "48ff9916-36b7-43e3-ac44-6093f0c9c27a",
+    "Zip Code": 4466,
+    "Name of Location": "Ormalingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "6608b089-e8ea-4eef-b635-5f665ed372e9",
+    "Zip Code": 4148,
+    "Name of Location": "Pfeffingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "e43ff4d4-8e3b-4fc0-b365-235796920336",
+    "Zip Code": 4133,
+    "Name of Location": "Pratteln",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "ddd7e685-83eb-4cba-8d18-ee9dbff9f5b4",
+    "Zip Code": 4433,
+    "Name of Location": "Ramlinsburg",
+    "Type of Location": "Ortschaft"
+  },
+  {
+	"Id": "c7dc4df1-ab52-4cce-9f07-550380e3ce98",
+    "Zip Code": 4418,
+    "Name of Location": "Reigoldswil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "c6179b94-fb3e-49a9-9938-c3e56e24d528",
+    "Zip Code": 4153,
+    "Name of Location": "Reinach (BL)",
+    "Type of Location": "Ortschaft"
+  },
+  {
+	"Id": "46d9a4e0-6423-41ad-a86f-80124fa102f2",
+    "Zip Code": 4462,
+    "Name of Location": "Rickenbach (BL)",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "07951cf9-f975-428d-bf2e-63109d47f17b",
+    "Zip Code": 2814,
+    "Name of Location": "Roggenburg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "847a9ce8-57b3-4e51-b95b-2fd18121775f",
+    "Zip Code": 4244,
+    "Name of Location": "Röschenz",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "54076e0c-7017-40fe-97b2-1a917feac78b",
+    "Zip Code": 4467,
+    "Name of Location": "Rothenfluh",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "c281d224-d18a-408f-8544-00dc54c7feed",
+    "Zip Code": 4444,
+    "Name of Location": "Rümlingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "a5b6119c-203b-4392-97c4-6bd4dd264d1c",
+    "Zip Code": 4497,
+    "Name of Location": "Rünenberg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "386a3ff2-76f3-497d-ae63-b854c9d5d0e3",
+    "Zip Code": 4124,
+    "Name of Location": "Schönenbuch",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "8a480bba-19f8-49cd-81eb-b86525a4de44",
+    "Zip Code": 4411,
+    "Name of Location": "Seltisberg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "ab0f65e3-8f16-4882-9fd0-8e01876da1ac",
+    "Zip Code": 4450,
+    "Name of Location": "Sissach",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "209ebc04-3a0e-43f4-af3a-bddffae8b0c5",
+    "Zip Code": 4492,
+    "Name of Location": "Tecknau",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "cf55f917-f6fa-4aba-aa71-842c786bad90",
+    "Zip Code": 4456,
+    "Name of Location": "Tenniken",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "578f65d9-b071-4b30-a595-eb4acaef5114",
+    "Zip Code": 4106,
+    "Name of Location": "Therwil",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "13145ec6-27ba-4245-afba-f0ceb6f838e1",
+    "Zip Code": 4441,
+    "Name of Location": "Thürnen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "dfd08754-980a-492b-a49f-575491b3e8cb",
+    "Zip Code": 4425,
+    "Name of Location": "Titterten",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "7a20fe1c-71bd-4dfd-a19f-815283246234",
+    "Zip Code": 4246,
+    "Name of Location": "Wahlen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "da4610e7-b35c-4ab7-8167-86620532ad63",
+    "Zip Code": 4437,
+    "Name of Location": "Waldenburg",
+    "Type of Location": "Stadt"
+  },
+  {
+	"Id": "30e4d57e-d903-4d28-bae0-f9080933083b",
+    "Zip Code": 4493,
+    "Name of Location": "Wenslingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "a1943e15-034f-4c77-a6e1-71e0afbe5d80",
+    "Zip Code": 4451,
+    "Name of Location": "Wintersingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "25160415-b80d-49f5-b631-c56d277a6154",
+    "Zip Code": 4443,
+    "Name of Location": "Wittinsburg",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "7e0843c2-69fe-43d9-bed6-0572810ec542",
+    "Zip Code": 4495,
+    "Name of Location": "Zeglingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "c3652c23-fca4-4eff-93f8-a36cdfe291cd",
+    "Zip Code": 4417,
+    "Name of Location": "Ziefen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "c41f5626-9caa-4f5b-a8fa-b485b59704c8",
+    "Zip Code": 4455,
+    "Name of Location": "Zunzgen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "f1403454-f1df-49a1-98ed-48edff944d49",
+    "Zip Code": 4222,
+    "Name of Location": "Zwingen",
+    "Type of Location": "Gemeinde"
+  },
+  {
+	"Id": "b4bfb54d-aef6-4a9f-a720-4bd36404e06a",
+    "Zip Code": 4001,
+    "Name of Location": "Basel",
+	"Type of Location": "Gemeinde"
+  }
+]
