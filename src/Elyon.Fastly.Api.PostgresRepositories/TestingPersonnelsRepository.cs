@@ -187,7 +187,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             DateTime testDate)
         {
             return exclusionStartDate.HasValue && exclusionEndDate.HasValue
-                && exclusionStartDate.Value.Date >= testDate && exclusionEndDate.Value.Date <= testDate;
+                && testDate >= exclusionStartDate.Value.Date && testDate <= exclusionEndDate.Value.Date;
         }
 
         private static bool CheckIfInTestDate(DateTime? organizationDate, DateTime testDate)
