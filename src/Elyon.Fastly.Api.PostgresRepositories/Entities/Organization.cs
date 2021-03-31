@@ -69,6 +69,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public DateTime? FifthTestTimestamp { get; set; }
 
+        public DateTime? ExclusionStartDate { get; set; }
+
+        public DateTime? ExclusionEndDate { get; set; }
+
         [Required]
         public int NumberOfSamples { get; set; }
 
