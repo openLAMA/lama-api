@@ -191,6 +191,15 @@ namespace Elyon.Fastly.Api.DomainServices
                 throw new ArgumentNullException(nameof(dto));
             }
 
+            if ((dto.ExclusionStartDate.HasValue && !dto.ExclusionEndDate.HasValue) ||
+                (!dto.ExclusionStartDate.HasValue && dto.ExclusionEndDate.HasValue))
+            {
+                ValidationDictionary.AddModelError("Both Exlusion Dates must have value",
+                    "One of exlusion dates has value and other does not.");
+
+                return;
+            }    
+
             var existinOrganizationType = await _organizationTypesRepository
                 .AnyOrganizationTypeAsync(x => x.Id == dto.OrganizationTypeId)
                 .ConfigureAwait(false);
