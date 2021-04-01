@@ -312,6 +312,18 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     src => src.Ignore())
                 .ForMember(opt => opt.SupportOrganizations,
                     src => src.Ignore());
+
+            CreateMap<OrganizationNoteDto, OrganizationNote>()
+                .ForMember(opt => opt.CreatorName,
+                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.CreatorName)))
+                .ForMember(opt => opt.Text,
+                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.Text)));
+
+            CreateMap<OrganizationNote, OrganizationNoteDto>()
+                .ForMember(opt => opt.CreatorName,
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.CreatorName)))
+                .ForMember(opt => opt.Text,
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Text)));
         }
 #pragma warning restore CA1308 // Normalize strings to uppercase
     }

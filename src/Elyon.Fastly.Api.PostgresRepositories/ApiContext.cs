@@ -62,6 +62,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<SubOrganization> SubOrganizations { get; set; }
 
+        public DbSet<OrganizationNote> OrganizationNotes { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }
@@ -123,6 +125,19 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .HasMany(ot => ot.Organizations)
                 .WithOne(o => o.OrganizationType)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrganizationNote>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.OrganizationNotes)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<OrganizationNote>()
+                .HasOne(n => n.Organization)
+                .WithMany(o => o.Notes)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrganizationNote>()
+                .HasIndex(n => n.OrganizationId);
 
             modelBuilder.Entity<TestingPersonnelInvitation>()
                .HasIndex(b => b.InvitationForDate);
