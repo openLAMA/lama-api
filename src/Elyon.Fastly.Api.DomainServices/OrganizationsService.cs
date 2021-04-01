@@ -350,7 +350,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 City = city.Name,
                 CountryShortName = city.CountryShortName,
                 Zip = dto.Zip ?? city.ZipCode,
-                FilterText = "",
+                FilterText = dto.OrganizationShorcutName,
                 State = DefaultEpaadOrganizationState,
                 ActiveSince = organizationCreationDate,
                 Address = dto.Address,
