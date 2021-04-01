@@ -22,15 +22,17 @@ using System;
 using Elyon.Fastly.Api.PostgresRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    partial class ApiContextModelSnapshot : ModelSnapshot
+    [Migration("20210401133513_AddOrganizationNotes")]
+    partial class AddOrganizationNotes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -865,10 +867,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 
                     b.Property<DateTime?>("OnboardingTimestamp")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("OrganizationShorcutName")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("OrganizationTypeId")
                         .HasColumnType("integer");
