@@ -56,8 +56,10 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 
         Task<List<OrganizationEpaadInfoDto>> GetOrganizationsWithEpaadIdAsync();
 
-        Task UpdateRegisteredEmployeesPerOrganizationAsync(EpaadOrganizationDto dto);
+        Task UpdateRegisteredEmployeesAndShortNamePerOrganizationAsync(EpaadOrganizationDto dto);
 
         Task UpdateOrganizationStatusAsync(Guid organizationId, OrganizationStatus status);
+
+        Task<int?> GetOrganizationEpaadIdAsync(Guid organizationId);
     }
 }

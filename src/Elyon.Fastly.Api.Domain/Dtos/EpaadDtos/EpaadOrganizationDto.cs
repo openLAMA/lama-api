@@ -17,8 +17,6 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Newtonsoft.Json;
-
 namespace Elyon.Fastly.Api.Domain.Dtos.EpaadDtos
 {
     public class EpaadOrganizationDto
@@ -26,5 +24,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.EpaadDtos
         public int EpaadId { get; set; }
 
         public int? RegisteredEmployees { get; set; }
+
+        public string OrganizationShortcutName { get; set; }
     }
 }

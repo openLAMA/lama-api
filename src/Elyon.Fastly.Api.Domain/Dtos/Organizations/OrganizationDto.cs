@@ -106,5 +106,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public int? NumberOfRakoBoxes { get; set; }
 
         public string PickupLocation { get; set; }
+
+        public string OrganizationShorcutName { get; set; }
     }
 }

@@ -31,5 +31,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.EpaadDtos
 
         [JsonProperty("registered_employees")]
         public int? RegisteredEmployees { get; set; }
+
+        [JsonProperty("filter_text")]
+        public string OrganizationShortcutName { get; set; }
     }
 }

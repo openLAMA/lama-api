@@ -233,9 +233,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     context.Users.Remove(dbContact);
             }
 
+            var dbContacts = new List<User>();
+            dbContacts.AddRange(dbEntity.Contacts);
             foreach (var newContact in entity.Contacts)
             {
-                var dbContact = dbEntity.Contacts.FirstOrDefault(i => i.Id == newContact.Id);
+                var dbContact = dbContacts.FirstOrDefault(i => i.Id == newContact.Id);
                 if (dbContact == null)
                 {
                     dbEntity.Contacts.Add(newContact);
@@ -380,7 +382,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             return organizationsWithEpaadId;
         }
 
-        public async Task UpdateRegisteredEmployeesPerOrganizationAsync(EpaadOrganizationDto dto)
+        public async Task UpdateRegisteredEmployeesAndShortNamePerOrganizationAsync(EpaadOrganizationDto dto)
         {
             if (dto == null)
             {
@@ -394,6 +396,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ConfigureAwait(false);
 
             entity.RegisteredEmployees = dto.RegisteredEmployees;
+            entity.OrganizationShorcutName = dto.OrganizationShortcutName;
             entity.LastUpdatedOn = DateTime.UtcNow;
             context.Entry(entity).State = EntityState.Modified;
             context.Organizations.Update(entity);
@@ -420,6 +423,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 await context.SaveChangesAsync()
                     .ConfigureAwait(false);
             }
+        }
+
+        public async Task<int?> GetOrganizationEpaadIdAsync(Guid organizationId)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            var entity = await context.Organizations.AsNoTracking()
+                .FirstAsync(item => item.Id == organizationId)
+                .ConfigureAwait(false);
+
+            return entity.EpaadId;
         }
     }
 }

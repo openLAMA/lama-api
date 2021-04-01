@@ -241,6 +241,16 @@ namespace Elyon.Fastly.Api.DomainServices
             await _organizationsRepository
                 .UpdateOrganizationStatusAsync(dto.Id, dto.Status)
                 .ConfigureAwait(false);
+            
+            var organizationEpaadId = await _organizationsRepository
+                .GetOrganizationEpaadIdAsync(dto.Id)
+                .ConfigureAwait(false);
+
+            if (organizationEpaadId.HasValue)
+            {
+                await UpdateOrganizationinEpaadAsync(organizationEpaadId.Value, dto)
+                    .ConfigureAwait(false);
+            }            
         }
 
         public async Task<List<ShortContactInfoDto>> GetSupportPeopleByOrganizationTypeAsync(int organizationTypeId)
@@ -351,6 +361,43 @@ namespace Elyon.Fastly.Api.DomainServices
             
             await _organizationsRepository
                 .UpdateEpaadIdAsync(response.EpaadId.Value, dto.Id)
+                .ConfigureAwait(false);
+        }
+
+        private async Task UpdateOrganizationinEpaadAsync(int organizationEpaadId, OrganizationDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            var city = await _citiesRepository
+                .GetCityEpaadDtoAsync(dto.CityId)
+                .ConfigureAwait(false);
+
+            var organizationCreationDate = await _organizationsRepository
+               .GetOrganizationCreationDateAsync(dto.Id)
+               .ConfigureAwait(false);
+
+            var epaadOrgDto = new PushEpaadOrganizationDto
+            {
+                ContactPersonEmail = dto.Contacts.First().Email,
+                ContactPersonName = dto.Contacts.First().Name,
+                ContactPersonPhone = dto.Contacts.First().PhoneNumber,
+                OrganizationTypeId = dto.OrganizationTypeId,
+                OrganizationName = dto.Name,
+                City = city.Name,
+                CountryShortName = city.CountryShortName,
+                Zip = dto.Zip ?? city.ZipCode,
+                FilterText = dto.OrganizationShorcutName,
+                State = DefaultEpaadOrganizationState,
+                ActiveSince = organizationCreationDate,
+                Address = dto.Address,
+                PoolLastname = dto.Name
+            };
+
+            await _epaadService
+                .UpdateOrganizationInEpaadAsync(organizationEpaadId, epaadOrgDto)
                 .ConfigureAwait(false);
         }
     }

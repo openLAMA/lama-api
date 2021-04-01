@@ -18,6 +18,7 @@
 #endregion
 
 using Elyon.Fastly.Api.Domain.Dtos.Organizations;
+using System;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Domain.Services
@@ -27,5 +28,7 @@ namespace Elyon.Fastly.Api.Domain.Services
         Task<PushEpaadOrganizationResponseDto> PushOrganizationToEpaadAsync(PushEpaadOrganizationDto ePaadOrganizationDto);
 
         Task UpdateNumberOfRegisteredEmployeesFromEpaadPerOrganizationAsync();
+
+        Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationDto ePaadOrganizationDto);
     }
 }
