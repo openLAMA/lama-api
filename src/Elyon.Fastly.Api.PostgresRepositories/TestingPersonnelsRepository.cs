@@ -72,7 +72,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             await using var context = ContextFactory.CreateDataContext(null);
             var orgs = await context.Organizations
-                .Where(x => x.Status != OrganizationStatus.NotActive && 
+                .Where(x => x.Status != OrganizationStatus.NotActive &&
                     ((x.FirstTestTimestamp.HasValue && x.FirstTestTimestamp.Value.Date < endDate.Date) ||
                     (x.SecondTestTimestamp.HasValue && x.SecondTestTimestamp.Value.Date < endDate.Date) ||
                     (x.ThirdTestTimestamp.HasValue && x.ThirdTestTimestamp.Value.Date < endDate.Date) ||
@@ -87,6 +87,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     ThirdDate = x.ThirdTestTimestamp,
                     FourthDate = x.FourthTestTimestamp,
                     FifthDate = x.FifthTestTimestamp,
+                    ExclusionStartDate = x.ExclusionStartDate,
+                    ExclusionEndDate = x.ExclusionEndDate,
                     IsCompanyOrPharmacyOrNursingOrganization = x.OrganizationTypeId == companyOrganizationId || x.OrganizationTypeId == pharmacyOrganizationId
                     || x.OrganizationTypeId == nursingHomesOrganizationId
                 })
@@ -161,11 +163,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
                     foreach (var organization in orgs)
                     {
-                        if (CheckIfInTestDate(organization.FirstDate, currentDate) ||
+                        if ((CheckIfInTestDate(organization.FirstDate, currentDate) ||
                             CheckIfInTestDate(organization.SecondDate, currentDate) ||
                             CheckIfInTestDate(organization.ThirdDate, currentDate) ||
                             CheckIfInTestDate(organization.FourthDate, currentDate) ||
-                            CheckIfInTestDate(organization.FifthDate, currentDate))
+                            CheckIfInTestDate(organization.FifthDate, currentDate)) &&
+                            !CheckIfDateIsExcluded(organization.ExclusionStartDate, organization.ExclusionEndDate, currentDate))
                         {
                             testsDataValue.Samples += organization.IsCompanyOrPharmacyOrNursingOrganization
                                 ? organization.RegisteredEmployees ?? 0
@@ -178,6 +181,13 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             }
 
             return testDatesValues;
+        }
+
+        private static bool CheckIfDateIsExcluded(DateTime? exclusionStartDate, DateTime? exclusionEndDate,
+            DateTime testDate)
+        {
+            return exclusionStartDate.HasValue && exclusionEndDate.HasValue
+                && testDate >= exclusionStartDate.Value.Date && testDate <= exclusionEndDate.Value.Date;
         }
 
         private static bool CheckIfInTestDate(DateTime? organizationDate, DateTime testDate)

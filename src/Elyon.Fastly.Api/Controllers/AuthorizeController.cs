@@ -20,7 +20,6 @@
 using Elyon.Fastly.Api.Domain.Dtos;
 using Elyon.Fastly.Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Controllers

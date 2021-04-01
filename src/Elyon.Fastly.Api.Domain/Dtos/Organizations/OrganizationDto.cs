@@ -61,6 +61,10 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 
         public DateTime? FifthTestTimestamp { get; set; }
 
+        public DateTime? ExclusionStartDate { get; set; }
+
+        public DateTime? ExclusionEndDate { get; set; }
+
         [Required]
         public int NumberOfSamples { get; set; }
 

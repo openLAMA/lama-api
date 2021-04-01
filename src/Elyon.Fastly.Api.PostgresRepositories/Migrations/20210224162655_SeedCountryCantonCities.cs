@@ -106,7 +106,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                     { new Guid("6113f133-7f1d-4044-8871-23c1dabf6fef"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Arboldswil", "4424" },
                     { new Guid("9f048cfb-9181-4a71-be06-421b1b0217a1"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Anwil", "4469" },
                     { new Guid("e8bcac88-70dd-4797-8b1f-ce9b5b920b30"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Allschwil", "4123" },
-                    { new Guid("8744e152-e041-45c6-9445-b60a766509e8"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Binningen", "4101" },
+                    { new Guid("8744e152-e041-45c6-9445-b60a766509e8"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Binningen", "4102" },
                     { new Guid("979a54e7-f589-44df-8e76-630d464c0122"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Zunzgen", "4455" },
                     { new Guid("093b7fb1-6be2-4930-8322-657696f38f4a"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Diegten", "4457" },
                     { new Guid("57d8dbdf-0c9e-4ef2-86a3-a2e44b042a4d"), new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"), null, "Dittingen", "4243" },

@@ -173,7 +173,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                             Id = new Guid("8744e152-e041-45c6-9445-b60a766509e8"),
                             CantonId = new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"),
                             Name = "Binningen",
-                            ZipCode = "4101"
+                            ZipCode = "4102"
                         },
                         new
                         {
