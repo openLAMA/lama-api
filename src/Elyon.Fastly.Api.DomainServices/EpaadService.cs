@@ -142,7 +142,7 @@ namespace Elyon.Fastly.Api.DomainServices
             return ePaadJwtTokenResponse;
         }
 
-        public async Task UpdateNumberOfRegisteredEmployeesFromEpaadPerOrganizationAsync()
+        public async Task UpdateRegisteredEmployeesAsync()
         {
             var organizationsWithEpaadId = await _organizationsRepository
                 .GetOrganizationsWithEpaadIdAsync()
