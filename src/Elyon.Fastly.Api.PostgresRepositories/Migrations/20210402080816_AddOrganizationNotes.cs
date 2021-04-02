@@ -26,6 +26,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "OrganizationShorcutName",
+                schema: "ApiDb",
+                table: "Organizations",
+                newName: "OrganizationShortcutName");
+
             migrationBuilder.CreateTable(
                 name: "OrganizationNotes",
                 schema: "ApiDb",
@@ -35,7 +41,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                     Text = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorName = table.Column<string>(type: "text", nullable: true),
+                    CreatorName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -75,6 +81,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
             migrationBuilder.DropTable(
                 name: "OrganizationNotes",
                 schema: "ApiDb");
+
+            migrationBuilder.RenameColumn(
+                name: "OrganizationShortcutName",
+                schema: "ApiDb",
+                table: "Organizations",
+                newName: "OrganizationShorcutName");
         }
     }
 }

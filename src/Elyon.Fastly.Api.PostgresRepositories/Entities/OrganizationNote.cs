@@ -34,6 +34,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public User User { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string CreatorName { get; set; }
 
         public Guid OrganizationId { get; set; }

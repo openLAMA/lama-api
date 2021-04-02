@@ -48,7 +48,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 throw new ArgumentNullException(nameof(item));
 
             if (creatorId == default)
-                throw new ArgumentNullException(nameof(item));
+                throw new ArgumentNullException(nameof(creatorId));
 
             var creator = await _usersRepository.GetByIdAsync(creatorId).ConfigureAwait(false);
 

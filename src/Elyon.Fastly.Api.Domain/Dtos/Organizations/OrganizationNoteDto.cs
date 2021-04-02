@@ -29,12 +29,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 
         public Guid UserId { get; set; }
 
-        public UserDto User { get; set; }
-
         public string CreatorName { get; set; }
 
         public Guid OrganizationId { get; set; }
-
-        public OrganizationDto Organization { get; set; }
     }
 }

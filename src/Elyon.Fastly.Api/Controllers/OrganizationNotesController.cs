@@ -21,6 +21,7 @@ using Elyon.Fastly.Api.Domain;
 using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using Elyon.Fastly.Api.Domain.Enums;
 using Elyon.Fastly.Api.Domain.Services;
+using Elyon.Fastly.Api.DomainServices;
 using Elyon.Fastly.Api.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,7 +32,7 @@ using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Controllers
 {
-    [Route("api/organizationNotes")]
+    [Route("api/organization/notes")]
     [ApiController]
     public class OrganizationNotesController : ControllerBase
     {
@@ -39,7 +40,9 @@ namespace Elyon.Fastly.Api.Controllers
 
         public OrganizationNotesController(IOrganizationNotesService organizationNotesService)
         {
-            _organizationNotesService = organizationNotesService;
+            _organizationNotesService = organizationNotesService
+                ?? throw new ArgumentNullException(nameof(organizationNotesService));
+            _organizationNotesService.ValidationDictionary = new ValidationDictionary(ModelState);
         }
 
         [HttpPost]

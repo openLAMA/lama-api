@@ -100,7 +100,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Id, src => src.Ignore())
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.EpaadId, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationShorcutName, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationShortcutName, src => src.Ignore())
                 .ForMember(opt => opt.CreatedOn, src => src.Ignore())
                 .ForMember(opt => opt.LastUpdatedOn, src => src.Ignore())
                 .ForMember(opt => opt.OnboardingTimestamp, src => src.Ignore())
@@ -137,7 +137,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     src => src.MapFrom(x => x.TypeId))
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.EpaadId, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationShorcutName, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationShortcutName, src => src.Ignore())
                 .ForMember(opt => opt.CreatedOn, src => src.Ignore())
                 .ForMember(opt => opt.LastUpdatedOn, src => src.Ignore())
                 .ForMember(opt => opt.OnboardingTimestamp, src => src.Ignore())
@@ -323,15 +323,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.CreatorName,
                     src => src.MapFrom(x => _aESCryptography.Encrypt(x.CreatorName)))
                 .ForMember(opt => opt.Text,
-                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.Text)));
+                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.Text)))
+                .ForMember(opt => opt.Organization,
+                    src => src.Ignore())
+                .ForMember(opt => opt.User,
+                    src => src.Ignore());
 
             CreateMap<OrganizationNote, OrganizationNoteDto>()
                 .ForMember(opt => opt.CreatorName,
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.CreatorName)))
                 .ForMember(opt => opt.Text,
-                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Text)))
-                .ForMember(opt => opt.Organization, src => src.Ignore())
-                .ForMember(opt => opt.User, src => src.Ignore());
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Text)));
         }
 #pragma warning restore CA1308 // Normalize strings to uppercase
     }

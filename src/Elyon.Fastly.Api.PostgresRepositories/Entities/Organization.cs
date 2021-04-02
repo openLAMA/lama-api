@@ -128,6 +128,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public string PickupLocation { get; set; }
 
         [MaxLength(100)]
-        public string OrganizationShorcutName { get; set; }
+        public string OrganizationShortcutName { get; set; }
     }
 }
