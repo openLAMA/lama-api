@@ -60,7 +60,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 UserId = creatorId,
             };
 
-            return await base.AddAsync(newNote)
+            return await base.AddAsync<OrganizationNoteDto>(newNote)
                 .ConfigureAwait(false);
         }
     }
