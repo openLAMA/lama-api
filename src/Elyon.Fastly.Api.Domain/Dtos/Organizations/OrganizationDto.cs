@@ -111,6 +111,6 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 
         public string PickupLocation { get; set; }
 
-        public string OrganizationShorcutName { get; set; }
+        public string OrganizationShortcutName { get; set; }
     }
 }

@@ -86,6 +86,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public virtual ICollection<SubOrganization> SubOrganizations { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
 
+#pragma warning disable CA2227 // Collection properties should be read only
+        public virtual ICollection<OrganizationNote> Notes { get; set; }
+#pragma warning restore CA2227 // Collection properties should be read only
+
         [ForeignKey("SupportPersonId")]
         public Guid SupportPersonId { get; set; }
 
@@ -124,6 +128,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public string PickupLocation { get; set; }
 
         [MaxLength(100)]
-        public string OrganizationShorcutName { get; set; }
+        public string OrganizationShortcutName { get; set; }
     }
 }

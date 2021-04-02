@@ -396,7 +396,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ConfigureAwait(false);
 
             entity.RegisteredEmployees = dto.RegisteredEmployees;
-            entity.OrganizationShorcutName = dto.OrganizationShortcutName;
+            entity.OrganizationShortcutName = dto.OrganizationShortcutName;
             entity.LastUpdatedOn = DateTime.UtcNow;
             context.Entry(entity).State = EntityState.Modified;
             context.Organizations.Update(entity);

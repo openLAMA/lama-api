@@ -26,7 +26,6 @@ using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
 using System.Globalization;
-using System.Linq;
 
 namespace Elyon.Fastly.Api.PostgresRepositories
 {
@@ -62,7 +61,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Organization, src => src.Ignore())
                 .ForMember(opt => opt.OrganizationId, src => src.Ignore())
                 .ForMember(opt => opt.SupportOrganizations, src => src.Ignore())
-                .ForMember(opt => opt.SupportPersonOrgTypeDefaults, src => src.Ignore());
+                .ForMember(opt => opt.SupportPersonOrgTypeDefaults, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore());
 
             CreateMap<UserSpecDto, User>()
                 .ForMember(opt => opt.Email,
@@ -79,7 +79,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.OrganizationId, src => src.Ignore())
                 .ForMember(opt => opt.SupportOrganizations, src => src.Ignore())
                 .ForMember(opt => opt.SupportPersonOrgTypeDefaults, src => src.Ignore())
-                .ForMember(opt => opt.Id, src => src.Ignore());
+                .ForMember(opt => opt.Id, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore());
 
             CreateMap<User, ShortContactInfoDto>()
                 .ForMember(opt => opt.Name,
@@ -99,7 +100,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Id, src => src.Ignore())
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.EpaadId, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationShorcutName, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationShortcutName, src => src.Ignore())
                 .ForMember(opt => opt.CreatedOn, src => src.Ignore())
                 .ForMember(opt => opt.LastUpdatedOn, src => src.Ignore())
                 .ForMember(opt => opt.OnboardingTimestamp, src => src.Ignore())
@@ -128,14 +129,15 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.NumberOfRakoBoxes, src => src.Ignore())
                 .ForMember(opt => opt.PickupLocation, src => src.Ignore())
                 .ForMember(opt => opt.County, src => src.Ignore())
-                .ForMember(opt => opt.SubOrganizations, src => src.Ignore());
+                .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
+                .ForMember(opt => opt.Notes, src => src.Ignore());
 
             CreateMap<OrganizationProfileSpecDto, Organization>()
                 .ForMember(opt => opt.OrganizationTypeId,
                     src => src.MapFrom(x => x.TypeId))
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.EpaadId, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationShorcutName, src => src.Ignore())
+                .ForMember(opt => opt.OrganizationShortcutName, src => src.Ignore())
                 .ForMember(opt => opt.CreatedOn, src => src.Ignore())
                 .ForMember(opt => opt.LastUpdatedOn, src => src.Ignore())
                 .ForMember(opt => opt.OnboardingTimestamp, src => src.Ignore())
@@ -164,7 +166,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.NumberOfRakoBoxes, src => src.Ignore())
                 .ForMember(opt => opt.PickupLocation, src => src.Ignore())
                 .ForMember(opt => opt.County, src => src.Ignore())
-                .ForMember(opt => opt.SubOrganizations, src => src.Ignore());
+                .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
+                .ForMember(opt => opt.Notes, src => src.Ignore());
 
 
             CreateMap<OrganizationDto, Organization>()
@@ -176,7 +179,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.EpaadId, src => src.Ignore())
                 .ForMember(opt => opt.Status, src => src.Ignore())
                 .ForMember(opt => opt.RegisteredEmployees, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationType, src => src.Ignore());
+                .ForMember(opt => opt.OrganizationType, src => src.Ignore())
+                .ForMember(opt => opt.Notes, src => src.Ignore());
             CreateMap<Organization, OrganizationDto>()
                 .ForMember(opt => opt.Manager,
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.Manager)));
@@ -311,7 +315,25 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.OrganizationId,
                     src => src.Ignore())
                 .ForMember(opt => opt.SupportOrganizations,
+                    src => src.Ignore())
+                .ForMember(opt => opt.OrganizationNotes,
                     src => src.Ignore());
+
+            CreateMap<OrganizationNoteDto, OrganizationNote>()
+                .ForMember(opt => opt.CreatorName,
+                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.CreatorName)))
+                .ForMember(opt => opt.Text,
+                    src => src.MapFrom(x => _aESCryptography.Encrypt(x.Text)))
+                .ForMember(opt => opt.Organization,
+                    src => src.Ignore())
+                .ForMember(opt => opt.User,
+                    src => src.Ignore());
+
+            CreateMap<OrganizationNote, OrganizationNoteDto>()
+                .ForMember(opt => opt.CreatorName,
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.CreatorName)))
+                .ForMember(opt => opt.Text,
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Text)));
         }
 #pragma warning restore CA1308 // Normalize strings to uppercase
     }

@@ -18,10 +18,7 @@
 #endregion
 
 using Autofac;
-using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
-using Prime.Sdk.Logging;
-using System.Net.Http;
 
 namespace Elyon.Fastly.Api.DomainServices
 {
@@ -104,6 +101,10 @@ namespace Elyon.Fastly.Api.DomainServices
 
             builder.RegisterType<LamaCompaniesService>()
                 .As<ILamaCompaniesService>()
+                .SingleInstance();
+
+            builder.RegisterType<OrganizationNotesService>()
+                .As<IOrganizationNotesService>()
                 .SingleInstance();
         }
     }

@@ -107,6 +107,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             builder.RegisterType<LamaCompaniesRepository>()
                .As<ILamaCompaniesRepository>()
                .SingleInstance();
+
+            builder.RegisterType<OrganizationNotesRepository>()
+                .As<IOrganizationNotesRepository>()
+                .SingleInstance();
         }
     }
 }
