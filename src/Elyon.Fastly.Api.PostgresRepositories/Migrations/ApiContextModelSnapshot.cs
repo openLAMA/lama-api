@@ -929,8 +929,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 
                     b.Property<string>("CreatorName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
