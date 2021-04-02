@@ -29,8 +29,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20210331093313_AddCapacityExclusionDates")]
-    partial class AddCapacityExclusionDates
+    [Migration("20210330084806_AddOrganizationShortcutName")]
+    partial class AddOrganizationShortcutName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,7 +173,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                             Id = new Guid("16ea13eb-f74f-4785-a860-e28add9a2ee9"),
                             CantonId = new Guid("13f87683-8736-49e3-9a96-bceafb2d6846"),
                             Name = "Binningen",
-                            ZipCode = "4102"
+                            ZipCode = "4101"
                         },
                         new
                         {
@@ -823,12 +823,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                     b.Property<int?>("EpaadId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("ExclusionEndDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("ExclusionStartDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime?>("FifthTestTimestamp")
                         .HasColumnType("timestamp without time zone");
 
@@ -867,6 +861,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 
                     b.Property<DateTime?>("OnboardingTimestamp")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("OrganizationShorcutName")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("OrganizationTypeId")
                         .HasColumnType("integer");

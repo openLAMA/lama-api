@@ -17,18 +17,29 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.Organizations;
-using System;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 {
-    public interface IEpaadService
+    public partial class AddOrganizationShortcutName : Migration
     {
-        Task<PushEpaadOrganizationResponseDto> PushOrganizationToEpaadAsync(PushEpaadOrganizationDto ePaadOrganizationDto);
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "OrganizationShorcutName",
+                schema: "ApiDb",
+                table: "Organizations",
+                type: "character varying(100)",
+                maxLength: 100,
+                nullable: true);
+        }
 
-        Task UpdateRegisteredEmployeesAsync();
-
-        Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationDto ePaadOrganizationDto);
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "OrganizationShorcutName",
+                schema: "ApiDb",
+                table: "Organizations");
+        }
     }
 }

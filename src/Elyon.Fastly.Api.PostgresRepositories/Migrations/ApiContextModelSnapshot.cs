@@ -866,6 +866,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                     b.Property<DateTime?>("OnboardingTimestamp")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("OrganizationShorcutName")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<int>("OrganizationTypeId")
                         .HasColumnType("integer");
 

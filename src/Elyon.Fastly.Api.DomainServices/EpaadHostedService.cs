@@ -51,7 +51,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 try
                 {
                     await _epaadService
-                      .UpdateNumberOfRegisteredEmployeesFromEpaadPerOrganizationAsync()
+                      .UpdateRegisteredEmployeesAsync()
                       .ConfigureAwait(false);
 
                     await Task.Delay(TaskDelayInMilliSeconds, stoppingToken)

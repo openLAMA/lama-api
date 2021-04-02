@@ -142,7 +142,7 @@ namespace Elyon.Fastly.Api.DomainServices
             return ePaadJwtTokenResponse;
         }
 
-        public async Task UpdateNumberOfRegisteredEmployeesFromEpaadPerOrganizationAsync()
+        public async Task UpdateRegisteredEmployeesAsync()
         {
             var organizationsWithEpaadId = await _organizationsRepository
                 .GetOrganizationsWithEpaadIdAsync()
@@ -162,11 +162,12 @@ namespace Elyon.Fastly.Api.DomainServices
                         var epaadOrgDto = new EpaadOrganizationDto
                         {
                             EpaadId = Convert.ToInt32(dbEpaadOrg.EpaadId, CultureInfo.InvariantCulture),
-                            RegisteredEmployees = dbEpaadOrg.RegisteredEmployees
+                            RegisteredEmployees = dbEpaadOrg.RegisteredEmployees,
+                            OrganizationShortcutName = dbEpaadOrg.OrganizationShortcutName
                         };
 
                         await _organizationsRepository
-                            .UpdateRegisteredEmployeesPerOrganizationAsync(epaadOrgDto)
+                            .UpdateRegisteredEmployeesAndShortNamePerOrganizationAsync(epaadOrgDto)
                             .ConfigureAwait(false);
                     }
                 }
@@ -206,6 +207,42 @@ namespace Elyon.Fastly.Api.DomainServices
                 _log.Error(ex, ex.Message);
                 throw;
             }            
+        }
+
+        public async Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationDto ePaadOrganizationDto)
+        {
+            var epaadOrganizationJson = JsonConvert.SerializeObject(ePaadOrganizationDto);
+
+            using var epaadOrganization = new StringContent(
+                epaadOrganizationJson,
+                Encoding.Default,
+                "application/json");
+
+            var jwtToken = await GetEpaadJWTTokenAsync()
+                .ConfigureAwait(false);
+
+            using var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_baseEpaadUrl);
+
+            var urlEndpoint = $"organizations/{organizationEpaadId}";
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, jwtToken.Token);
+#pragma warning disable CA2234 // Pass system uri objects instead of strings
+            using var httpResponse = await client
+                .PutAsync(urlEndpoint, epaadOrganization)
+#pragma warning restore CA2234 // Pass system uri objects instead of strings
+                .ConfigureAwait(false);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            using var stream = await httpResponse.Content
+                .ReadAsStreamAsync()
+                .ConfigureAwait(false);
+            using var streamReader = new StreamReader(stream);
+            using var json = new JsonTextReader(streamReader);
+            var jsonSerializer = new JsonSerializer();
+            var ePaadPushResponse = jsonSerializer
+                .Deserialize<PushEpaadOrganizationResponseDto>(json);
         }
     }
 }
