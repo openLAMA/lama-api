@@ -57,7 +57,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_organizationNotesService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_organizationNotesService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationNotesService.ValidationDictionary.GetErrorMessages() });
             }
 
             return Ok(newNote.Id);

@@ -23,6 +23,7 @@ using Elyon.Fastly.Api.Helpers;
 using Elyon.Fastly.Api.Settings;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
@@ -30,6 +31,7 @@ using Prime.Sdk.Configuration.AppBuilder;
 using Prime.Sdk.Configuration.Services;
 using Prime.Sdk.Swagger;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
@@ -51,6 +53,22 @@ namespace Elyon.Fastly.Api
         {
             return services.UsePrimeServiceConfiguration<AppSettings>((options, appSettings) =>
             {
+                options.ConfigureMvcBuilder = builder =>
+                {
+                    builder.ConfigureApiBehaviorOptions(mvcOptions =>
+                    {
+                        mvcOptions.InvalidModelStateResponseFactory = c =>
+                        {
+                            c.HttpContext.Response.StatusCode = 400;
+                            Dictionary<string, IEnumerable<string>> modelErrors =
+                                ValidationDictionary.GetErrorMessages(c.ModelState);
+                            
+                            var result = new JsonResult(new { errors = modelErrors });
+                            return result;
+                        };
+                    });
+                };
+
                 options.Swagger = _swaggerOptions;
                 options.Swagger.ConfigureSwagger = swagger =>
                 {

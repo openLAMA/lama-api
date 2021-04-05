@@ -19,6 +19,9 @@
 
 using Elyon.Fastly.Api.Domain.Helpers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Elyon.Fastly.Api.DomainServices
 {
@@ -44,6 +47,30 @@ namespace Elyon.Fastly.Api.DomainServices
         public ModelStateDictionary GetModelState()
         {
             return _modelState;
+        }
+
+        public Dictionary<string, IEnumerable<string>> GetErrorMessages()
+        {
+            return GetErrorMessages(_modelState);
+        }
+
+        public static Dictionary<string, IEnumerable<string>> GetErrorMessages(ModelStateDictionary modelState)
+        {
+            if (modelState == null)
+                throw new ArgumentNullException(nameof(modelState));
+
+            Dictionary<string, IEnumerable<string>> modelErrors = new Dictionary<string, IEnumerable<string>>();
+            foreach (KeyValuePair<string, ModelStateEntry> keyModelStatePair in modelState)
+            {
+                ModelErrorCollection errors = keyModelStatePair.Value.Errors;
+                if (errors != null && errors.Count > 0)
+                {
+                    IEnumerable<string> errorMessages = errors.Select(error => error.ErrorMessage);
+                    modelErrors.Add(keyModelStatePair.Key, errorMessages);
+                }
+            }
+
+            return modelErrors;
         }
     }
 }
