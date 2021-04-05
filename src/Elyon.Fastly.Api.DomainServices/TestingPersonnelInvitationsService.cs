@@ -60,7 +60,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (alreadySentInvitationForDate)
             {
                 ValidationDictionary
-                    .AddModelError("Already sent invitation", $"Invitation for {specDto.Date.Date} has been already sent.");
+                    .AddModelError("Invitation for the date has already been sent", $"{specDto.Date.Date}");
                 return;
             }
 

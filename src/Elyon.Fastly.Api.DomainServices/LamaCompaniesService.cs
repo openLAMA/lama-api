@@ -23,7 +23,6 @@ using Elyon.Fastly.Api.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.DomainServices
@@ -61,16 +60,15 @@ namespace Elyon.Fastly.Api.DomainServices
 
             if (existingEmails.Any())
             {
-                ValidationDictionary
-                    .AddModelError("Existing emails", $"Email(s) {string.Join(", ", existingEmails)} already exist");
+                ValidationDictionary.AddModelError("Already existing emails", string.Join(", ", existingEmails));
 
                 return;
             }
 
             if (!userIds.Contains(loggedUserId))
             {
-                ValidationDictionary
-                    .AddModelError("Delete yourself", "You cannot delete yourself from the contact list of the organization");
+                ValidationDictionary.AddModelError("Delete yourself",
+                    "You cannot delete yourself from the contact list of the organization");
 
                 return;
             }
@@ -83,10 +81,8 @@ namespace Elyon.Fastly.Api.DomainServices
                     if (!CheckForDuplicates(organizationTypeIds))
                     {
                         ValidationDictionary
-                            .AddModelError($"Duplicate organization types for user {lamaUser.Id}",
-                            "You cannot set duplicate organization types");
+                            .AddModelError($"Cannot set duplicate organization types for one user", lamaUser.Id.ToString());
                     }
-
                 }                
             }
 
