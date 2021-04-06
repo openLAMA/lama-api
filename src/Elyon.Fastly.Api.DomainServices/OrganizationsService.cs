@@ -84,8 +84,7 @@ namespace Elyon.Fastly.Api.DomainServices
 
             if (existingEmails.Any())
             {
-                ValidationDictionary
-                    .AddModelError("Already existing emails", $"Email(s) {string.Join(", ", existingEmails)} already exist");
+                ValidationDictionary.AddModelError("Already Existing Emails", string.Join(", ", existingEmails));
 
                 return null;
             }
@@ -140,8 +139,7 @@ namespace Elyon.Fastly.Api.DomainServices
 
             if (existingEmails.Any())
             {
-                ValidationDictionary
-                    .AddModelError("Existing emails", $"Email(s) {string.Join(", ", existingEmails)} already exist");
+                ValidationDictionary.AddModelError("Already Existing Emails", string.Join(", ", existingEmails));
 
                 return;
             }
@@ -194,8 +192,8 @@ namespace Elyon.Fastly.Api.DomainServices
             if ((dto.ExclusionStartDate.HasValue && !dto.ExclusionEndDate.HasValue) ||
                 (!dto.ExclusionStartDate.HasValue && dto.ExclusionEndDate.HasValue))
             {
-                ValidationDictionary.AddModelError("Both Exlusion Dates must have value",
-                    "One of exlusion dates has value and other does not.");
+                ValidationDictionary.AddModelError("Both exclusion dates must have value",
+                    "One of the exclusion dates has value and the other does not.");
 
                 return;
             }    
@@ -219,8 +217,7 @@ namespace Elyon.Fastly.Api.DomainServices
 
             if (existingEmails.Any())
             {
-                ValidationDictionary
-                    .AddModelError("Existing emails", $"Email(s) {string.Join(", ", existingEmails)} already exist");
+                ValidationDictionary.AddModelError("Already Existing Emails", string.Join(", ", existingEmails));
 
                 return;
             }

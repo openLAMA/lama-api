@@ -22,12 +22,10 @@ using Elyon.Fastly.Api.Domain.Enums;
 using Elyon.Fastly.Api.Domain.Services;
 using Elyon.Fastly.Api.DomainServices;
 using Elyon.Fastly.Api.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Controllers
@@ -97,7 +95,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_lamaCompaniesService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_lamaCompaniesService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _lamaCompaniesService.ValidationDictionary.GetErrorMessages() });
             }
 
             return NoContent();

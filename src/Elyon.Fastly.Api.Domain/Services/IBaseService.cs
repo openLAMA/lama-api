@@ -25,7 +25,6 @@ namespace Elyon.Fastly.Api.Domain.Services
     [SuppressMessage("Microsoft.Design", "CA1040", Justification = "Base service")]
     public interface IBaseService
     {
-
         IValidationDictionary ValidationDictionary { get; set; }
     }
 }

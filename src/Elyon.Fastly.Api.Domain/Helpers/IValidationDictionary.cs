@@ -18,7 +18,7 @@
 #endregion
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Elyon.Fastly.Api.Domain.Helpers
 {
@@ -29,5 +29,7 @@ namespace Elyon.Fastly.Api.Domain.Helpers
         void AddModelError(string key, string message);
 
         ModelStateDictionary GetModelState();
+
+        Dictionary<string, IEnumerable<string>> GetErrorMessages();
     }
 }

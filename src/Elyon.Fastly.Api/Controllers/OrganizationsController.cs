@@ -71,7 +71,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (createdDto == null)
             {
-                return BadRequest(_organizationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
             }
 
             return Ok(createdDto.Id);
@@ -177,7 +177,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_organizationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_organizationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
             }
 
             return NoContent();
@@ -239,7 +239,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_organizationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_organizationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
             }
 
             return NoContent();
@@ -260,7 +260,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_organizationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_organizationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
             }
 
             return NoContent();
@@ -281,7 +281,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_organizationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_organizationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
             }
 
             return Ok();

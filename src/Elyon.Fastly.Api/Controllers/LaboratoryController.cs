@@ -124,7 +124,10 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_testingPersonnelInvitationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_testingPersonnelInvitationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new
+                { 
+                    errors = _testingPersonnelInvitationsService.ValidationDictionary.GetErrorMessages()
+                });
             }
 
             return Ok();
@@ -146,7 +149,10 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_testingPersonnelInvitationsService.ValidationDictionary.IsValid())
             {
-                return BadRequest(_testingPersonnelInvitationsService.ValidationDictionary.GetModelState());
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelInvitationsService.ValidationDictionary.GetErrorMessages()
+                });
             }
 
             return Ok(shiftNumbers);

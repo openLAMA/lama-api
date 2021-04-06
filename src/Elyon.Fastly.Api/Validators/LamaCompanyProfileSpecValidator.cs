@@ -19,10 +19,8 @@
 
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
 using FluentValidation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Validators
 {
