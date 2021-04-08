@@ -130,7 +130,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.PickupLocation, src => src.Ignore())
                 .ForMember(opt => opt.County, src => src.Ignore())
                 .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
-                .ForMember(opt => opt.Notes, src => src.Ignore());
+                .ForMember(opt => opt.Notes, src => src.Ignore())
+                .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore());
 
             CreateMap<OrganizationProfileSpecDto, Organization>()
                 .ForMember(opt => opt.OrganizationTypeId,
@@ -167,7 +168,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.PickupLocation, src => src.Ignore())
                 .ForMember(opt => opt.County, src => src.Ignore())
                 .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
-                .ForMember(opt => opt.Notes, src => src.Ignore());
+                .ForMember(opt => opt.Notes, src => src.Ignore())
+                .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore());
 
 
             CreateMap<OrganizationDto, Organization>()
@@ -180,10 +182,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Status, src => src.Ignore())
                 .ForMember(opt => opt.RegisteredEmployees, src => src.Ignore())
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
-                .ForMember(opt => opt.Notes, src => src.Ignore());
+                .ForMember(opt => opt.Notes, src => src.Ignore())
+                .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore());
+
             CreateMap<Organization, OrganizationDto>()
                 .ForMember(opt => opt.Manager,
-                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Manager)));
+                    src => src.MapFrom(x => _aESCryptography.Decrypt(x.Manager)))
+                .ForMember(opt => opt.FollowUpStatus, 
+                    src => src.MapFrom(x => x.InfoSessionFollowUpId.HasValue ? 
+                        x.InfoSessionFollowUp.Status : 
+                        Domain.Dtos.InfoSessionFollowUp.InfoSessionFollowUpStatus.NotSent));
+
             CreateMap<Organization, OrganizationProfileDto>();
             CreateMap<Organization, OrganizationDashboardDto>()
                 .ForMember(opt => opt.TestDate1,

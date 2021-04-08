@@ -17,6 +17,7 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp;
 using Elyon.Fastly.Api.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -112,5 +113,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public string PickupLocation { get; set; }
 
         public string OrganizationShortcutName { get; set; }
+
+        public InfoSessionFollowUpStatus FollowUpStatus { get; set; }
     }
 }

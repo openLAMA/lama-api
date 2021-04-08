@@ -34,5 +34,7 @@ namespace Elyon.Fastly.Api.Domain.Services
 
         Task SendConfirmationForPoolingAssignment(string receiver,
             DateTime poolingDate, ICollection<int> shifts);
+
+        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken)
     }
 }
