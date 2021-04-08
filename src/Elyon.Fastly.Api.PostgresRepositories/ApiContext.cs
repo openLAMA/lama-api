@@ -118,11 +118,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .WithMany(u => u.SupportOrganizations)
                 .IsRequired();
 
-            modelBuilder.Entity<Organization>()
-                .HasOne(o => o.InfoSessionFollowUp)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
-
             modelBuilder.Entity<User>()
                 .HasMany(u => u.SupportOrganizations)
                 .WithOne(o => o.SupportPerson)
@@ -151,7 +146,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             modelBuilder.Entity<InfoSessionFollowUp>()
                 .HasOne(i => i.Organization)
-                .WithOne()
+                .WithOne(o => o.InfoSessionFollowUp)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrganizationType>()

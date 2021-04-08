@@ -190,7 +190,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Manager,
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.Manager)))
                 .ForMember(opt => opt.FollowUpStatus, 
-                    src => src.MapFrom(x => x.InfoSessionFollowUpId.HasValue ? 
+                    src => src.MapFrom(x => x.InfoSessionFollowUp != null ? 
                         x.InfoSessionFollowUp.Status :
                         InfoSessionFollowUpStatus.NotSent));
 

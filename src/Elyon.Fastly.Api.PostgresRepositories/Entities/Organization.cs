@@ -130,8 +130,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         [MaxLength(100)]
         public string OrganizationShortcutName { get; set; }
 
-        public Guid? InfoSessionFollowUpId { get; set; }
-
         public InfoSessionFollowUp InfoSessionFollowUp { get; set; }
     }
 }
