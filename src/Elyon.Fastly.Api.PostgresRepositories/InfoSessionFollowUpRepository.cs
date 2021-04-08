@@ -46,7 +46,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             var context = ContextFactory.CreateDataContext(null);
             await context.Set<InfoSessionFollowUp>().AddAsync(entity).ConfigureAwait(false);
-            context.Entry(entity).State = EntityState.Detached;
 
             await context.SaveChangesAsync().ConfigureAwait(false);
 
