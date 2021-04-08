@@ -1,4 +1,4 @@
-﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp;
+﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using System;
 
 namespace Elyon.Fastly.Api.PostgresRepositories.Entities

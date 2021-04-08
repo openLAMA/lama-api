@@ -1,4 +1,4 @@
-﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp;
+﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using Elyon.Fastly.Api.Domain.Services;
 using Elyon.Fastly.Api.DomainServices;
 using Microsoft.AspNetCore.Mvc;

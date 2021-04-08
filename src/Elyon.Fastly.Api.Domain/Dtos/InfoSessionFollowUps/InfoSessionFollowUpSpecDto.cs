@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp
+namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
 {
     public class InfoSessionFollowUpSpecDto
     {

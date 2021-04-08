@@ -21,6 +21,7 @@ using AutoMapper;
 using Elyon.Fastly.Api.Domain;
 using Elyon.Fastly.Api.Domain.Dtos;
 using Elyon.Fastly.Api.Domain.Dtos.Cities;
+using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
 using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
@@ -190,8 +191,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.Manager)))
                 .ForMember(opt => opt.FollowUpStatus, 
                     src => src.MapFrom(x => x.InfoSessionFollowUpId.HasValue ? 
-                        x.InfoSessionFollowUp.Status : 
-                        Domain.Dtos.InfoSessionFollowUp.InfoSessionFollowUpStatus.NotSent));
+                        x.InfoSessionFollowUp.Status :
+                        InfoSessionFollowUpStatus.NotSent));
 
             CreateMap<Organization, OrganizationProfileDto>();
             CreateMap<Organization, OrganizationDashboardDto>()

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp
+namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
 {
     public class InfoSessionFollowUpUpdateSpecDto
     {

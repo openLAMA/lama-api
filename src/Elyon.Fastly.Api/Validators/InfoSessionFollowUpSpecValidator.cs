@@ -1,4 +1,4 @@
-﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUp;
+﻿using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using FluentValidation;
 
 namespace Elyon.Fastly.Api.Validators
