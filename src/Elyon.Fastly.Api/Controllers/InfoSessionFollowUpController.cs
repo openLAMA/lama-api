@@ -46,7 +46,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if (!_followUpService.ValidationDictionary.GetModelState().IsValid)
             {
-                return BadRequest(_followUpService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _followUpService.ValidationDictionary.GetErrorMessages() });
             }
 
             return Ok();
@@ -59,7 +59,7 @@ namespace Elyon.Fastly.Api.Controllers
 
             if(!_followUpService.ValidationDictionary.GetModelState().IsValid)
             {
-                return BadRequest(_followUpService.ValidationDictionary.GetModelState());
+                return BadRequest(new { errors = _followUpService.ValidationDictionary.GetErrorMessages() });
             }
 
             return Ok();
