@@ -23,10 +23,13 @@ using Elyon.Fastly.Api.DomainServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Elyon.Fastly.Api.Domain.Enums;
+using Elyon.Fastly.Api.Helpers;
+using Refit;
 
 namespace Elyon.Fastly.Api.Controllers
 {
-    [Route("api/followUp/")]
+    [Route("api/organization/followUp")]
     [ApiController]
     public class InfoSessionFollowUpController : ControllerBase
     {
@@ -49,11 +52,25 @@ namespace Elyon.Fastly.Api.Controllers
                 return BadRequest(new { errors = _followUpService.ValidationDictionary.GetErrorMessages() });
             }
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpPut]
+        [AuthorizeUser(RoleType.University)]
         public async Task<IActionResult> UpdateFollowUpStatusAsync(InfoSessionFollowUpUpdateSpecDto specDto)
+        {
+            await _followUpService.UpdateFollowUpStatusAsync(specDto).ConfigureAwait(false);
+
+            if(!_followUpService.ValidationDictionary.GetModelState().IsValid)
+            {
+                return BadRequest(new { errors = _followUpService.ValidationDictionary.GetErrorMessages() });
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("respond")]
+        public async Task<IActionResult> RegisterUserResponseAsync(InfoSessionFollowUpResponseSpecDto specDto)
         {
             await _followUpService.ChangeFollowUpStatusAsync(specDto).ConfigureAwait(false);
 
@@ -62,7 +79,7 @@ namespace Elyon.Fastly.Api.Controllers
                 return BadRequest(new { errors = _followUpService.ValidationDictionary.GetErrorMessages() });
             }
 
-            return Ok();
-        } 
+            return NoContent();
+        }
     }
 }

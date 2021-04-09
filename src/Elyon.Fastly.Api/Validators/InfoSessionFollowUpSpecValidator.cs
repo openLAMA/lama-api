@@ -30,11 +30,14 @@ namespace Elyon.Fastly.Api.Validators
                 .NotEmpty()
                 .WithMessage("Message must not be null or empty space");
 
-            RuleFor(x => x.Recievers)
+            RuleFor(x => x.Message)
+                .MaximumLength(500);
+
+            RuleFor(x => x.Receivers)
                 .NotEmpty()
                 .WithMessage("Must have some email receivers.");
 
-            RuleFor(x => x.Recievers)
+            RuleFor(x => x.Receivers)
                 .ForEach(ruleBuilder => ruleBuilder.EmailAddress());
         }
     }

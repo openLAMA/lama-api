@@ -54,14 +54,14 @@ namespace Elyon.Fastly.Api.DomainServices
 
             string generatedToken = await AddFollowUpAsync(organization).ConfigureAwait(false);
 
-            foreach (var receiver in specDto.Recievers)
+            foreach (var receiver in specDto.Receivers)
             {
                 await _emailSenderService.SendInfoSessionFollowUpEmail(receiver, specDto.Message, generatedToken)
                     .ConfigureAwait(false);
             }
         }
 
-        public async Task ChangeFollowUpStatusAsync(InfoSessionFollowUpUpdateSpecDto specDto)
+        public async Task ChangeFollowUpStatusAsync(InfoSessionFollowUpResponseSpecDto specDto)
         {
             if (specDto == default)
                 throw new ArgumentNullException(nameof(specDto));
@@ -77,10 +77,24 @@ namespace Elyon.Fastly.Api.DomainServices
                 return;
             }
 
-
             await _infoSessionFollowUpRepository.UpdateStatusAsync(specDto.Token, specDto.IsAccepted ?
                     InfoSessionFollowUpStatus.Accepted :
                     InfoSessionFollowUpStatus.Declined).ConfigureAwait(false);
+        }
+
+        public async Task UpdateFollowUpStatusAsync(InfoSessionFollowUpUpdateSpecDto specDto)
+        {
+            if (specDto == default)
+                throw new ArgumentNullException(nameof(specDto));
+            
+            var organization = await _organizationsRepository
+                .GetByIdAsync(specDto.OrganizationId).ConfigureAwait(false);
+            
+            if (!ValidateOrganizationForFollowUpUpdate(organization, specDto.NewStatus))
+                return;
+            
+            await _infoSessionFollowUpRepository.UpdateStatusAsync(specDto.OrganizationId, specDto.NewStatus)
+                .ConfigureAwait(false);
         }
 
         private bool ValidateOrganizationForNewFollowUp(OrganizationDto organization)
@@ -104,6 +118,33 @@ namespace Elyon.Fastly.Api.DomainServices
             return true;
         }
 
+        private bool ValidateOrganizationForFollowUpUpdate(OrganizationDto organization,
+            InfoSessionFollowUpStatus newStatus)
+        {
+            if (organization == default)
+            {
+                ValidationDictionary.AddModelError("OrganizationId", "Organization with specified Id does not exist");
+
+                return false;
+            }
+            
+            if (organization.FollowUpStatus == newStatus)
+            {
+                ValidationDictionary.AddModelError("No change", "Organization already has specified status");
+
+                return false;
+            }
+
+            if (organization.FollowUpStatus == InfoSessionFollowUpStatus.NotSent)
+            {
+                ValidationDictionary.AddModelError("Follow up", "First send follow up in order to update it.");
+
+                return false;
+            }
+
+            return true;
+        }
+        
         private async Task<string> AddFollowUpAsync(OrganizationDto organization)
         {
             string generatedToken;

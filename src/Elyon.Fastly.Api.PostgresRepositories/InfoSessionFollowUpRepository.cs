@@ -44,7 +44,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 Status = InfoSessionFollowUpStatus.Sent
             };
 
-            var context = ContextFactory.CreateDataContext(null);
+            await using var context = ContextFactory.CreateDataContext(null);
             await context.Set<InfoSessionFollowUp>().AddAsync(entity).ConfigureAwait(false);
 
             await context.SaveChangesAsync().ConfigureAwait(false);
@@ -57,7 +57,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             if (string.IsNullOrWhiteSpace(token))
                 throw new ArgumentNullException(nameof(token));
 
-            var context = ContextFactory.CreateDataContext(null);
+            await using var context = ContextFactory.CreateDataContext(null);
             var items = context.Set<InfoSessionFollowUp>();
             var entityToUpdate = await items.AsNoTracking()
                 .FirstOrDefaultAsync(item => item.Token == token)
@@ -68,6 +68,26 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 entityToUpdate.Status = newStatus;
                 context.Entry(entityToUpdate).Property(followUp => followUp.Status).IsModified = true;
                 items.Update(entityToUpdate);
+
+                await context.SaveChangesAsync().ConfigureAwait(false);
+            }
+        }
+
+        public async Task UpdateStatusAsync(Guid organizationId, InfoSessionFollowUpStatus newStatus)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var organizationItems = context.Set<Organization>();
+            var organization = await organizationItems.AsNoTracking()
+                .Include(org => org.InfoSessionFollowUp)
+                .FirstOrDefaultAsync(org => org.Id == organizationId)
+                .ConfigureAwait(false);
+
+            var entityToUpdate = organization.InfoSessionFollowUp;
+            if (entityToUpdate != default)
+            {
+                entityToUpdate.Status = newStatus;
+                context.Entry(entityToUpdate).Property(followUp => followUp.Status).IsModified = true;
+                context.Set<InfoSessionFollowUp>().Update(entityToUpdate);
 
                 await context.SaveChangesAsync().ConfigureAwait(false);
             }

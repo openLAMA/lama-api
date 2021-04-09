@@ -26,6 +26,8 @@ namespace Elyon.Fastly.Api.Domain.Services
     {
         Task SendInfoSessionFollowUpEmailAsync(InfoSessionFollowUpSpecDto specDto);
 
-        Task ChangeFollowUpStatusAsync(InfoSessionFollowUpUpdateSpecDto specDto);
+        Task ChangeFollowUpStatusAsync(InfoSessionFollowUpResponseSpecDto specDto);
+
+        Task UpdateFollowUpStatusAsync(InfoSessionFollowUpUpdateSpecDto specDto);
     }
 }

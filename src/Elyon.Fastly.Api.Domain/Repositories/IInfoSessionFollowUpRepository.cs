@@ -29,6 +29,8 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 
         Task UpdateStatusAsync(string token, InfoSessionFollowUpStatus newStatus);
 
+        Task UpdateStatusAsync(Guid organizationId, InfoSessionFollowUpStatus newStatus);
+
         Task<string> GetTokenByOrganizationIdAsync(Guid organizationId);
 
         Task<InfoSessionFollowUpStatus> GetStatusByTokenAsync(string token);

@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 // openLAMA is an open source platform which has been developed by the
 // Swiss Kanton Basel Landschaft, with the goal of automating and managing
 // large scale Covid testing programs or any other pandemic/viral infections.
@@ -22,13 +22,11 @@ using FluentValidation;
 
 namespace Elyon.Fastly.Api.Validators
 {
-    public class InfoSessionFollowUpUpdateSpecValidator : AbstractValidator<InfoSessionFollowUpUpdateSpecDto>
+    public class InfoSessionFollowUpResponseSpecValidator : AbstractValidator<InfoSessionFollowUpResponseSpecDto>
     {
-        public InfoSessionFollowUpUpdateSpecValidator()
+        public InfoSessionFollowUpResponseSpecValidator()
         {
-            RuleFor(x => x.NewStatus)
-                .Must(status => status != InfoSessionFollowUpStatus.NotSent)
-                .WithMessage("New status must not be 'Not Sent'");
+            RuleFor(x => x.Token).NotEmpty().WithMessage("Must provide the token.");
         }
     }
 }
