@@ -111,6 +111,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             builder.RegisterType<OrganizationNotesRepository>()
                 .As<IOrganizationNotesRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<InfoSessionFollowUpRepository>()
+                .As<IInfoSessionFollowUpRepository>()
+                .SingleInstance();
         }
     }
 }

@@ -106,6 +106,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<OrganizationNotesService>()
                 .As<IOrganizationNotesService>()
                 .SingleInstance();
+
+            builder.RegisterType<InfoSessionFollowUpService>()
+                .As<IInfoSessionFollowUpService>()
+                .SingleInstance();
         }
     }
 }

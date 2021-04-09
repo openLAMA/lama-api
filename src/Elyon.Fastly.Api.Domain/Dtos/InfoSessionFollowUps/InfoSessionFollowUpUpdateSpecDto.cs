@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 // openLAMA is an open source platform which has been developed by the
 // Swiss Kanton Basel Landschaft, with the goal of automating and managing
 // large scale Covid testing programs or any other pandemic/viral infections.
@@ -18,23 +18,12 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
 {
-    public interface IEmailSenderService : IBaseService
+    public class InfoSessionFollowUpUpdateSpecDto
     {
-        Task SendLoginConfirmation(string receiver, string confirmationToken);
-
-        Task SendRegisterConfirmation(string receiver, string confirmationToken);
-
-        Task SendInvitationForPoolingAssignment(string receiver, 
-            string confirmationToken, DateTime poolingDate);
-
-        Task SendConfirmationForPoolingAssignment(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+        public Guid OrganizationId { get; set; }
+        public InfoSessionFollowUpStatus NewStatus { get; set; }
     }
 }

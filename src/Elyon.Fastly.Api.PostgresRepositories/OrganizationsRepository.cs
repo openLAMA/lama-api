@@ -74,6 +74,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .Include(x => x.SupportPerson)
                 .Include(x => x.OrganizationType)
                 .Include(x => x.SubOrganizations)
+                .Include(x => x.InfoSessionFollowUp)
                 .FirstOrDefaultAsync(item => item.Id == id)
                 .ConfigureAwait(false);
 

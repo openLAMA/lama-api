@@ -17,24 +17,16 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Validators
 {
-    public interface IEmailSenderService : IBaseService
+    public class InfoSessionFollowUpResponseSpecValidator : AbstractValidator<InfoSessionFollowUpResponseSpecDto>
     {
-        Task SendLoginConfirmation(string receiver, string confirmationToken);
-
-        Task SendRegisterConfirmation(string receiver, string confirmationToken);
-
-        Task SendInvitationForPoolingAssignment(string receiver, 
-            string confirmationToken, DateTime poolingDate);
-
-        Task SendConfirmationForPoolingAssignment(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+        public InfoSessionFollowUpResponseSpecValidator()
+        {
+            RuleFor(x => x.Token).NotEmpty().WithMessage("Must provide the token.");
+        }
     }
 }

@@ -64,6 +64,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<OrganizationNote> OrganizationNotes { get; set; }
 
+        public DbSet<InfoSessionFollowUp> InfoSessionFollowUps { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }
@@ -141,6 +143,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             modelBuilder.Entity<TestingPersonnelInvitation>()
                .HasIndex(b => b.InvitationForDate);
+
+            modelBuilder.Entity<InfoSessionFollowUp>()
+                .HasOne(i => i.Organization)
+                .WithOne(o => o.InfoSessionFollowUp)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrganizationType>()
                .HasData(DataSeeder.SeedOrganizationTypes());

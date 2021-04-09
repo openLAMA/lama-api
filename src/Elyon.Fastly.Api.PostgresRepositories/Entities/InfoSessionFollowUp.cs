@@ -17,24 +17,19 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 {
-    public interface IEmailSenderService : IBaseService
+    public class InfoSessionFollowUp : BaseEntityWithId
     {
-        Task SendLoginConfirmation(string receiver, string confirmationToken);
+        public string Token { get; set; }
 
-        Task SendRegisterConfirmation(string receiver, string confirmationToken);
+        public InfoSessionFollowUpStatus Status { get; set; }
 
-        Task SendInvitationForPoolingAssignment(string receiver, 
-            string confirmationToken, DateTime poolingDate);
+        public Guid OrganizationId { get; set; }
 
-        Task SendConfirmationForPoolingAssignment(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+        public Organization Organization { get; set; }
     }
 }

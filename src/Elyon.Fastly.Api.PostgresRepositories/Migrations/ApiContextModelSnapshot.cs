@@ -743,6 +743,29 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.InfoSessionFollowUp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId")
+                        .IsUnique();
+
+                    b.ToTable("InfoSessionFollowUps");
+                });
+
             modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.LamaCompany", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1389,6 +1412,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.InfoSessionFollowUp", b =>
+                {
+                    b.HasOne("Elyon.Fastly.Api.PostgresRepositories.Entities.Organization", "Organization")
+                        .WithOne("InfoSessionFollowUp")
+                        .HasForeignKey("Elyon.Fastly.Api.PostgresRepositories.Entities.InfoSessionFollowUp", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
             modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.Organization", b =>
                 {
                     b.HasOne("Elyon.Fastly.Api.PostgresRepositories.Entities.City", "City")
@@ -1585,6 +1619,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
             modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.Organization", b =>
                 {
                     b.Navigation("Contacts");
+
+                    b.Navigation("InfoSessionFollowUp");
 
                     b.Navigation("Notes");
 

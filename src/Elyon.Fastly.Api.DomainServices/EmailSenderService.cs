@@ -34,6 +34,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private const string LoginConfirmationUrl = "/login-confirmation?token={token}";
         private const string RegisterConfirmationUrl = "/register-confirmation?token={token}";
         private const string PoolingAssignmentConfirmationUrl = "/poolingassignment-confirmation?token={token}&shifts={shift}";
+        private const string InfoSessionFollowUpConfirmationUrl = "/?token={token}&accepted={isAccepted}";
 
         private readonly IEmailJobClient _emailClient;
 
@@ -140,6 +141,29 @@ namespace Elyon.Fastly.Api.DomainServices
                     },
                     {
                         "shifts", shiftsText
+                    }
+                }
+            }).ConfigureAwait(false);
+        }
+
+        public async Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken)
+        {
+            await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
+            {
+                Receiver = receiver,
+                TemplateName = "InfoSessionFollowUp",
+                Parameters = new Dictionary<string, string>
+                {
+                    { "Content", messageContent },
+                    { 
+                        "FollowUpAcceptLink",
+                        ConstructUrl(InfoSessionFollowUpConfirmationUrl, 
+                            new[] { ("token", confirmationToken), ("isAccepted", "true") })
+                    },
+                    {
+                        "FollowUpDeclineLink",
+                        ConstructUrl(InfoSessionFollowUpConfirmationUrl, 
+                                new[] { ("token", confirmationToken), ("isAccepted", "false") })
                     }
                 }
             }).ConfigureAwait(false);

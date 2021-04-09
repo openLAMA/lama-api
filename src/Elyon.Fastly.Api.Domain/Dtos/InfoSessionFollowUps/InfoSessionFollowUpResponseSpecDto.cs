@@ -17,24 +17,11 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
 {
-    public interface IEmailSenderService : IBaseService
+    public class InfoSessionFollowUpResponseSpecDto
     {
-        Task SendLoginConfirmation(string receiver, string confirmationToken);
-
-        Task SendRegisterConfirmation(string receiver, string confirmationToken);
-
-        Task SendInvitationForPoolingAssignment(string receiver, 
-            string confirmationToken, DateTime poolingDate);
-
-        Task SendConfirmationForPoolingAssignment(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+        public string Token { get; set; }
+        public bool IsAccepted { get; set; }
     }
 }
