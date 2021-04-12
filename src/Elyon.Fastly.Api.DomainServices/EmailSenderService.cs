@@ -34,7 +34,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private const string LoginConfirmationUrl = "/login-confirmation?token={token}";
         private const string RegisterConfirmationUrl = "/register-confirmation?token={token}";
         private const string PoolingAssignmentConfirmationUrl = "/poolingassignment-confirmation?token={token}&shifts={shift}";
-        private const string InfoSessionFollowUpConfirmationUrl = "/?token={token}&accepted={isAccepted}";
+        private const string InfoSessionFollowUpConfirmationUrl = "/follow-up-email-confirmation?token={token}&accepted={isAccepted}";
 
         private readonly IEmailJobClient _emailClient;
 
