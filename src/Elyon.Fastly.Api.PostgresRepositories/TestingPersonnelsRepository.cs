@@ -66,6 +66,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             const int companyOrganizationId = 82000;
             const int pharmacyOrganizationId = 82001;
             const int nursingHomesOrganizationId = 82003;
+            const int hospitalOrganizationId = 82004;
 
             var startDate = DateTime.UtcNow.Date;
             var endDate = startDate.AddDays(DaysPeriod);
@@ -90,7 +91,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     ExclusionStartDate = x.ExclusionStartDate,
                     ExclusionEndDate = x.ExclusionEndDate,
                     IsCompanyOrPharmacyOrNursingOrganization = x.OrganizationTypeId == companyOrganizationId || x.OrganizationTypeId == pharmacyOrganizationId
-                    || x.OrganizationTypeId == nursingHomesOrganizationId
+                    || x.OrganizationTypeId == nursingHomesOrganizationId || x.OrganizationTypeId == hospitalOrganizationId
                 })
                 .ToListAsync()
                 .ConfigureAwait(false);
