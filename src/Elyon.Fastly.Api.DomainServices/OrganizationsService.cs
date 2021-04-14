@@ -189,6 +189,18 @@ namespace Elyon.Fastly.Api.DomainServices
                 throw new ArgumentNullException(nameof(dto));
             }
 
+            var organizationInDb = await _organizationsRepository
+                .GetByIdAsync(dto.Id)
+                .ConfigureAwait(false);
+
+            if (organizationInDb.RegisteredEmployees > 0 && organizationInDb.OrganizationShortcutName != dto.OrganizationShortcutName)
+            {
+                ValidationDictionary.AddModelError("Organization shortcut name cannot be changed",
+                    "Organization shortcut name cannot be changed when registered employees are greater than 0.");
+
+                return;
+            }
+
             if ((dto.ExclusionStartDate.HasValue && !dto.ExclusionEndDate.HasValue) ||
                 (!dto.ExclusionStartDate.HasValue && dto.ExclusionEndDate.HasValue))
             {
