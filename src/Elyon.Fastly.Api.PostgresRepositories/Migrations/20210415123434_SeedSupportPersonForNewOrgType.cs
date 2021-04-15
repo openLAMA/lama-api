@@ -30,7 +30,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                 schema: "ApiDb",
                 table: "Users",
                 columns: new[] { "Id", "Email", "LamaCompanyId", "LandLineNumber", "Name", "OrganizationId", "PhoneNumber" },
-                values: new object[] { new Guid("f54d712f-94d1-447f-becb-62df0d72b216"), "gfAYskrGGpR2s8khmTbE+OIfmWEw+erA/KBGgknHsg4=", new Guid("68e237f6-cdc9-4d91-99ae-c8b1842ed2ea"), "D2C3Dxq9m0EIS7LHtqvL7Q==", "oEJRkc0QH5CouFlvzklcOeetmvfhUSqLf4cNWWtYRVQ=", null, "D2C3Dxq9m0EIS7LHtqvL7Q==" });
+                values: new object[] { new Guid("f54d712f-94d1-447f-becb-62df0d72b216"), "gnHWLPNRW2ZdXA2qHX2XAD4vx1slAqetnp1KV1yV6ac=", new Guid("68e237f6-cdc9-4d91-99ae-c8b1842ed2ea"), "dwPhC2kEaekmMahSecP+Zw==", "5z5VQaw55Tw7a0KbuzkQmvDLXgKyF0hTsbC7/k6RI4w=", null, "dwPhC2kEaekmMahSecP+Zw==" });
 
             migrationBuilder.InsertData(
                 schema: "ApiDb",
