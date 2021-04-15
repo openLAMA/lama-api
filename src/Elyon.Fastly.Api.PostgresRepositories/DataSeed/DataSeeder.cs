@@ -177,6 +177,15 @@ namespace Elyon.Fastly.Api.PostgresRepositories.DataSeed
                     Name = "e5rRqXltNck37nfPTN/RAw==",
                     PhoneNumber = "vSRpqIgaDb+VbmBPGRPIWg==",
                     LandLineNumber = "SSEfX6+eGdQho09y+G6bag=="
+                },
+                new User
+                {
+                    Id = Guid.Parse("f54d712f-94d1-447f-becb-62df0d72b216"),
+                    LamaCompanyId = Guid.Parse("68e237f6-cdc9-4d91-99ae-c8b1842ed2ea"),
+                    Email = "gfAYskrGGpR2s8khmTbE+OIfmWEw+erA/KBGgknHsg4=",
+                    Name = "oEJRkc0QH5CouFlvzklcOeetmvfhUSqLf4cNWWtYRVQ=",
+                    PhoneNumber = "D2C3Dxq9m0EIS7LHtqvL7Q==",
+                    LandLineNumber = "D2C3Dxq9m0EIS7LHtqvL7Q=="
                 }
             };
 
@@ -216,6 +225,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories.DataSeed
                     Id = Guid.Parse("c3fa9ce0-03b5-4f90-be92-c222d6161ec7"),
                     UserId = Guid.Parse("7ef459ed-035d-48f8-adc0-ab225a316d7f"),
                     OrganizationTypeId = 82004
+                },
+                new SupportPersonOrgTypeDefaultMapping
+                {
+                    Id = Guid.Parse("b902522e-c816-4a79-bcf4-9eb0896ab78a"),
+                    UserId = Guid.Parse("f54d712f-94d1-447f-becb-62df0d72b216"),
+                    OrganizationTypeId = 99990
                 }
             };
 
