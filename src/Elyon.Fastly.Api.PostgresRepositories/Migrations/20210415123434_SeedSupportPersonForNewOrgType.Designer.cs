@@ -1373,11 +1373,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                         new
                         {
                             Id = new Guid("f54d712f-94d1-447f-becb-62df0d72b216"),
-                            Email = "gfAYskrGGpR2s8khmTbE+OIfmWEw+erA/KBGgknHsg4=",
+                            Email = "gnHWLPNRW2ZdXA2qHX2XAD4vx1slAqetnp1KV1yV6ac=",
                             LamaCompanyId = new Guid("68e237f6-cdc9-4d91-99ae-c8b1842ed2ea"),
-                            LandLineNumber = "D2C3Dxq9m0EIS7LHtqvL7Q==",
-                            Name = "oEJRkc0QH5CouFlvzklcOeetmvfhUSqLf4cNWWtYRVQ=",
-                            PhoneNumber = "D2C3Dxq9m0EIS7LHtqvL7Q=="
+                            LandLineNumber = "dwPhC2kEaekmMahSecP+Zw==",
+                            Name = "5z5VQaw55Tw7a0KbuzkQmvDLXgKyF0hTsbC7/k6RI4w=",
+                            PhoneNumber = "dwPhC2kEaekmMahSecP+Zw=="
                         });
                 });
 
