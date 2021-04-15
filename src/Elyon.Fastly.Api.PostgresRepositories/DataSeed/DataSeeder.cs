@@ -58,6 +58,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories.DataSeed
                 {
                     Id = 82004,
                     Name = "Hospital"
+                },
+                new OrganizationType()
+                {
+                    Id = 99990,
+                    Name = "SME"
                 }
             };
 
