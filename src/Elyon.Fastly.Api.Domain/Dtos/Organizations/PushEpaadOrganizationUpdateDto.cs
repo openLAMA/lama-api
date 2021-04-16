@@ -17,12 +17,12 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 {
-    public class PushEpaadOrganizationDto
+    public class PushEpaadOrganizationUpdateDto
     {
         [JsonProperty("filter_text")]
         public string FilterText { get; set; }
@@ -59,9 +59,6 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 
         [JsonProperty("active_since")]
         public DateTime ActiveSince { get; set; }
-
-        [JsonProperty("pool_lastname")]
-        public string PoolLastname { get; set; }
 
         [JsonProperty("pool_firstname")]
         public string PoolFirstName { get; set; }

@@ -29,6 +29,6 @@ namespace Elyon.Fastly.Api.Domain.Services
 
         Task UpdateRegisteredEmployeesAsync();
 
-        Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationDto ePaadOrganizationDto);
+        Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationUpdateDto ePaadOrganizationDto);
     }
 }
