@@ -209,7 +209,7 @@ namespace Elyon.Fastly.Api.DomainServices
             }            
         }
 
-        public async Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationDto ePaadOrganizationDto)
+        public async Task UpdateOrganizationInEpaadAsync(int organizationEpaadId, PushEpaadOrganizationUpdateDto ePaadOrganizationDto)
         {
             var epaadOrganizationJson = JsonConvert.SerializeObject(ePaadOrganizationDto);
 

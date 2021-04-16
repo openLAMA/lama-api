@@ -33,6 +33,9 @@ namespace Elyon.Fastly.Api.DomainServices
     public class OrganizationsService : BaseCrudService<OrganizationDto>, IOrganizationsService
     {
         private const string DefaultEpaadOrganizationState = "BL";
+        private const int companyOrganizationTypeId = 82000;
+        private const int smeOrganizationTypeId = 99990;
+        private const string smeOrgTypePoolFirstName = "KMU Baselland";
 
         private readonly ISupportPersonOrgTypeDefaultRepository _supportPersonOrgTypeDefaultRepository;
         private readonly IOrganizationsRepository _organizationsRepository;
@@ -354,7 +357,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 ContactPersonEmail = dto.Contacts.First().Email,
                 ContactPersonName = dto.Contacts.First().Name,
                 ContactPersonPhone = dto.Contacts.First().PhoneNumber,
-                OrganizationTypeId = dto.OrganizationTypeId,
+                OrganizationTypeId = dto.OrganizationTypeId == smeOrganizationTypeId ? companyOrganizationTypeId : dto.OrganizationTypeId,
                 OrganizationName = dto.Name,
                 City = city.Name,
                 CountryShortName = city.CountryShortName,
@@ -363,7 +366,8 @@ namespace Elyon.Fastly.Api.DomainServices
                 State = DefaultEpaadOrganizationState,
                 ActiveSince = organizationCreationDate,
                 Address = dto.Address,
-                PoolLastname = dto.Name
+                PoolLastname = dto.Name,
+                PoolFirstName = dto.OrganizationTypeId == smeOrganizationTypeId ? smeOrgTypePoolFirstName : default
             };
 
             var response = await _epaadService
@@ -397,12 +401,12 @@ namespace Elyon.Fastly.Api.DomainServices
                .GetOrganizationCreationDateAsync(dto.Id)
                .ConfigureAwait(false);
 
-            var epaadOrgDto = new PushEpaadOrganizationDto
+            var epaadOrgDto = new PushEpaadOrganizationUpdateDto
             {
                 ContactPersonEmail = dto.Contacts.First().Email,
                 ContactPersonName = dto.Contacts.First().Name,
                 ContactPersonPhone = dto.Contacts.First().PhoneNumber,
-                OrganizationTypeId = dto.OrganizationTypeId,
+                OrganizationTypeId = dto.OrganizationTypeId == smeOrganizationTypeId ? companyOrganizationTypeId : dto.OrganizationTypeId,
                 OrganizationName = dto.Name,
                 City = city.Name,
                 CountryShortName = city.CountryShortName,
@@ -411,7 +415,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 State = DefaultEpaadOrganizationState,
                 ActiveSince = organizationCreationDate,
                 Address = dto.Address,
-                PoolLastname = dto.Name
+                PoolFirstName = dto.OrganizationTypeId == smeOrganizationTypeId ? smeOrgTypePoolFirstName : default
             };
 
             await _epaadService
