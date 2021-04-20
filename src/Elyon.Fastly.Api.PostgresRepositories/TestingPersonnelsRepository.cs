@@ -173,9 +173,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             CheckIfInTestDate(organization.FifthDate, currentDate)) &&
                             !CheckIfDateIsExcluded(organization.ExclusionStartDate, organization.ExclusionEndDate, currentDate))
                         {
+                            var allTestingDates = new List<DateTime?>();
+                            allTestingDates.Add(organization.FirstDate);
+                            allTestingDates.Add(organization.SecondDate);
+                            allTestingDates.Add(organization.ThirdDate);
+                            allTestingDates.Add(organization.FourthDate);
+                            allTestingDates.Add(organization.FifthDate);
+
+                            var countOfTestingDates = allTestingDates.Where(x => x.HasValue).Count();
                             testsDataValue.Samples += organization.IsCompanyOrPharmacyOrNursingOrganization
-                                ? organization.RegisteredEmployees ?? 0
-                                : organization.TotalSamples;
+                                ? organization.RegisteredEmployees / countOfTestingDates ?? 0
+                                : organization.TotalSamples / countOfTestingDates;
                         }
                     }
                 }
