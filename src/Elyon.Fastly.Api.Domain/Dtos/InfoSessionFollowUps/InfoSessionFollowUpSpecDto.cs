@@ -27,5 +27,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
         public IEnumerable<string> Receivers { get; set; }
         public string Message { get; set; }
         public Guid OrganizationId { get; set; }
+        public DateTime? SMSStartDate { get; set; }
+        public IEnumerable<string> CcReceivers { get; set; }
     }
 }

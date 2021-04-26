@@ -27,10 +27,6 @@ namespace Elyon.Fastly.Api.Validators
         public InfoSessionFollowUpSpecValidator()
         {
             RuleFor(x => x.Message)
-                .NotEmpty()
-                .WithMessage("Message must not be null or empty space");
-
-            RuleFor(x => x.Message)
                 .MaximumLength(500);
 
             RuleFor(x => x.Receivers)
@@ -38,6 +34,9 @@ namespace Elyon.Fastly.Api.Validators
                 .WithMessage("Must have some email receivers.");
 
             RuleFor(x => x.Receivers)
+                .ForEach(ruleBuilder => ruleBuilder.EmailAddress());
+
+            RuleFor(x => x.CcReceivers)
                 .ForEach(ruleBuilder => ruleBuilder.EmailAddress());
         }
     }

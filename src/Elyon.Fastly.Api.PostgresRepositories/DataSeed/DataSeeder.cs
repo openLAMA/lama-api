@@ -265,5 +265,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.DataSeed
 
             return users;
         }
+
+        public static AttachmentsSeed SeedAttachmentsSeed()
+        {
+            return new AttachmentsSeed { Id = Guid.Parse("0c5e5ef7-4a46-4f53-93ad-3f0dc89016ad"), IsSeeded = false };
+        }
     }
 }

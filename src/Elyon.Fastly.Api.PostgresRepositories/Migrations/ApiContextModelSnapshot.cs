@@ -39,6 +39,27 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
+            modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.AttachmentsSeed", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsSeeded")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AttachmentsSeeds");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0c5e5ef7-4a46-4f53-93ad-3f0dc89016ad"),
+                            IsSeeded = false
+                        });
+                });
+
             modelBuilder.Entity("Elyon.Fastly.Api.PostgresRepositories.Entities.Canton", b =>
                 {
                     b.Property<Guid>("Id")

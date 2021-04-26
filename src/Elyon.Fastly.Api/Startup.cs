@@ -120,6 +120,7 @@ namespace Elyon.Fastly.Api
                     serv.AddHttpClient();
 
                     serv.AddHostedService<EpaadHostedService>();
+                    serv.AddHostedService<SeedAttachmentsHostedService>();
                 };
 
                 options.EnableFluentValidation = true;

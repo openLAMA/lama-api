@@ -36,5 +36,7 @@ namespace Elyon.Fastly.Api.Domain.Services
             DateTime poolingDate, ICollection<int> shifts);
 
         Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+
+        Task SendOnboardingEmail(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters);
     }
 }
