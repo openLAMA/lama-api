@@ -73,7 +73,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (confirmationToken == null)
                 return false;
 
-            await _mailSender.SendLoginConfirmation(email, confirmationToken)
+            await _mailSender.SendLoginConfirmationAsync(email, confirmationToken)
                 .ConfigureAwait(false);
 
             return true;

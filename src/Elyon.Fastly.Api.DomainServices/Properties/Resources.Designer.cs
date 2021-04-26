@@ -123,19 +123,9 @@ namespace Elyon.Fastly.Api.DomainServices.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] _06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Erwachsene_ {
+        internal static byte[] _06_Anmeldeformular_Depooling_für_die_Teilnehmenden {
             get {
-                object obj = ResourceManager.GetObject("_06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Erwachsene_", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] _06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Minderjährige_ {
-            get {
-                object obj = ResourceManager.GetObject("_06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Minderjährige_", resourceCulture);
+                object obj = ResourceManager.GetObject("_06_Anmeldeformular_Depooling_für_die_Teilnehmenden", resourceCulture);
                 return ((byte[])(obj));
             }
         }

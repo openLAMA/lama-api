@@ -25,18 +25,18 @@ namespace Elyon.Fastly.Api.Domain.Services
 {
     public interface IEmailSenderService : IBaseService
     {
-        Task SendLoginConfirmation(string receiver, string confirmationToken);
+        Task SendLoginConfirmationAsync(string receiver, string confirmationToken);
 
-        Task SendRegisterConfirmation(string receiver, string confirmationToken);
+        Task SendRegisterConfirmationAsync(string receiver, string confirmationToken);
 
-        Task SendInvitationForPoolingAssignment(string receiver, 
+        Task SendInvitationForPoolingAssignmentAsync(string receiver, 
             string confirmationToken, DateTime poolingDate);
 
-        Task SendConfirmationForPoolingAssignment(string receiver,
+        Task SendConfirmationForPoolingAssignmentAsync(string receiver,
             DateTime poolingDate, ICollection<int> shifts);
 
-        Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken);
+        Task SendInfoSessionFollowUpEmailAsync(string receiver, string messageContent, string confirmationToken);
 
-        Task SendOnboardingEmail(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters);
+        Task SendOnboardingEmailAsync(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters);
     }
 }

@@ -17,9 +17,6 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Dtos;
 
@@ -27,7 +24,7 @@ namespace Elyon.Fastly.Api.Domain.Services
 {
     public interface IAttachmentsSeedService : IBaseService
     {
-        Task<AttachmentsSeedDto> GetFirst();
-        Task Update(AttachmentsSeedDto dto);
+        Task<AttachmentsSeedDto> GetFirstAsync();
+        Task UpdateAsync(AttachmentsSeedDto dto);
     }
 }

@@ -139,11 +139,8 @@
   <data name="_05_Einverständniserklärung_für_den_Teilnehmenden__Minderjährige_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\05 Einverständniserklärung für den Teilnehmenden (Minderjährige).pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Erwachsene_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\AttachmentsFiles\CompanyOnboarding\06 Anmeldeformular Depooling für die Teilnehmenden (Erwachsene).pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="_06_Anmeldeformular_Depooling_für_die_Teilnehmenden__Minderjährige_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\AttachmentsFiles\CompanyOnboarding\06 Anmeldeformular Depooling für die Teilnehmenden (Minderjährige).pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="_06_Anmeldeformular_Depooling_für_die_Teilnehmenden" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\06 Anmeldeformular Depooling für die Teilnehmenden.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_07_Anfahrtsplan_Labor_Muttenz" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\07 Anfahrtsplan Labor Muttenz.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

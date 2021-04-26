@@ -34,7 +34,5 @@ namespace Elyon.Fastly.Api.DomainServices.AttachmentsFiles
         }
 
         public string FileName { get; set; }
-
-        public string Hash { get; set; }
     }
 }

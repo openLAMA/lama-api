@@ -17,10 +17,13 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using System;
+
 namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 {
     public class AttachmentsSeed : BaseEntityWithId
     {
         public bool IsSeeded { get; set; }
+        public DateTime? SeededOn { get; set; }
     }
 }

@@ -17,30 +17,29 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System.Threading.Tasks;
-using Elyon.Fastly.Api.Domain.Dtos;
-using Elyon.Fastly.Api.Domain.Repositories;
-using Elyon.Fastly.Api.Domain.Services;
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Elyon.Fastly.Api.DomainServices
+namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 {
-    public class AttachmentsSeedService : BaseService, IAttachmentsSeedService
+    public partial class AddAttachmentsSeedSeededOnDate : Migration
     {
-        private readonly IAttachmentsSeedRepository _repository;
-
-        public AttachmentsSeedService(IAttachmentsSeedRepository repository)
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            _repository = repository;
+            migrationBuilder.AddColumn<DateTime>(
+                name: "SeededOn",
+                schema: "ApiDb",
+                table: "AttachmentsSeeds",
+                type: "timestamp without time zone",
+                nullable: true);
         }
 
-        public async Task<AttachmentsSeedDto> GetFirstAsync()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            return await _repository.GetFirstAsync().ConfigureAwait(false);
-        }
-
-        public async Task UpdateAsync(AttachmentsSeedDto dto)
-        {
-            await _repository.UpdateAsync(dto).ConfigureAwait(false);
+            migrationBuilder.DropColumn(
+                name: "SeededOn",
+                schema: "ApiDb",
+                table: "AttachmentsSeeds");
         }
     }
 }

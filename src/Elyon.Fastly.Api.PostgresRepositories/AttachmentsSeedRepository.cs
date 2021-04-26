@@ -35,7 +35,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         }
 
-        public async Task<AttachmentsSeedDto> GetFirst()
+        public async Task<AttachmentsSeedDto> GetFirstAsync()
         {
             await using var context = ContextFactory.CreateDataContext(null);
 
@@ -45,7 +45,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ConfigureAwait(false);
         }
 
-        public async Task Update(AttachmentsSeedDto dto)
+        public async Task UpdateAsync(AttachmentsSeedDto dto)
         {
             if (dto == default)
                 throw new ArgumentNullException(nameof(dto));
@@ -58,6 +58,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ConfigureAwait(false);
 
             entity.IsSeeded = dto.IsSeeded;
+            entity.SeededOn = dto.SeededOn;
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
     }

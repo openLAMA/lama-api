@@ -77,7 +77,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     .AddTestingPersonnelInvitationConfirmationTokenAsync(receiver.TestingPersonnelId, invitationDto.Id)
                     .ConfigureAwait(false);
 
-                await _mailSender.SendInvitationForPoolingAssignment(receiver.Email, invitationConfirmationToken, invitationDto.InvitationForDate)
+                await _mailSender.SendInvitationForPoolingAssignmentAsync(receiver.Email, invitationConfirmationToken, invitationDto.InvitationForDate)
                     .ConfigureAwait(false);
             }
         }
@@ -119,7 +119,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (shiftsBooked.ShiftsBooked.Any())
             {
                 await _mailSender
-                    .SendConfirmationForPoolingAssignment(testingPersonnelAndInvitationData.Email,
+                    .SendConfirmationForPoolingAssignmentAsync(testingPersonnelAndInvitationData.Email,
                     testingPersonnelAndInvitationData.InvitationDate, shiftsBooked.ShiftsBooked)
                     .ConfigureAwait(false);
             }

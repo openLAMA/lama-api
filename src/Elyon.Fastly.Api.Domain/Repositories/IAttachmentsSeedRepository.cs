@@ -24,7 +24,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 {
     public interface IAttachmentsSeedRepository : IBaseRepository
     {
-        Task<AttachmentsSeedDto> GetFirst();
-        Task Update(AttachmentsSeedDto dto);
+        Task<AttachmentsSeedDto> GetFirstAsync();
+        Task UpdateAsync(AttachmentsSeedDto dto);
     }
 }
