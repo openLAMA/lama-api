@@ -115,5 +115,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public string OrganizationShortcutName { get; set; }
 
         public InfoSessionFollowUpStatus FollowUpStatus { get; set; }
+
+        public bool IsOnboardingEmailSent { get; set; }
     }
 }

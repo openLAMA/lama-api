@@ -65,6 +65,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     return;
 
                 await SendSMEOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
+                await _organizationsRepository.UpdateIsOnboardingEmailSent(true, organization.Id).ConfigureAwait(false);
             }
             else if (organization.OrganizationType.Id == _companyOrganizationTypeId)
             {
@@ -72,6 +73,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     return;
 
                 await SendCompanyOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
+                await _organizationsRepository.UpdateIsOnboardingEmailSent(true, organization.Id).ConfigureAwait(false);
             }
             else
             {

@@ -131,5 +131,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public string OrganizationShortcutName { get; set; }
 
         public InfoSessionFollowUp InfoSessionFollowUp { get; set; }
+
+        public bool IsOnboardingEmailSent { get; set; }
     }
 }
