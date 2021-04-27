@@ -120,7 +120,6 @@ namespace Elyon.Fastly.Api
                     serv.AddHttpClient();
 
                     serv.AddHostedService<EpaadHostedService>();
-                    serv.AddHostedService<SeedAttachmentsHostedService>();
                 };
 
                 options.EnableFluentValidation = true;
@@ -133,7 +132,7 @@ namespace Elyon.Fastly.Api
         {
             app.UsePrimeAppBuilderConfiguration(options =>
             {
-                options.WithMiddleware = x =>
+                options.WithMiddleware = async x =>
                 {
                     x.UseRouting();
                     x.UseAuthentication();
@@ -143,6 +142,8 @@ namespace Elyon.Fastly.Api
                     {
                         endpoints.MapControllers();
                     });
+
+                    await x.SeedAttachments().ConfigureAwait(false);
                 };
             });
 

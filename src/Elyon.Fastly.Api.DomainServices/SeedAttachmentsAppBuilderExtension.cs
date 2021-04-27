@@ -18,48 +18,41 @@
 #endregion
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Services;
 using Elyon.Fastly.Api.DomainServices.Helpers;
 using Elyon.Fastly.EmailJob.RestClient;
 using Elyon.Fastly.EmailJob.RestClient.Models;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
 using Prime.Sdk.Logging;
 
 namespace Elyon.Fastly.Api.DomainServices
 {
-    public class SeedAttachmentsHostedService : BackgroundService
+    public static class SeedAttachmentsAppBuilderExtension
     {
-        private readonly IAttachmentsSeedService _attachmentsSeedService;
-        private readonly IEmailJobClient _emailClient;
-        private readonly ILog _log;
-
-        public SeedAttachmentsHostedService(IAttachmentsSeedService attachmentsSeedService, IEmailJobClient emailClient, ILogFactory logFactory)
+        public static async Task SeedAttachments(this IApplicationBuilder appBuilder)
         {
-            if (logFactory == null)
-                throw new ArgumentNullException(nameof(logFactory));
+            if (appBuilder == null)
+                throw new ArgumentNullException(nameof(appBuilder));
 
-            _attachmentsSeedService = attachmentsSeedService;
-            _emailClient = emailClient;
-            _log = logFactory.CreateLog(this);
-        }
+            var logFactory = (ILogFactory)appBuilder.ApplicationServices.GetService(typeof(ILogFactory));
+            var emailClient = (IEmailJobClient)appBuilder.ApplicationServices.GetService(typeof(IEmailJobClient));
+            var attachmentsSeedService = (IAttachmentsSeedService)appBuilder.ApplicationServices.GetService(typeof(IAttachmentsSeedService));
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
-        {
-            var attachmentsSeedDto = await _attachmentsSeedService.GetFirstAsync().ConfigureAwait(false);
+            var log = logFactory.CreateLog(new SeedAttachmentsAppbuilder());
+            var attachmentsSeedDto = await attachmentsSeedService.GetFirstAsync().ConfigureAwait(false);
 
             if (!attachmentsSeedDto.IsSeeded)
             {
                 try
                 {
-                    _log.Info($"Seed attachments files");
+                    log.Info($"Seed attachments files");
                     var attachmentsToSeed = EmailAttachments.GetCompanyOnboardingAttachments();
                     foreach (var attachment in attachmentsToSeed)
                     {
                         try
                         {
-                            await _emailClient.StorageApi
+                            await emailClient.StorageApi
                             .AddFileAsync(new FileSpecModel
                             {
                                 FileName = attachment.FileName,
@@ -69,22 +62,26 @@ namespace Elyon.Fastly.Api.DomainServices
                         }
                         catch (Exception ex)
                         {
-                            _log.Error(ex, $"Seed failed for file name: {attachment.FileName}. Exception message: {ex.Message}");
+                            log.Error(ex, $"Seed failed for file name: {attachment.FileName}. Exception message: {ex.Message}");
                             throw;
                         }
                     }
 
                     attachmentsSeedDto.IsSeeded = true;
                     attachmentsSeedDto.SeededOn = DateTime.UtcNow;
-                    await _attachmentsSeedService.UpdateAsync(attachmentsSeedDto).ConfigureAwait(false);
+                    await attachmentsSeedService.UpdateAsync(attachmentsSeedDto).ConfigureAwait(false);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    _log.Error(ex, $"Attachments seed failed. Exception message: {ex.Message}");
+                    log.Error(ex, $"Attachments seed failed. Exception message: {ex.Message}");
                 }
             }
         }
+    }
+
+    public class SeedAttachmentsAppbuilder
+    { 
     }
 }
