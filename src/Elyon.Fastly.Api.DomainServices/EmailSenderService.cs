@@ -20,8 +20,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Services;
+using Elyon.Fastly.Api.DomainServices.Helpers;
 using Elyon.Fastly.EmailJob.RestClient;
 using Elyon.Fastly.EmailJob.RestClient.Models;
 using UrlHelper = Elyon.Fastly.Api.Helpers.UrlHelper;
@@ -35,6 +37,8 @@ namespace Elyon.Fastly.Api.DomainServices
         private const string RegisterConfirmationUrl = "/register-confirmation?token={token}";
         private const string PoolingAssignmentConfirmationUrl = "/poolingassignment-confirmation?token={token}&shifts={shift}";
         private const string InfoSessionFollowUpConfirmationUrl = "/follow-up-email-confirmation?token={token}&accepted={isAccepted}";
+        private const int _companyOrganizationTypeId = 82000;
+        private const int _smeOrganizationTypeId = 99990;
 
         private readonly IEmailJobClient _emailClient;
 
@@ -44,7 +48,7 @@ namespace Elyon.Fastly.Api.DomainServices
             _baseFrontendUrl = baseFrontendUrl;
         }
 
-        public async Task SendLoginConfirmation(string receiver, string confirmationToken)
+        public async Task SendLoginConfirmationAsync(string receiver, string confirmationToken)
         {
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
             {
@@ -60,7 +64,7 @@ namespace Elyon.Fastly.Api.DomainServices
             }).ConfigureAwait(false);
         }
 
-        public async Task SendRegisterConfirmation(string receiver, string confirmationToken)
+        public async Task SendRegisterConfirmationAsync(string receiver, string confirmationToken)
         {
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
             {
@@ -76,7 +80,7 @@ namespace Elyon.Fastly.Api.DomainServices
             }).ConfigureAwait(false);
         }
 
-        public async Task SendInvitationForPoolingAssignment(string receiver, 
+        public async Task SendInvitationForPoolingAssignmentAsync(string receiver, 
             string confirmationToken, DateTime poolingDate)
         {
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
@@ -116,7 +120,7 @@ namespace Elyon.Fastly.Api.DomainServices
             }).ConfigureAwait(false);
         }
 
-        public async Task SendConfirmationForPoolingAssignment(string receiver, 
+        public async Task SendConfirmationForPoolingAssignmentAsync(string receiver, 
             DateTime poolingDate, ICollection<int> shifts)
         {
             if (shifts == null)
@@ -146,7 +150,7 @@ namespace Elyon.Fastly.Api.DomainServices
             }).ConfigureAwait(false);
         }
 
-        public async Task SendInfoSessionFollowUpEmail(string receiver, string messageContent, string confirmationToken)
+        public async Task SendInfoSessionFollowUpEmailAsync(string receiver, string messageContent, string confirmationToken)
         {
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
             {
@@ -166,6 +170,31 @@ namespace Elyon.Fastly.Api.DomainServices
                                 new[] { ("token", confirmationToken), ("isAccepted", "false") })
                     }
                 }
+            }).ConfigureAwait(false);
+        }
+
+        public async Task SendOnboardingEmailAsync(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters)
+        {
+            string templateName = string.Empty;
+            List<string> attachmentsFilesHashes = new List<string>();
+            if (organizationTypeId == _companyOrganizationTypeId)
+            {
+                templateName = "CompanyOnboarding";
+                attachmentsFilesHashes = EmailAttachments.GetCompanyOnboardingAttachmentHashes();
+            }
+            else if(organizationTypeId == _smeOrganizationTypeId)
+            {
+                templateName = "SMEOnboarding";
+                attachmentsFilesHashes = EmailAttachments.GetCompanyOnboardingAttachmentHashes();
+            }
+
+            await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
+            {
+                Receiver = receiver,
+                CcReceivers = ccReceivers.ToList(),
+                TemplateName = templateName,
+                AttachmentFilesHashes = attachmentsFilesHashes,
+                Parameters = parameters
             }).ConfigureAwait(false);
         }
 

@@ -22,6 +22,8 @@ using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.DomainServices
@@ -31,6 +33,8 @@ namespace Elyon.Fastly.Api.DomainServices
         private readonly IInfoSessionFollowUpRepository _infoSessionFollowUpRepository;
         private readonly IOrganizationsRepository _organizationsRepository;
         private readonly IEmailSenderService _emailSenderService;
+        private const int _companyOrganizationTypeId = 82000;
+        private const int _smeOrganizationTypeId = 99990;
 
         public InfoSessionFollowUpService(IInfoSessionFollowUpRepository infoSessionFollowUpRepository,
             IEmailSenderService emailSenderService,
@@ -49,16 +53,141 @@ namespace Elyon.Fastly.Api.DomainServices
             var organization = await _organizationsRepository
                 .GetByIdAsync(specDto.OrganizationId).ConfigureAwait(false);
 
-            if (!ValidateOrganizationForNewFollowUp(organization))
-                return;
+            if (organization.OrganizationType.Id == _smeOrganizationTypeId)
+            {
+                if (!specDto.SMSStartDate.HasValue || specDto.SMSStartDate == default(DateTime))
+                {
+                    ValidationDictionary.AddModelError("SMS Start Date",
+                        "SMS Start Date is required.");
+                    return;
+                }
+                if (!ValidateOrganizationForOnboarding(organization))
+                    return;
 
-            string generatedToken = await AddFollowUpAsync(organization).ConfigureAwait(false);
+                await SendSMEOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
+            }
+            else if (organization.OrganizationType.Id == _companyOrganizationTypeId)
+            {
+                if (!ValidateOrganizationForOnboarding(organization))
+                    return;
 
+                await SendCompanyOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(specDto.Message))
+                {
+                    ValidationDictionary.AddModelError("Message", "Message must not be null or empty space");
+                    return;
+                }
+
+                if (!ValidateOrganizationForNewFollowUp(organization))
+                    return;
+
+                string generatedToken = await AddFollowUpAsync(organization).ConfigureAwait(false);
+
+                await SendInfoSessionFollowUpEmailAsync(specDto, generatedToken).ConfigureAwait(false);
+            }
+        }
+
+        private async Task SendInfoSessionFollowUpEmailAsync(InfoSessionFollowUpSpecDto specDto, string generatedToken)
+        {
             foreach (var receiver in specDto.Receivers)
             {
-                await _emailSenderService.SendInfoSessionFollowUpEmail(receiver, specDto.Message, generatedToken)
+                await _emailSenderService.SendInfoSessionFollowUpEmailAsync(receiver, specDto.Message, generatedToken)
                     .ConfigureAwait(false);
             }
+        }
+
+        private async Task SendCompanyOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
+        {
+            foreach (var receiver in specDto.Receivers)
+            {
+                var parameters = new Dictionary<string, string>
+                    {
+                        { "CompanyShortcut", organization.OrganizationShortcutName },
+                        { "supportPerson", organization.SupportPerson.Name }
+                    };
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, specDto.CcReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+            }
+        }
+
+        private async Task SendSMEOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
+        {
+            foreach (var receiver in specDto.Receivers)
+            {
+                var parameters = new Dictionary<string, string>
+                    {
+                        { "SMSdate", specDto.SMSStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
+                        { "OnboardingDate", organization.OnboardingTimestamp.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
+                        { "areaPharmacy", organization.Area },
+                        { "CompanyShortcut", organization.OrganizationShortcutName },
+                        { "firstTestingDate", organization.FirstTestTimestamp.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
+                        { "TestingDay", organization.FirstTestTimestamp.Value.ToString("dddd", CultureInfo.CreateSpecificCulture("de-CH")) }
+                    };
+
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, specDto.CcReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+            }
+        }
+
+        private bool ValidateOrganizationForOnboarding(OrganizationDto organization)
+        {
+            if (organization == null)
+            {
+                ValidationDictionary.AddModelError("Organization", "Organization with specified Id does not exist");
+                return false;
+            }
+
+            var isValid = true;
+            if (organization.OrganizationType.Id == _smeOrganizationTypeId)
+            {
+                if (!organization.OnboardingTimestamp.HasValue || organization.OnboardingTimestamp == default(DateTime))
+                {
+                    ValidationDictionary.AddModelError("Onboarding Date",
+                        "Onboarding Date is required.");
+                    isValid = false;
+                }
+
+                if (!organization.FirstTestTimestamp.HasValue || organization.FirstTestTimestamp == default(DateTime))
+                {
+                    ValidationDictionary.AddModelError("First Test Date",
+                        "First Test is required.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(organization.Area))
+                {
+                    ValidationDictionary.AddModelError("Organization Area",
+                        "Organization Area is required.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(organization.OrganizationShortcutName))
+                {
+                    ValidationDictionary.AddModelError("Organization Shortcut Name",
+                        "Organization Shortcut Name is required.");
+                    isValid = false;
+                }
+
+            }
+            else if (organization.OrganizationType.Id == _companyOrganizationTypeId)
+            {
+                if (string.IsNullOrWhiteSpace(organization.OrganizationShortcutName))
+                {
+                    ValidationDictionary.AddModelError("Organization Shortcut Name",
+                        "Organization Shortcut Name is required.");
+                    isValid = false;
+                }
+
+                if (organization.SupportPerson == null)
+                {
+                    ValidationDictionary.AddModelError("Organization Support Person",
+                        "Organization Support Person is required.");
+                    isValid = false;
+                }
+            }
+
+            return isValid;
         }
 
         public async Task ChangeFollowUpStatusAsync(InfoSessionFollowUpResponseSpecDto specDto)

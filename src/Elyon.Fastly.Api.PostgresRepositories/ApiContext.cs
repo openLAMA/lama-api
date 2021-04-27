@@ -66,6 +66,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<InfoSessionFollowUp> InfoSessionFollowUps { get; set; }
 
+        public DbSet<AttachmentsSeed> AttachmentsSeeds { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }
@@ -172,6 +174,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             modelBuilder.Entity<TestingPersonnelStatus>()
              .HasData(DataSeeder.SeedDefaultTestingPersonnelStatuses());
+
+            modelBuilder.Entity<AttachmentsSeed>()
+             .HasData(DataSeeder.SeedAttachmentsSeed());
         }
     }
 }

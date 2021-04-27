@@ -110,6 +110,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<InfoSessionFollowUpService>()
                 .As<IInfoSessionFollowUpService>()
                 .SingleInstance();
+
+            builder.RegisterType<AttachmentsSeedService>()
+                .As<IAttachmentsSeedService>()
+                .SingleInstance();
         }
     }
 }
