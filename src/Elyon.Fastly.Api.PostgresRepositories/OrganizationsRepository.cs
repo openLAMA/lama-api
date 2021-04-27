@@ -436,5 +436,21 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             return entity.EpaadId;
         }
+
+        public async Task UpdateIsOnboardingEmailSent(bool isSent, Guid organizationId)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var items = context.Organizations;
+            var entity = await items.AsNoTracking()
+                .FirstAsync(t => t.Id == organizationId)
+                .ConfigureAwait(false);
+
+            entity.IsOnboardingEmailSent = isSent;
+            context.Entry(entity).State = EntityState.Modified;
+            context.Organizations.Update(entity);
+
+            await context.SaveChangesAsync()
+                .ConfigureAwait(false);
+        }
     }
 }
