@@ -186,7 +186,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.RegisteredEmployees, src => src.Ignore())
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.Notes, src => src.Ignore())
-                .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore());
+                .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore())
+                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore());
 
             CreateMap<Organization, OrganizationDto>()
                 .ForMember(opt => opt.Manager,
