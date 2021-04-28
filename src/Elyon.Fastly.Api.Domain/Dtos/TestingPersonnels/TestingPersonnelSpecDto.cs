@@ -42,6 +42,24 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
         public Employeer Employeer { get; set; }
 
         [Required]
+        public bool HasFixedWorkingDays { get; set; }
+
+        [Required]
+        public Shift MondayShift { get; set; }
+
+        [Required]
+        public Shift TuesdayShift { get; set; }
+
+        [Required]
+        public Shift WednesdayShift { get; set; }
+
+        [Required]
+        public Shift ThursdayShift { get; set; }
+
+        [Required]
+        public Shift FridayShift { get; set; }
+
+        [Required]
 #pragma warning disable CA2227 // Collection properties should be read only
         public ICollection<TestingPersonnelWorkingAreaSpecDto> WorkingAreas { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only

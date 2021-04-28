@@ -32,6 +32,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 
 #pragma warning disable CA2227 // Collection properties should be read only
         public ICollection<TestingPersonnelTestDataDto> ConfirmedEmployees { get; set; }
+
+        public ICollection<TestingPersonnelTestDataDto> FixedEmployees { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
     }
 }
