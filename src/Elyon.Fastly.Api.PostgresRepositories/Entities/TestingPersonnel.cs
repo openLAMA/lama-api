@@ -45,6 +45,18 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public Employeer Employeer { get; set; }
 
+        public bool HasFixedWorkingDays { get; set; }
+
+        public Shift MondayShift { get; set; }
+
+        public Shift TuesdayShift { get; set; }
+
+        public Shift WednesdayShift { get; set; }
+
+        public Shift ThursdayShift { get; set; }
+
+        public Shift FridayShift { get; set; }
+
 #pragma warning disable CA2227 // Collection properties should be read only
         public virtual ICollection<TestingPersonnelWorkingArea> TestingPersonnelWorkingAreas { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only

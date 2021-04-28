@@ -68,7 +68,7 @@ namespace Elyon.Fastly.Api.DomainServices
                  .ConfigureAwait(false);
 
             var invitationReceivers = await _testingPersonnelsRepository
-                .GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea.Pooling)
+                .GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea.Pooling, specDto.Date.DayOfWeek)
                 .ConfigureAwait(false);
 
             foreach(var receiver in invitationReceivers)
