@@ -296,29 +296,20 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         private static Expression<Func<TestingPersonnel, bool>> GetFilterByWorkingAreaAndDayOfWeek(WorkingArea workingArea, DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == DayOfWeek.Monday)
+            switch (dayOfWeek)
             {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.MondayShift == Shift.None;
-            }
-            else if (dayOfWeek == DayOfWeek.Tuesday)
-            {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.TuesdayShift == Shift.None;
-            }
-            else if (dayOfWeek == DayOfWeek.Wednesday)
-            {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.WednesdayShift == Shift.None;
-            }
-            else if (dayOfWeek == DayOfWeek.Thursday)
-            {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.ThursdayShift == Shift.None;
-            }
-            else if (dayOfWeek == DayOfWeek.Friday)
-            {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.FridayShift == Shift.None;
-            }
-            else
-            {
-                return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea);
+                case DayOfWeek.Monday:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.MondayShift == Shift.None;
+                case DayOfWeek.Tuesday:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.TuesdayShift == Shift.None;
+                case DayOfWeek.Wednesday:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.WednesdayShift == Shift.None;
+                case DayOfWeek.Thursday:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.ThursdayShift == Shift.None;
+                case DayOfWeek.Friday:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea) && x.FridayShift == Shift.None;
+                default:
+                    return x => x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == workingArea);
             }
         }
 
