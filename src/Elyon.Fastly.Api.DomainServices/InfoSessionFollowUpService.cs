@@ -24,6 +24,7 @@ using Elyon.Fastly.Api.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.DomainServices
@@ -103,14 +104,27 @@ namespace Elyon.Fastly.Api.DomainServices
 
         private async Task SendCompanyOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
         {
+            var receiversCount = specDto.Receivers.ToList().Count;
+            var currentCount = 0;
             foreach (var receiver in specDto.Receivers)
             {
+                var ccReceivers = new List<string>();
+                if (receiversCount > 1 && currentCount == 0)
+                {
+                    ccReceivers = null;
+                }
+                else
+                {
+                    ccReceivers = specDto.CcReceivers.ToList();
+                }
+
                 var parameters = new Dictionary<string, string>
                     {
                         { "CompanyShortcut", organization.OrganizationShortcutName },
                         { "supportPerson", organization.SupportPerson.Name }
                     };
-                await _emailSenderService.SendOnboardingEmailAsync(receiver, specDto.CcReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, ccReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+                currentCount++;
             }
         }
 
@@ -128,7 +142,7 @@ namespace Elyon.Fastly.Api.DomainServices
                         { "TestingDay", organization.FirstTestTimestamp.Value.ToString("dddd", CultureInfo.CreateSpecificCulture("de-CH")) }
                     };
 
-                await _emailSenderService.SendOnboardingEmailAsync(receiver, specDto.CcReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, null, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
             }
         }
 
