@@ -104,27 +104,21 @@ namespace Elyon.Fastly.Api.DomainServices
 
         private async Task SendCompanyOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
         {
-            var receiversCount = specDto.Receivers.ToList().Count;
-            var currentCount = 0;
-            foreach (var receiver in specDto.Receivers)
+            var receiversList = specDto.Receivers.ToList();
+            for (int i = 0; i < receiversList.Count; i++)
             {
-                var ccReceivers = new List<string>();
-                if (receiversCount > 1 && currentCount == 0)
-                {
-                    ccReceivers = null;
-                }
-                else
-                {
-                    ccReceivers = specDto.CcReceivers.ToList();
-                }
-
                 var parameters = new Dictionary<string, string>
                     {
                         { "CompanyShortcut", organization.OrganizationShortcutName },
                         { "supportPerson", organization.SupportPerson.Name }
                     };
-                await _emailSenderService.SendOnboardingEmailAsync(receiver, ccReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
-                currentCount++;
+
+                await _emailSenderService.SendOnboardingEmailAsync(
+                    receiversList[i], 
+                    (receiversList.Count > 1 && i == 0) ? null : specDto.CcReceivers, 
+                    organization.OrganizationTypeId, 
+                    parameters)
+                    .ConfigureAwait(false);
             }
         }
 
