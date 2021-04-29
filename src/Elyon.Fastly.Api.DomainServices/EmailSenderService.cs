@@ -191,7 +191,7 @@ namespace Elyon.Fastly.Api.DomainServices
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
             {
                 Receiver = receiver,
-                CcReceivers = ccReceivers.ToList(),
+                CcReceivers = ccReceivers != null ? ccReceivers.ToList() : null,
                 TemplateName = templateName,
                 AttachmentFilesHashes = attachmentsFilesHashes,
                 Parameters = parameters
