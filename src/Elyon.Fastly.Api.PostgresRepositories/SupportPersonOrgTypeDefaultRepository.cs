@@ -48,6 +48,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             var defaulSupportPerson = await items.Where(
                     sup => sup.OrganizationTypeId == organizationTypeId)
+                .OrderBy(sup => sup.User.Name)
                 .Select(x => new ShortContactInfoDto
                 {
                     SupportPersonId = x.UserId,
