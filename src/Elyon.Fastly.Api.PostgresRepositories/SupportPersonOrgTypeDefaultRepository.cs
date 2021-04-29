@@ -46,17 +46,18 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             await using var context = ContextFactory.CreateDataContext(null);
             var items = context.SupportPersonOrgTypeDefaultMappings;
 
-            var defaulSupportPerson = await items.Where(
+            var defaulSupportPersons = await items.Where(
                     sup => sup.OrganizationTypeId == organizationTypeId)
-                .OrderBy(sup => sup.User.Name)
                 .Select(x => new ShortContactInfoDto
                 {
                     SupportPersonId = x.UserId,
                     Name = _aesCryptography.Decrypt(x.User.Name)
-                }).FirstOrDefaultAsync()
+                }).ToListAsync()
                 .ConfigureAwait(false);
-            
-            if(defaulSupportPerson == null)
+
+            var defaulSupportPerson = defaulSupportPersons.OrderBy(sup => sup.Name).FirstOrDefault();
+
+            if (defaulSupportPerson == null)
             {
                 return await items.Select(x =>
                     new ShortContactInfoDto
