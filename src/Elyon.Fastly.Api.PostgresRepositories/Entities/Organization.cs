@@ -104,6 +104,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public int? EmployeesCount { get; set; }
 
+        public int? PlannedEmployeesCount { get; set; }
+
         public int? RegisteredEmployees { get; set; }
 
         [MaxLength(100)]

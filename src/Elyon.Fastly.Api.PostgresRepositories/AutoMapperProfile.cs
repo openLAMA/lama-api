@@ -133,7 +133,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
                 .ForMember(opt => opt.Notes, src => src.Ignore())
                 .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore())
-                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore());
+                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore())
+                .ForMember(opt => opt.PlannedEmployeesCount, src => src.Ignore());
 
             CreateMap<OrganizationProfileSpecDto, Organization>()
                 .ForMember(opt => opt.OrganizationTypeId,
@@ -172,7 +173,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.SubOrganizations, src => src.Ignore())
                 .ForMember(opt => opt.Notes, src => src.Ignore())
                 .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore())
-                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore());
+                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore())
+                .ForMember(opt => opt.PlannedEmployeesCount, src => src.Ignore());
 
 
             CreateMap<OrganizationDto, Organization>()
@@ -187,7 +189,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.OrganizationType, src => src.Ignore())
                 .ForMember(opt => opt.Notes, src => src.Ignore())
                 .ForMember(opt => opt.InfoSessionFollowUp, src => src.Ignore())
-                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore());
+                .ForMember(opt => opt.IsOnboardingEmailSent, src => src.Ignore())
+                .ForMember(opt => opt.PlannedEmployeesCount, src => src.Ignore());
 
             CreateMap<Organization, OrganizationDto>()
                 .ForMember(opt => opt.Manager,
