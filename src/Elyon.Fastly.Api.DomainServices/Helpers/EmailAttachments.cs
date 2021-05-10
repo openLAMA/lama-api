@@ -29,8 +29,8 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
         public static List<AttachmentFileData> GetCompanyOnboardingAttachments()
         {
             var attachments = new List<AttachmentFileData>();
-            var file = new AttachmentFileData { FileName = "01 Schulungspräsentation_compressed.pdf" };
-            file.SetContent(Resources._01_Schulungspräsentation_compressed);
+            var file = new AttachmentFileData { FileName = "01 Schulungspräsentation.pdf" };
+            file.SetContent(Resources._01_Schulungspräsentation);
             attachments.Add(file);
 
             file = new AttachmentFileData { FileName = "02 Informationsflyer_compressed.pdf" };
@@ -45,12 +45,8 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
             file.SetContent(Resources._04_Vereinbarung_zwischen_Kanton_und_Betrieb);
             attachments.Add(file);
 
-            file = new AttachmentFileData { FileName = "05 Einverständniserklärung für den Teilnehmenden (Erwachsene).pdf" };
-            file.SetContent(Resources._05_Einverständniserklärung_für_den_Teilnehmenden__Erwachsene_);
-            attachments.Add(file);
-
-            file = new AttachmentFileData { FileName = "05 Einverständniserklärung für den Teilnehmenden (Minderjährige).pdf" };
-            file.SetContent(Resources._05_Einverständniserklärung_für_den_Teilnehmenden__Minderjährige_);
+            file = new AttachmentFileData { FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf" };
+            file.SetContent(Resources._05_Einverständniserklärung_für_den_Teilnehmenden);
             attachments.Add(file);
 
             file = new AttachmentFileData { FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf" };
@@ -72,15 +68,14 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
         {
             List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
             {
-                new AttachmentFileNameAndHash(){ FileName = "01 Schulungspräsentation_compressed.pdf", Hash = "QawYbA==" },
+                new AttachmentFileNameAndHash(){ FileName = "01 Schulungspräsentation.pdf", Hash = "PkIkrg==" },
                 new AttachmentFileNameAndHash(){ FileName = "02 Informationsflyer_compressed.pdf", Hash = "i0OvzQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "03 Offizielles Informationsschreiben des Kanton Baselland.pdf", Hash = "jt9jHg==" },
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
-                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden (Erwachsene).pdf", Hash = "g5Y/WA==" },
-                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden (Minderjährige).pdf", Hash = "uZKSQQ==" },
+                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "W6wb+Q==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
-                new AttachmentFileNameAndHash(){ FileName = "Handbuch BTBL BBL_KMU.pdf", Hash = "HX8s5Q==" }
+                new AttachmentFileNameAndHash(){ FileName = "Handbuch BTBL BBL_KMU.pdf", Hash = "HlE8HA==" }
             };
 
             return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();
