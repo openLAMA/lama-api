@@ -54,7 +54,7 @@ namespace Elyon.Fastly.Api.DomainServices
                .ConfigureAwait(false);
         }
 
-        public async Task<TestsDataDto> GetTestsDataDtoAsync(DateTime testDate)
+        public async Task<TestsDataDto> GetTestsDataDtoForDateAsync(DateTime testDate)
         {
             var result = await _testingPersonnelsRepository
                .GetTestsDataDtoAsync(testDate, true)

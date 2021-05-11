@@ -111,7 +111,7 @@ namespace Elyon.Fastly.Api.Controllers
         public async Task<ActionResult<TestsDataDto>> GetTestsDataForDateAsync(DateTime date)
         {
             TestsDataDto testsData = await _testingPersonnelsService
-                .GetTestsDataDtoAsync(date)
+                .GetTestsDataDtoForDateAsync(date)
                 .ConfigureAwait(false);
 
             return testsData;

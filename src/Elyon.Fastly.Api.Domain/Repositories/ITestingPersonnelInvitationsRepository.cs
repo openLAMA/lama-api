@@ -25,6 +25,6 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 {
     public interface ITestingPersonnelInvitationsRepository : IBaseCrudRepository<TestingPersonnelInvitationDto>
     {
-        Task<Guid> GetInvitationIdByDate(DateTime testDate);
+        Task<Guid> GetInvitationIdByDateAsync(DateTime testDate);
     }
 }

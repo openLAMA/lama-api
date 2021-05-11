@@ -30,7 +30,7 @@ namespace Elyon.Fastly.Api.Domain.Services
 
         Task<List<TestsDataDto>> GetTestsDataDtoAsync();
 
-        Task<TestsDataDto> GetTestsDataDtoAsync(DateTime testDate);
+        Task<TestsDataDto> GetTestsDataDtoForDateAsync(DateTime testDate);
 
         Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
     }

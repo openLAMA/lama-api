@@ -134,7 +134,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (specDto == null)
                 throw new ArgumentNullException(nameof(specDto));
 
-            var invitationId = await _testingPersonnelInvitationsRepository.GetInvitationIdByDate(specDto.Date.Date)
+            var invitationId = await _testingPersonnelInvitationsRepository.GetInvitationIdByDateAsync(specDto.Date.Date)
                 .ConfigureAwait(false);
             if (invitationId == Guid.Empty)
             {
@@ -143,7 +143,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 return;
             }
 
-            var testingPersonnelId = await _testingPersonnelsRepository.GetTestingPersonnelIdByEmail(specDto.Email)
+            var testingPersonnelId = await _testingPersonnelsRepository.GetTestingPersonnelIdByEmailAsync(specDto.Email)
                 .ConfigureAwait(false);
 
             if (testingPersonnelId == Guid.Empty)

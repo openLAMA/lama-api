@@ -336,7 +336,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             return existingEmails;
         }
 
-        public async Task<Guid> GetTestingPersonnelIdByEmail(string testingPersonnelEmail)
+        public async Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail)
         {
             var encryptedEmail = _aesCryptography.Encrypt(testingPersonnelEmail);
             await using var context = ContextFactory.CreateDataContext(null);

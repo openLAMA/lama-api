@@ -39,7 +39,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
         {
         }
 
-        public async Task<Guid> GetInvitationIdByDate(DateTime testDate)
+        public async Task<Guid> GetInvitationIdByDateAsync(DateTime testDate)
         {
             await using var context = ContextFactory.CreateDataContext(null);
 

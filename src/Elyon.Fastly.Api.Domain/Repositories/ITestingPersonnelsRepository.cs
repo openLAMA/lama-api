@@ -33,6 +33,6 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 
         Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
 
-        Task<Guid> GetTestingPersonnelIdByEmail(string testingPersonnelEmail);
+        Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail);
     }
 }
