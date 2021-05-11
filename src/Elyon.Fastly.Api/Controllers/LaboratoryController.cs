@@ -106,6 +106,17 @@ namespace Elyon.Fastly.Api.Controllers
             return testsData;
         }
 
+        [HttpGet("testsForDate")]
+        [AuthorizeUser(RoleType.University, RoleType.Laboratory)]
+        public async Task<ActionResult<TestsDataDto>> GetTestsDataForDateAsync(DateTime date)
+        {
+            TestsDataDto testsData = await _testingPersonnelsService
+                .GetTestsDataDtoAsync(date)
+                .ConfigureAwait(false);
+
+            return testsData;
+        }
+
         [HttpPost("invitations")]
         [AuthorizeUser(RoleType.Laboratory)]
         public async Task<ActionResult> CreateInvitationsAsync([FromBody] TestingPersonnelInvitationSpecDto specDto)

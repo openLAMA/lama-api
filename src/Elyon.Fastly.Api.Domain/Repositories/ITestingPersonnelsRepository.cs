@@ -27,7 +27,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 {
     public interface ITestingPersonnelsRepository : IBaseCrudRepository<TestingPersonnelDto>
     {
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync();
+        Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate);
 
         Task<List<TestingPersonnelInvitationReceiverDto>> GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea workingArea, DayOfWeek dayOfWeek);
 

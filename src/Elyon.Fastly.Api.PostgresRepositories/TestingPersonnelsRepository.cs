@@ -36,6 +36,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 {
     public class TestingPersonnelsRepository : BaseCrudRepository<TestingPersonnel, TestingPersonnelDto>, ITestingPersonnelsRepository
     {
+        private const int OneDayPeriod = 1;
         private const int DaysPeriod = 14;
 
         private readonly IAESCryptography _aesCryptography;
@@ -62,7 +63,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             base.OnBeforeInsert(entity);
         }
 
-        public async Task<List<TestsDataDto>> GetTestsDataDtoAsync()
+        public async Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate)
         {
             const int companyOrganizationId = 82000;
             const int pharmacyOrganizationId = 82001;
@@ -70,8 +71,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             const int hospitalOrganizationId = 82004;
             const int smeOrganizationId = 99990;
 
-            var startDate = DateTime.UtcNow.Date;
+            startDate = startDate.Date;
             var endDate = startDate.AddDays(DaysPeriod);
+            if (isForOneDate)
+            {
+                endDate = startDate.AddDays(OneDayPeriod);
+            }
 
             await using var context = ContextFactory.CreateDataContext(null);
             var orgs = await context.Organizations
@@ -110,6 +115,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     {
                         RequiredPersonnelCountShift = x.RequiredPersonnelCountShift1,
                         ShiftNumber = ShiftNumber.First,
+                        ConfirmedNotCanceledEmployeesCount = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First && !conf.CanceledOn.HasValue).Count(),
                         ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First)
                         .Select(c => new TestingPersonnelTestDataDto
                         {
@@ -123,6 +129,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     {
                         RequiredPersonnelCountShift = x.RequiredPersonnelCountShift2,
                         ShiftNumber = ShiftNumber.Second,
+                        ConfirmedNotCanceledEmployeesCount = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second && !conf.CanceledOn.HasValue).Count(),
                         ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second)
                         .Select(c => new TestingPersonnelTestDataDto
                         {
@@ -161,6 +168,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             { 
                                 ShiftNumber = invitation == null ? ShiftNumber.First : invitation.Shift1.ShiftNumber,
                                 RequiredPersonnelCountShift = invitation == null ? 0 : invitation.Shift1.RequiredPersonnelCountShift,
+                                ConfirmedNotCanceledEmployeesCount = invitation == null ? 0 : invitation.Shift1.ConfirmedNotCanceledEmployeesCount,
                                 ConfirmedEmployees = invitation == null ? new List<TestingPersonnelTestDataDto>() : invitation.Shift1.ConfirmedEmployees.DistinctBy(x => x.Email).ToList(),
                                 FixedEmployees = fixedPersonnelForWeekdayShift1
                             },
@@ -168,6 +176,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             {
                                 ShiftNumber = invitation == null ? ShiftNumber.Second : invitation.Shift2.ShiftNumber,
                                 RequiredPersonnelCountShift = invitation == null ? 0 : invitation.Shift2.RequiredPersonnelCountShift,
+                                ConfirmedNotCanceledEmployeesCount = invitation == null ? 0 : invitation.Shift2.ConfirmedNotCanceledEmployeesCount,
                                 ConfirmedEmployees = invitation == null ? new List<TestingPersonnelTestDataDto>() : invitation.Shift2.ConfirmedEmployees.DistinctBy(x => x.Email).ToList(),
                                 FixedEmployees = fixedPersonnelForWeekdayShift2
                             }

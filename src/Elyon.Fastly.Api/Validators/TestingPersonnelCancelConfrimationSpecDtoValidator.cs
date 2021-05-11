@@ -17,6 +17,7 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using System;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 using FluentValidation;
 
@@ -30,6 +31,12 @@ namespace Elyon.Fastly.Api.Validators
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("Invalid user email address");
+
+            RuleFor(x => x.Date)
+                .NotEmpty()
+                .WithMessage("Date is required")
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date)
+                .WithMessage("Date should be greater than or equal today");
         }
     }
 }

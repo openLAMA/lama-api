@@ -30,6 +30,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 
         public int RequiredPersonnelCountShift { get; set; }
 
+        public int ConfirmedNotCanceledEmployeesCount { get; set; }
+
 #pragma warning disable CA2227 // Collection properties should be read only
         public ICollection<TestingPersonnelTestDataDto> ConfirmedEmployees { get; set; }
 
