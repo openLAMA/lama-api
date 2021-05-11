@@ -26,5 +26,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public bool IsCanceled { get; set; }
     }
 }

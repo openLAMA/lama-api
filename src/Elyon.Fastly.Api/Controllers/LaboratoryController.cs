@@ -158,6 +158,33 @@ namespace Elyon.Fastly.Api.Controllers
             return Ok(shiftNumbers);
         }
 
+        [HttpPut("invitations/cancelConfirmation")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> CancelConfirmationAsync([FromBody] TestingPersonnelCancelConfrimationSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                return BadRequest();
+            }
+
+            var loggedUserId = HttpContext.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+            specDto.CanceledByUserId = Guid.Parse(loggedUserId);
+
+            await _testingPersonnelInvitationsService
+                .CancelConfirmationAsync(specDto)
+                .ConfigureAwait(false);
+
+            if (!_testingPersonnelInvitationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelInvitationsService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
         [HttpDelete("testingPersonnel/{id}")]
         [AuthorizeUser(RoleType.Laboratory)]
         public async Task<ActionResult> DeleteTestingPersonnelAsync(Guid id)

@@ -18,21 +18,18 @@
 #endregion
 
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Repositories
+namespace Elyon.Fastly.Api.Validators
 {
-    public interface ITestingPersonnelsRepository : IBaseCrudRepository<TestingPersonnelDto>
+    public class TestingPersonnelCancelConfrimationSpecDtoValidator : AbstractValidator<TestingPersonnelCancelConfrimationSpecDto>
     {
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync();
-
-        Task<List<TestingPersonnelInvitationReceiverDto>> GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea workingArea, DayOfWeek dayOfWeek);
-
-        Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
-
-        Task<Guid> GetTestingPersonnelIdByEmail(string testingPersonnelEmail);
+        public TestingPersonnelCancelConfrimationSpecDtoValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("Invalid user email address");
+        }
     }
 }

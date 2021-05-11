@@ -115,7 +115,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(c.TestingPersonnel.FirstName),
                             LastName = _aesCryptography.Decrypt(c.TestingPersonnel.LastName),
-                            Email = _aesCryptography.Decrypt(c.TestingPersonnel.Email)
+                            Email = _aesCryptography.Decrypt(c.TestingPersonnel.Email),
+                            IsCanceled = c.CanceledOn.HasValue
                         })
                     },
                     Shift2 = new
@@ -127,7 +128,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(c.TestingPersonnel.FirstName),
                             LastName = _aesCryptography.Decrypt(c.TestingPersonnel.LastName),
-                            Email = _aesCryptography.Decrypt(c.TestingPersonnel.Email)
+                            Email = _aesCryptography.Decrypt(c.TestingPersonnel.Email),
+                            IsCanceled = c.CanceledOn.HasValue
                         })                        
                     }
                 })
@@ -323,6 +325,18 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ConfigureAwait(false);
 
             return existingEmails;
+        }
+
+        public async Task<Guid> GetTestingPersonnelIdByEmail(string testingPersonnelEmail)
+        {
+            var encryptedEmail = _aesCryptography.Encrypt(testingPersonnelEmail);
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            return await context.TestingPersonnels
+                .Where(item => item.Email == encryptedEmail)
+                .Select(tp => tp.Id)
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
         }
     }
 }
