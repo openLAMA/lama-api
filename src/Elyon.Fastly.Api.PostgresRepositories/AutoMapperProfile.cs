@@ -271,7 +271,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.ShiftNumber, src => src.Ignore())
                 .ForMember(opt => opt.AcceptedOn, src => src.Ignore())
                 .ForMember(opt => opt.TestingPersonnelInvitation, src => src.Ignore())
-                .ForMember(opt => opt.TestingPersonnel, src => src.Ignore());
+                .ForMember(opt => opt.TestingPersonnel, src => src.Ignore())
+                .ForMember(opt => opt.CanceledByUserId, src => src.Ignore())
+                .ForMember(opt => opt.CanceledOn, src => src.Ignore());
 
             CreateMap<LamaCompany, LamaCompanyProfileDto>();
             CreateMap<User, LamaUserDto>()

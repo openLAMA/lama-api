@@ -30,6 +30,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public DateTime AcceptedOn { get; set; }
 
+        public DateTime? CanceledOn { get; set; }
+
+        public Guid? CanceledByUserId { get; set; }
+
         public ShiftNumber ShiftNumber { get; set; }
 
         public Guid TestingPersonnelId { get; set; }

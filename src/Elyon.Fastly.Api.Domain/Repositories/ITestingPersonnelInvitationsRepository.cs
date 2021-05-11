@@ -17,11 +17,14 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using System;
+using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 
 namespace Elyon.Fastly.Api.Domain.Repositories
 {
     public interface ITestingPersonnelInvitationsRepository : IBaseCrudRepository<TestingPersonnelInvitationDto>
     {
+        Task<Guid> GetInvitationIdByDateAsync(DateTime testDate);
     }
 }

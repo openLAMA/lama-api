@@ -17,25 +17,26 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.Validators
 {
-    public class TestDataPerShiftDto
+    public class TestingPersonnelCancelConfrimationSpecDtoValidator : AbstractValidator<TestingPersonnelCancelConfrimationSpecDto>
     {
-        public ShiftNumber ShiftNumber { get; set; }
+        public TestingPersonnelCancelConfrimationSpecDtoValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("Invalid user email address");
 
-        public int RequiredPersonnelCountShift { get; set; }
-
-        public int ConfirmedNotCanceledEmployeesCount { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestingPersonnelTestDataDto> ConfirmedEmployees { get; set; }
-
-        public ICollection<TestingPersonnelTestDataDto> FixedEmployees { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+            RuleFor(x => x.Date)
+                .NotEmpty()
+                .WithMessage("Date is required")
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date)
+                .WithMessage("Date should be greater than or equal today");
+        }
     }
 }

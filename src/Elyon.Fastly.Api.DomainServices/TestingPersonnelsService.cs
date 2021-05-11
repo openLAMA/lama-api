@@ -22,6 +22,7 @@ using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.DomainServices
@@ -49,8 +50,17 @@ namespace Elyon.Fastly.Api.DomainServices
         public async Task<List<TestsDataDto>> GetTestsDataDtoAsync()
         {
             return await _testingPersonnelsRepository
-               .GetTestsDataDtoAsync()
+               .GetTestsDataDtoAsync(DateTime.UtcNow, false)
                .ConfigureAwait(false);
+        }
+
+        public async Task<TestsDataDto> GetTestsDataDtoForDateAsync(DateTime testDate)
+        {
+            var result = await _testingPersonnelsRepository
+               .GetTestsDataDtoAsync(testDate, true)
+               .ConfigureAwait(false);
+
+            return result.FirstOrDefault();
         }
 
         public async Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId)

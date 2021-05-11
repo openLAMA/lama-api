@@ -31,6 +31,7 @@ namespace Elyon.Fastly.Api.DomainServices
 {
     public class TestingPersonnelInvitationsService : BaseCrudService<TestingPersonnelInvitationDto>, ITestingPersonnelInvitationsService
     {
+        private readonly ITestingPersonnelInvitationsRepository _testingPersonnelInvitationsRepository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
         private readonly ITestingPersonnelInvitationConfirmationTokensRepository _invitationConfirmationTokensRepository;
         private readonly ITestingPersonnelConfirmationsRepository _testingPersonnelConfirmationsRepository;
@@ -42,6 +43,7 @@ namespace Elyon.Fastly.Api.DomainServices
             ITestingPersonnelConfirmationsRepository testingPersonnelConfirmationsRepository, IEmailSenderService mailSender)
             : base(testingPersonnelInvitationsRepository)
         {
+            _testingPersonnelInvitationsRepository = testingPersonnelInvitationsRepository;
             _testingPersonnelsRepository = testingPersonnelsRepository;
             _invitationConfirmationTokensRepository = invitationConfirmationTokensRepository;
             _testingPersonnelConfirmationsRepository = testingPersonnelConfirmationsRepository;
@@ -125,6 +127,35 @@ namespace Elyon.Fastly.Api.DomainServices
             }
 
             return shiftsBooked;
+        }
+
+        public async Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto)
+        {
+            if (specDto == null)
+                throw new ArgumentNullException(nameof(specDto));
+
+            var invitationId = await _testingPersonnelInvitationsRepository.GetInvitationIdByDateAsync(specDto.Date.Date)
+                .ConfigureAwait(false);
+            if (invitationId == Guid.Empty)
+            {
+                ValidationDictionary
+                    .AddModelError("Invitation for date was not found", $"{specDto.Date.Date}");
+                return;
+            }
+
+            var testingPersonnelId = await _testingPersonnelsRepository.GetTestingPersonnelIdByEmailAsync(specDto.Email)
+                .ConfigureAwait(false);
+
+            if (testingPersonnelId == Guid.Empty)
+            {
+                ValidationDictionary
+                    .AddModelError("Testing personnel with email was not found", $"{specDto.Email}");
+                return;
+            }
+
+            await _testingPersonnelConfirmationsRepository
+                .CancelInvitationConfirmationAsync(invitationId, testingPersonnelId, specDto.CanceledByUserId)
+                .ConfigureAwait(false);
         }
     }
 }

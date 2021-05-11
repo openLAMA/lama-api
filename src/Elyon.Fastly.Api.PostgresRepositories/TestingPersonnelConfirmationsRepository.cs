@@ -100,5 +100,35 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             return confirmedShifts;
         }
+
+        public async Task CancelInvitationConfirmationAsync(Guid invitationId, Guid testingPersonnelId, Guid canceledByUserId)
+        {
+            if (invitationId == Guid.Empty)
+                throw new ArgumentNullException(nameof(invitationId));
+
+            if (testingPersonnelId == Guid.Empty)
+                throw new ArgumentNullException(nameof(testingPersonnelId));
+
+            if (canceledByUserId == Guid.Empty)
+                throw new ArgumentNullException(nameof(canceledByUserId));
+
+            await using var context = ContextFactory.CreateDataContext(null);
+            var confirmationItems = context.TestingPersonnelConfirmations;
+            var confirmations = await confirmationItems
+                .AsNoTracking()
+                .Where(c => c.TestingPersonnelInvitationId == invitationId && c.TestingPersonnelId == testingPersonnelId && !c.CanceledOn.HasValue)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            foreach (var confirmation in confirmations)
+            {
+                confirmation.CanceledByUserId = canceledByUserId;
+                confirmation.CanceledOn = DateTime.UtcNow;
+                context.Entry(confirmation).State = EntityState.Modified;
+                confirmationItems.Update(confirmation);
+
+                await context.SaveChangesAsync().ConfigureAwait(false);
+            }
+        }
     }
 }

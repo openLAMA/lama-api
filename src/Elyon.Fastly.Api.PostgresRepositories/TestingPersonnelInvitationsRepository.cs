@@ -21,9 +21,12 @@ using AutoMapper;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.PostgresRepositories
 {
@@ -34,6 +37,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             IMapper mapper)
             : base(contextFactory, mapper)
         {
+        }
+
+        public async Task<Guid> GetInvitationIdByDateAsync(DateTime testDate)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            return await context.TestingPersonnelInvitations
+                .Where(item => item.InvitationForDate.Date == testDate)
+                .Select(i => i.Id)
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
         }
 
         protected override void OnBeforeInsert(TestingPersonnelInvitation entity)
