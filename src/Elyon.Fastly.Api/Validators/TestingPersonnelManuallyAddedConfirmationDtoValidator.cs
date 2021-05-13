@@ -17,21 +17,30 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using System;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Validators
 {
-    public interface ITestingPersonnelInvitationsService : IBaseCrudService<TestingPersonnelInvitationDto>
+    public class TestingPersonnelManuallyAddedConfirmationDtoValidator : AbstractValidator<TestingPersonnelManuallyAddedConfirmationDto>
     {
-        Task CreateInvitationAsync(TestingPersonnelInvitationSpecDto specDto);
+        public TestingPersonnelManuallyAddedConfirmationDtoValidator()
+        {
+            RuleFor(x => x.TestingPersonnelId)
+                .NotNull()
+                .Must(x => x != default)
+                .WithMessage("Invalid testing personnel id");
 
-        Task<TestingPersonnelInvitationConfirmedShiftsDto> ConfirmInvitationAsync(TestingPersonnelInvitationConfirmDto confirmDto);
+            RuleFor(x => x.Date)
+                .NotEmpty()
+                .WithMessage("Date is required")
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date)
+                .WithMessage("Date should be greater than or equal today");
 
-        Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto);
-
-        Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
+            RuleFor(x => x.Shifts)
+                .NotEmpty()
+                .WithMessage("Shifts are required");
+        }
     }
 }

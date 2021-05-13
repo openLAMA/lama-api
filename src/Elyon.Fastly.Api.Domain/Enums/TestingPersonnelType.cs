@@ -17,21 +17,12 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Domain.Enums
 {
-    public interface ITestingPersonnelInvitationsService : IBaseCrudService<TestingPersonnelInvitationDto>
+    public enum TestingPersonnelType
     {
-        Task CreateInvitationAsync(TestingPersonnelInvitationSpecDto specDto);
-
-        Task<TestingPersonnelInvitationConfirmedShiftsDto> ConfirmInvitationAsync(TestingPersonnelInvitationConfirmDto confirmDto);
-
-        Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto);
-
-        Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
+        Normal,
+        Fixed,
+        Temporary
     }
 }

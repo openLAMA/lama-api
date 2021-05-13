@@ -17,21 +17,23 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Elyon.Fastly.Api.Domain.Enums;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 {
-    public interface ITestingPersonnelInvitationsService : IBaseCrudService<TestingPersonnelInvitationDto>
+    public class TestingPersonnelManuallyAddedConfirmationDto
     {
-        Task CreateInvitationAsync(TestingPersonnelInvitationSpecDto specDto);
+        [Required]
+        public Guid TestingPersonnelId { get; set; }
 
-        Task<TestingPersonnelInvitationConfirmedShiftsDto> ConfirmInvitationAsync(TestingPersonnelInvitationConfirmDto confirmDto);
+        [Required]
+        public DateTime Date { get; set; }
 
-        Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto);
-
-        Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
+#pragma warning disable CA2227 // Collection properties should be read only
+        public ICollection<ShiftNumber> Shifts { get; set; }
+#pragma warning restore CA2227 // Collection properties should be read only
     }
 }

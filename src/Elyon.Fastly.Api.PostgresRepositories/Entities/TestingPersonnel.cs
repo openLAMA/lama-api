@@ -47,6 +47,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public bool HasFixedWorkingDays { get; set; }
 
+        public TestingPersonnelType Type { get; set; }
+
         public Shift MondayShift { get; set; }
 
         public Shift TuesdayShift { get; set; }

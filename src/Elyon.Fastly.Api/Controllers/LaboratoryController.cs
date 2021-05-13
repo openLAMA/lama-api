@@ -169,6 +169,31 @@ namespace Elyon.Fastly.Api.Controllers
             return Ok(shiftNumbers);
         }
 
+        [HttpPost("invitations/createConfirmation")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult<TestingPersonnelInvitationConfirmedShiftsDto>> CreateConfirmationAsync([FromBody]
+            TestingPersonnelManuallyAddedConfirmationDto confirmDto)
+        {
+            if (confirmDto == null)
+            {
+                return BadRequest();
+            }
+
+            await _testingPersonnelInvitationsService
+                .CreateConfirmationAsync(confirmDto)
+                .ConfigureAwait(false);
+
+            if (!_testingPersonnelInvitationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelInvitationsService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
         [HttpPut("invitations/cancelConfirmation")]
         [AuthorizeUser(RoleType.Laboratory)]
         public async Task<ActionResult> CancelConfirmationAsync([FromBody] TestingPersonnelCancelConfrimationSpecDto specDto)

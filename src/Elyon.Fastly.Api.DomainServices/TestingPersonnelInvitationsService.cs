@@ -103,6 +103,22 @@ namespace Elyon.Fastly.Api.DomainServices
                 return null;
             }
 
+            var doesConfirmationExist = await _testingPersonnelConfirmationsRepository
+                .CheckIfConfirmationExistsForInvitationAndTestingPersonnelAsync(testingPersonnelAndInvitationData.InvitationId, testingPersonnelAndInvitationData.TestingPersonnelId)
+                .ConfigureAwait(false);
+
+            if (doesConfirmationExist)
+            {
+                ValidationDictionary
+                    .AddModelError("Confirmation already exists", $"Confirmation for this invitation already exists.");
+
+                await _invitationConfirmationTokensRepository
+                .DisposeInvitationConfirmationToken(confirmDto.Token)
+                .ConfigureAwait(false);
+
+                return null;
+            }
+
             var testingPersonnelConfirmSpecDto = new TestingPersonnelConfirmationSpecDto
             {
                 InvitationId = testingPersonnelAndInvitationData.InvitationId,
@@ -155,6 +171,54 @@ namespace Elyon.Fastly.Api.DomainServices
 
             await _testingPersonnelConfirmationsRepository
                 .CancelInvitationConfirmationAsync(invitationId, testingPersonnelId, specDto.CanceledByUserId)
+                .ConfigureAwait(false);
+        }
+
+        public async Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto)
+        {
+            if (confirmDto == null)
+                throw new ArgumentNullException(nameof(confirmDto));
+
+            var invitationId = await _testingPersonnelInvitationsRepository.GetInvitationIdByDateAsync(confirmDto.Date.Date)
+                .ConfigureAwait(false);
+            if (invitationId == Guid.Empty)
+            {
+                ValidationDictionary
+                    .AddModelError("Invitation for date was not found", $"{confirmDto.Date.Date}");
+                return;
+            }
+
+            var doesUserExist = await _testingPersonnelsRepository
+                .AnyAsync(tp => tp.Id == confirmDto.TestingPersonnelId)
+                .ConfigureAwait(false);
+
+            if (!doesUserExist)
+            {
+                ValidationDictionary
+                    .AddModelError("Testing personnel was not found", $"Testing personnel was not found");
+                return;
+            }
+
+            var doesConfirmationExist = await _testingPersonnelConfirmationsRepository
+                .CheckIfConfirmationExistsForSelectedShiftsAsync(invitationId, confirmDto.TestingPersonnelId, confirmDto.Shifts)
+                .ConfigureAwait(false);
+
+            if (doesConfirmationExist)
+            {
+                ValidationDictionary
+                    .AddModelError("Confirmation already exists for selected testing personnel", $"Confirmation already exists for selected testing personnel");
+                return;
+            }
+
+            var testingPersonnelConfirmSpecDto = new TestingPersonnelConfirmationSpecDto
+            {
+                InvitationId = invitationId,
+                PersonnelId = confirmDto.TestingPersonnelId,
+                ShiftNumbers = confirmDto.Shifts
+            };
+
+            await _testingPersonnelConfirmationsRepository
+                .AddConfirmationOfInvitationAsync(testingPersonnelConfirmSpecDto)
                 .ConfigureAwait(false);
         }
     }

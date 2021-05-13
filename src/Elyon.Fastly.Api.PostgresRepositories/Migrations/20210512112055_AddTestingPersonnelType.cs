@@ -17,21 +17,29 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.PostgresRepositories.Migrations
 {
-    public interface ITestingPersonnelInvitationsService : IBaseCrudService<TestingPersonnelInvitationDto>
+    public partial class AddTestingPersonnelType : Migration
     {
-        Task CreateInvitationAsync(TestingPersonnelInvitationSpecDto specDto);
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<int>(
+                name: "Type",
+                schema: "ApiDb",
+                table: "TestingPersonnels",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
+        }
 
-        Task<TestingPersonnelInvitationConfirmedShiftsDto> ConfirmInvitationAsync(TestingPersonnelInvitationConfirmDto confirmDto);
-
-        Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto);
-
-        Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Type",
+                schema: "ApiDb",
+                table: "TestingPersonnels");
+        }
     }
 }

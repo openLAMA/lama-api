@@ -130,5 +130,32 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 await context.SaveChangesAsync().ConfigureAwait(false);
             }
         }
+
+        public async Task<bool> CheckIfConfirmationExistsForInvitationAndTestingPersonnelAsync(Guid invitationId, Guid testingPersonnelId)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var confirmationItems = context.TestingPersonnelConfirmations;
+            return await confirmationItems
+                .AsNoTracking()
+                .Where(c => c.TestingPersonnelInvitationId == invitationId &&
+                    c.TestingPersonnelId == testingPersonnelId &&
+                    !c.CanceledOn.HasValue)
+                .AnyAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> CheckIfConfirmationExistsForSelectedShiftsAsync(Guid invitationId, Guid testingPersonnelId, ICollection<ShiftNumber> shifts)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var confirmationItems = context.TestingPersonnelConfirmations;
+            return await confirmationItems
+                .AsNoTracking()
+                .Where(c => c.TestingPersonnelInvitationId == invitationId && 
+                    c.TestingPersonnelId == testingPersonnelId &&
+                    !c.CanceledOn.HasValue &&
+                    shifts.Contains(c.ShiftNumber))
+                .AnyAsync()
+                .ConfigureAwait(false);
+        }
     }
 }
