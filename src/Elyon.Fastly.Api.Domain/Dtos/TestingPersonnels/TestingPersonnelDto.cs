@@ -40,7 +40,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
         public Employeer Employeer { get; set; }
 
         [Required]
-        public bool HasFixedWorkingDays { get; set; }
+        public TestingPersonnelType Type { get; set; }
 
         [Required]
         public Shift MondayShift { get; set; }

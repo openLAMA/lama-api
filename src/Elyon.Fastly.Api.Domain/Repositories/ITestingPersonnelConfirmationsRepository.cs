@@ -18,7 +18,9 @@
 #endregion
 
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using Elyon.Fastly.Api.Domain.Enums;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Domain.Repositories
@@ -28,5 +30,9 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<TestingPersonnelInvitationConfirmedShiftsDto> AddConfirmationOfInvitationAsync(TestingPersonnelConfirmationSpecDto specDto);
 
         Task CancelInvitationConfirmationAsync(Guid invitationId, Guid testingPersonnelId, Guid canceledByUserId);
+
+        Task<bool> CheckIfConfirmationExistsForInvitationAndTestingPersonnelAsync(Guid invitationId, Guid testingPersonnelId);
+
+        Task<bool> CheckIfConfirmationExistsForSelectedShiftsAsync(Guid invitationId, Guid testingPersonnelId, ICollection<ShiftNumber> shifts);
     }
 }
