@@ -32,6 +32,6 @@ namespace Elyon.Fastly.Api.Domain.Services
 
         Task CancelConfirmationAsync(TestingPersonnelCancelConfrimationSpecDto specDto);
 
-        Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
+        Task<TestingPersonnelInvitationConfirmedShiftsDto> CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto);
     }
 }

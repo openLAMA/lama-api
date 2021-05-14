@@ -69,5 +69,27 @@ namespace Elyon.Fastly.Api.DomainServices
                 .CheckTestingPersonnelEmailExistAsync(testingPersonnelEmail, testingPersonnelId)
                 .ConfigureAwait(false);
         }
+
+        public async Task<TestingPersonnelDto> CreateTestingPersonnelAsync(TestingPersonnelSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                throw new ArgumentNullException(nameof(specDto));
+            }
+
+            var existingTestingPersonnelId = await _testingPersonnelsRepository.GetTestingPersonnelIdByEmailAsync(specDto.Email)
+                .ConfigureAwait(false);
+            if (existingTestingPersonnelId != Guid.Empty)
+            {
+                ValidationDictionary
+                    .AddModelError("Testing personnel with this email already exists", $"{specDto.Email}");
+                return null;
+            }
+
+            var testingPersonnel = await AddAsync(specDto)
+                .ConfigureAwait(false);
+
+            return testingPersonnel;
+        }
     }
 }

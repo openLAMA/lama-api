@@ -18,7 +18,10 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using Elyon.Fastly.Api.Domain.Enums;
 using FluentValidation;
 
 namespace Elyon.Fastly.Api.Validators
@@ -40,7 +43,46 @@ namespace Elyon.Fastly.Api.Validators
 
             RuleFor(x => x.Shifts)
                 .NotEmpty()
-                .WithMessage("Shifts are required");
+                .WithMessage("You should add at least one shift");
+
+            RuleFor(x => x.Shifts.Select(sh => sh))
+                .Must(sh => CheckForValidShifts(sh))
+                .WithMessage("Shift number is not correct");
+
+            RuleFor(x => x.Shifts.Select(sh => sh))
+               .Must(sh => CheckForDuplicateShifts(sh))
+               .WithMessage("There are duplicated shifts");
+        }
+
+        private static bool CheckForValidShifts(IEnumerable<ShiftNumber> shiftNumbers)
+        {
+            if (shiftNumbers.Any())
+            {
+                foreach (var shiftNumber in shiftNumbers)
+                {
+                    if (!Enum.IsDefined(typeof(ShiftNumber), shiftNumber))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private static bool CheckForDuplicateShifts(IEnumerable<ShiftNumber> shiftNumbers)
+        {
+            if (shiftNumbers.Any())
+            {
+                var distincedShifts = shiftNumbers.Distinct();
+
+                if (distincedShifts.Count() != shiftNumbers.Count())
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

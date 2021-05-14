@@ -22,6 +22,7 @@ namespace Elyon.Fastly.Api.Domain.Enums
     public enum Employeer
     {
         FHWN,
-        Biolytics
+        Biolytics,
+        None
     }
 }

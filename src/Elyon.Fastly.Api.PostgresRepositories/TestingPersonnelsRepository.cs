@@ -28,6 +28,7 @@ using Elyon.Fastly.Api.PostgresRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -344,7 +345,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public async Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail)
         {
-            var encryptedEmail = _aesCryptography.Encrypt(testingPersonnelEmail);
+            if (testingPersonnelEmail == null)
+                throw new ArgumentNullException(nameof(testingPersonnelEmail));
+
+#pragma warning disable CA1308 // Normalize strings to uppercase
+            var encryptedEmail = _aesCryptography.Encrypt(testingPersonnelEmail.ToLower(CultureInfo.InvariantCulture));
+#pragma warning restore CA1308 // Normalize strings to uppercase
             await using var context = ContextFactory.CreateDataContext(null);
 
             return await context.TestingPersonnels

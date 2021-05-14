@@ -89,8 +89,16 @@ namespace Elyon.Fastly.Api.Controllers
             }
 
             var testingPersonnel = await _testingPersonnelsService
-                .AddAsync(specDto)
+                .CreateTestingPersonnelAsync(specDto)
                 .ConfigureAwait(false);
+
+            if (!_testingPersonnelsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelsService.ValidationDictionary.GetErrorMessages()
+                });
+            }
 
             return Ok(testingPersonnel.Id);
         }
@@ -179,7 +187,7 @@ namespace Elyon.Fastly.Api.Controllers
                 return BadRequest();
             }
 
-            await _testingPersonnelInvitationsService
+            var shiftNumbers = await _testingPersonnelInvitationsService
                 .CreateConfirmationAsync(confirmDto)
                 .ConfigureAwait(false);
 
@@ -191,7 +199,7 @@ namespace Elyon.Fastly.Api.Controllers
                 });
             }
 
-            return Ok();
+            return Ok(shiftNumbers);
         }
 
         [HttpPut("invitations/cancelConfirmation")]
