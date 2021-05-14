@@ -62,8 +62,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 {
                     RequiredPersonnelCountShift1 = x.RequiredPersonnelCountShift1,
                     RequiredPersonnelCountShift2 = x.RequiredPersonnelCountShift2,
-                    TestingPersonnelConfirmationsShift1 = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First).Count(),
-                    TestingPersonnelConfirmationsShift2 = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second).Count()
+                    TestingPersonnelConfirmationsShift1 = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First && !conf.CanceledOn.HasValue).Count(),
+                    TestingPersonnelConfirmationsShift2 = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second && !conf.CanceledOn.HasValue).Count()
                 })
                 .FirstAsync()
                 .ConfigureAwait(false);

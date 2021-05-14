@@ -174,7 +174,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 .ConfigureAwait(false);
         }
 
-        public async Task CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto)
+        public async Task<TestingPersonnelInvitationConfirmedShiftsDto> CreateConfirmationAsync(TestingPersonnelManuallyAddedConfirmationDto confirmDto)
         {
             if (confirmDto == null)
                 throw new ArgumentNullException(nameof(confirmDto));
@@ -185,7 +185,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 ValidationDictionary
                     .AddModelError("Invitation for date was not found", $"{confirmDto.Date.Date}");
-                return;
+                return null;
             }
 
             var doesUserExist = await _testingPersonnelsRepository
@@ -196,7 +196,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 ValidationDictionary
                     .AddModelError("Testing personnel was not found", $"Testing personnel was not found");
-                return;
+                return null;
             }
 
             var doesConfirmationExist = await _testingPersonnelConfirmationsRepository
@@ -207,7 +207,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 ValidationDictionary
                     .AddModelError("Confirmation already exists for selected testing personnel", $"Confirmation already exists for selected testing personnel");
-                return;
+                return null;
             }
 
             var testingPersonnelConfirmSpecDto = new TestingPersonnelConfirmationSpecDto
@@ -217,7 +217,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 ShiftNumbers = confirmDto.Shifts
             };
 
-            await _testingPersonnelConfirmationsRepository
+            return await _testingPersonnelConfirmationsRepository
                 .AddConfirmationOfInvitationAsync(testingPersonnelConfirmSpecDto)
                 .ConfigureAwait(false);
         }
