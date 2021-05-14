@@ -117,7 +117,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         RequiredPersonnelCountShift = x.RequiredPersonnelCountShift1,
                         ShiftNumber = ShiftNumber.First,
                         ConfirmedNotCanceledEmployeesCount = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First && !conf.CanceledOn.HasValue).Count(),
-                        ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First)
+                        ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.First).OrderByDescending(conf => conf.CanceledOn)
                         .Select(c => new TestingPersonnelTestDataDto
                         {
                             FirstName = _aesCryptography.Decrypt(c.TestingPersonnel.FirstName),
@@ -131,7 +131,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         RequiredPersonnelCountShift = x.RequiredPersonnelCountShift2,
                         ShiftNumber = ShiftNumber.Second,
                         ConfirmedNotCanceledEmployeesCount = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second && !conf.CanceledOn.HasValue).Count(),
-                        ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second)
+                        ConfirmedEmployees = x.TestingPersonnelConfirmations.Where(conf => conf.ShiftNumber == ShiftNumber.Second).OrderByDescending(conf => conf.CanceledOn)
                         .Select(c => new TestingPersonnelTestDataDto
                         {
                             FirstName = _aesCryptography.Decrypt(c.TestingPersonnel.FirstName),
