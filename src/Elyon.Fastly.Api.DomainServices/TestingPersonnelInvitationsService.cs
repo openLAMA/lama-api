@@ -217,9 +217,18 @@ namespace Elyon.Fastly.Api.DomainServices
                 ShiftNumbers = confirmDto.Shifts
             };
 
-            return await _testingPersonnelConfirmationsRepository
+            var confirmedShifts = await _testingPersonnelConfirmationsRepository
                 .AddConfirmationOfInvitationAsync(testingPersonnelConfirmSpecDto)
                 .ConfigureAwait(false);
+
+            if (!confirmedShifts.ShiftsBooked.Any())
+            {
+                ValidationDictionary
+                    .AddModelError("Shift capacity is already full", $"Shift capacity is already full");
+                return null;
+            }
+
+            return confirmedShifts;
         }
     }
 }
