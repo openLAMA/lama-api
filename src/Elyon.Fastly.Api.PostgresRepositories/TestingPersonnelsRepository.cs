@@ -38,7 +38,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
     public class TestingPersonnelsRepository : BaseCrudRepository<TestingPersonnel, TestingPersonnelDto>, ITestingPersonnelsRepository
     {
         private const int OneDayPeriod = 1;
-        private const int DaysPeriod = 14;
+        private const int DaysPeriod = 28;
 
         private readonly IAESCryptography _aesCryptography;
 
@@ -146,6 +146,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             var fixedPersonnel = await context.TestingPersonnels
                 .Where(x => x.Type == TestingPersonnelType.Fixed && x.TestingPersonnelWorkingAreas.Any(wa => wa.Area == WorkingArea.Pooling))
+                .Include(x => x.FixedTestingPersonnelCancelations)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
@@ -157,8 +158,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 var invitation = invitations.FirstOrDefault(x => x.InvitationDate.Date == currentDate.Date);
                 if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift1 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate.DayOfWeek, Shift.First);
-                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift2 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate.DayOfWeek, Shift.Second);
+                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift1 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.First);
+                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift2 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.Second);
                     var testsDataValue = new TestsDataDto
                     {
                         Date = currentDate,
@@ -215,10 +216,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             return testDatesValues;
         }
 
-        private List<TestingPersonnelTestDataDto> GetFixedTestingPersonnelForWeekday(List<TestingPersonnel> fixedPersonnel, DayOfWeek dayOfWeek, Shift shift)
+        private List<TestingPersonnelTestDataDto> GetFixedTestingPersonnelForWeekday(List<TestingPersonnel> fixedPersonnel, DateTime date, Shift shift)
         {
             var testingPersonnelForWeekday = new List<TestingPersonnelTestDataDto>();
-            switch (dayOfWeek)
+            switch (date.DayOfWeek)
             {
                 case DayOfWeek.Monday:
                     testingPersonnelForWeekday = fixedPersonnel
@@ -227,7 +228,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         { 
                             FirstName = _aesCryptography.Decrypt(x.FirstName),
                             LastName = _aesCryptography.Decrypt(x.LastName),
-                            Email = _aesCryptography.Decrypt(x.Email)
+                            Email = _aesCryptography.Decrypt(x.Email),
+                            IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
                     break;
                 case DayOfWeek.Tuesday:
@@ -237,7 +239,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(x.FirstName),
                             LastName = _aesCryptography.Decrypt(x.LastName),
-                            Email = _aesCryptography.Decrypt(x.Email)
+                            Email = _aesCryptography.Decrypt(x.Email),
+                            IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
                     break;
                 case DayOfWeek.Wednesday:
@@ -247,7 +250,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(x.FirstName),
                             LastName = _aesCryptography.Decrypt(x.LastName),
-                            Email = _aesCryptography.Decrypt(x.Email)
+                            Email = _aesCryptography.Decrypt(x.Email),
+                            IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
                     break;
                 case DayOfWeek.Thursday:
@@ -257,7 +261,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(x.FirstName),
                             LastName = _aesCryptography.Decrypt(x.LastName),
-                            Email = _aesCryptography.Decrypt(x.Email)
+                            Email = _aesCryptography.Decrypt(x.Email),
+                            IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
                     break;
                 case DayOfWeek.Friday:
@@ -267,7 +272,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                         {
                             FirstName = _aesCryptography.Decrypt(x.FirstName),
                             LastName = _aesCryptography.Decrypt(x.LastName),
-                            Email = _aesCryptography.Decrypt(x.Email)
+                            Email = _aesCryptography.Decrypt(x.Email),
+                            IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
                     break;
                 default:
@@ -355,6 +361,23 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             return await context.TestingPersonnels
                 .Where(item => item.Email == encryptedEmail)
+                .Select(tp => tp.Id)
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Guid> GetTestingPersonnelIdByEmailAndTypeAsync(string testingPersonnelEmail, TestingPersonnelType type)
+        {
+            if (testingPersonnelEmail == null)
+                throw new ArgumentNullException(nameof(testingPersonnelEmail));
+
+#pragma warning disable CA1308 // Normalize strings to uppercase
+            var encryptedEmail = _aesCryptography.Encrypt(testingPersonnelEmail.ToLower(CultureInfo.InvariantCulture));
+#pragma warning restore CA1308 // Normalize strings to uppercase
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            return await context.TestingPersonnels
+                .Where(item => item.Email == encryptedEmail && item.Type == type)
                 .Select(tp => tp.Id)
                 .FirstOrDefaultAsync()
                 .ConfigureAwait(false);

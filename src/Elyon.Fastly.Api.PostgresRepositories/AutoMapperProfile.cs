@@ -63,7 +63,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.OrganizationId, src => src.Ignore())
                 .ForMember(opt => opt.SupportOrganizations, src => src.Ignore())
                 .ForMember(opt => opt.SupportPersonOrgTypeDefaults, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore());
+                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore())
+                .ForMember(opt => opt.FixedTestingPersonnelCancelations, src => src.Ignore());
 
             CreateMap<UserSpecDto, User>()
                 .ForMember(opt => opt.Email,
@@ -81,7 +82,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.SupportOrganizations, src => src.Ignore())
                 .ForMember(opt => opt.SupportPersonOrgTypeDefaults, src => src.Ignore())
                 .ForMember(opt => opt.Id, src => src.Ignore())
-                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore());
+                .ForMember(opt => opt.OrganizationNotes, src => src.Ignore())
+                .ForMember(opt => opt.FixedTestingPersonnelCancelations, src => src.Ignore());
 
             CreateMap<User, ShortContactInfoDto>()
                 .ForMember(opt => opt.Name,
@@ -241,6 +243,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Id, src => src.Ignore())
                 .ForMember(opt => opt.Status, src => src.Ignore())
                 .ForMember(opt => opt.TestingPersonnelConfirmations, src => src.Ignore())
+                .ForMember(opt => opt.FixedTestingPersonnelCancelations, src => src.Ignore())
                 .ForMember(opt => opt.TestingPersonnelWorkingAreas,
                     src => src.MapFrom(x => x.WorkingAreas))
                 .ForMember(opt => opt.HasFixedWorkingDays, src => src.Ignore());
@@ -336,6 +339,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.SupportOrganizations,
                     src => src.Ignore())
                 .ForMember(opt => opt.OrganizationNotes,
+                    src => src.Ignore())
+                .ForMember(opt => opt.FixedTestingPersonnelCancelations,
                     src => src.Ignore());
 
             CreateMap<OrganizationNoteDto, OrganizationNote>()

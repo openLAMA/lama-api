@@ -17,24 +17,26 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Repositories
+namespace Elyon.Fastly.Api.Validators
 {
-    public interface ITestingPersonnelsRepository : IBaseCrudRepository<TestingPersonnelDto>
+    public class CancelFixedTestingPersonnelForDateSpecDtoValidator : AbstractValidator<CancelFixedTestingPersonnelForDateSpecDto>
     {
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate);
+        public CancelFixedTestingPersonnelForDateSpecDtoValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("Invalid user email address");
 
-        Task<List<TestingPersonnelInvitationReceiverDto>> GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea workingArea, DayOfWeek dayOfWeek);
-
-        Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
-
-        Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail);
-
-        Task<Guid> GetTestingPersonnelIdByEmailAndTypeAsync(string testingPersonnelEmail, TestingPersonnelType type);
+            RuleFor(x => x.Date)
+                .NotEmpty()
+                .WithMessage("Date is required")
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date)
+                .WithMessage("Date should be greater than or equal today");
+        }
     }
 }

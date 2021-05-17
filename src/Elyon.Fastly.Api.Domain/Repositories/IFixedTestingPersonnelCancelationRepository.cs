@@ -17,24 +17,15 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Domain.Repositories
 {
-    public interface ITestingPersonnelsRepository : IBaseCrudRepository<TestingPersonnelDto>
+    public interface IFixedTestingPersonnelCancelationRepository : IBaseRepository
     {
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate);
+        Task CancelFixedTestingPersonnelForDateAsync(Guid testingPersonnelId, Guid canceledByUserId, DateTime canceledDate);
 
-        Task<List<TestingPersonnelInvitationReceiverDto>> GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea workingArea, DayOfWeek dayOfWeek);
-
-        Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
-
-        Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail);
-
-        Task<Guid> GetTestingPersonnelIdByEmailAndTypeAsync(string testingPersonnelEmail, TestingPersonnelType type);
+        Task<bool> DoesCancelationForTestingPersonnelAndDateExistAsync(Guid testingPersonnelId, DateTime canceledDate);
     }
 }

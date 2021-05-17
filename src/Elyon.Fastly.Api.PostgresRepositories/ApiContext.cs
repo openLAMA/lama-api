@@ -68,6 +68,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<AttachmentsSeed> AttachmentsSeeds { get; set; }
 
+        public DbSet<FixedTestingPersonnelCancelation> FixedTestingPersonnelCancelations { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }
@@ -150,6 +152,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .HasOne(i => i.Organization)
                 .WithOne(o => o.InfoSessionFollowUp)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<FixedTestingPersonnelCancelation>()
+                .HasOne(f => f.CanceledByUser)
+                .WithMany(t => t.FixedTestingPersonnelCancelations)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<OrganizationType>()
                .HasData(DataSeeder.SeedOrganizationTypes());

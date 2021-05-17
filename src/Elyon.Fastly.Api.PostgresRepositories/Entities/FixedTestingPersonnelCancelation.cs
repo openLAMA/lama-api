@@ -17,24 +17,29 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
-using Elyon.Fastly.Api.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Elyon.Fastly.Api.Domain.Repositories
+namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 {
-    public interface ITestingPersonnelsRepository : IBaseCrudRepository<TestingPersonnelDto>
+    public class FixedTestingPersonnelCancelation : BaseEntityWithId
     {
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate);
+        [Required]
+        [ForeignKey("TestingPersonnelId")]
+        public Guid TestingPersonnelId { get; set; }
 
-        Task<List<TestingPersonnelInvitationReceiverDto>> GetTestingPersonnelInvitationReceiversByWorkingAreaAsync(WorkingArea workingArea, DayOfWeek dayOfWeek);
+        public virtual TestingPersonnel TestingPersonnel { get; set; }
 
-        Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId);
+        [Required]
+        public DateTime CanceledDate { get; set; }
 
-        Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail);
+        [Required]
+        public DateTime CanceledOn { get; set; }
 
-        Task<Guid> GetTestingPersonnelIdByEmailAndTypeAsync(string testingPersonnelEmail, TestingPersonnelType type);
+        [ForeignKey("CanceledByUserId")]
+        public Guid? CanceledByUserId { get; set; }
+
+        public virtual User CanceledByUser { get; set; }
     }
 }

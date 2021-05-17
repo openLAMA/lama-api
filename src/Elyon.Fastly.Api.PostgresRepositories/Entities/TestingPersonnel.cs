@@ -66,5 +66,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 #pragma warning disable CA2227 // Collection properties should be read only
         public virtual ICollection<TestingPersonnelConfirmation> TestingPersonnelConfirmations { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
+
+#pragma warning disable CA2227 // Collection properties should be read only
+        public virtual ICollection<FixedTestingPersonnelCancelation> FixedTestingPersonnelCancelations { get; set; }
+#pragma warning restore CA2227 // Collection properties should be read only
     }
 }
