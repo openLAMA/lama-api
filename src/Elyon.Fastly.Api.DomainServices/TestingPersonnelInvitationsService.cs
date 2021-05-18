@@ -23,6 +23,7 @@ using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace Elyon.Fastly.Api.DomainServices
 {
     public class TestingPersonnelInvitationsService : BaseCrudService<TestingPersonnelInvitationDto>, ITestingPersonnelInvitationsService
     {
+        private const string dateFormat = "d/M/yyyy";
+
         private readonly ITestingPersonnelInvitationsRepository _testingPersonnelInvitationsRepository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
         private readonly ITestingPersonnelInvitationConfirmationTokensRepository _invitationConfirmationTokensRepository;
@@ -57,12 +60,12 @@ namespace Elyon.Fastly.Api.DomainServices
                 throw new ArgumentNullException(nameof(specDto));
             }
 
-            var alreadySentInvitationForDate = await AnyAsync(x => x.InvitationForDate == specDto.Date)
+            var alreadySentInvitationForDate = await AnyAsync(x => x.InvitationForDate.Date == specDto.Date.Date)
                 .ConfigureAwait(false);
             if (alreadySentInvitationForDate)
             {
                 ValidationDictionary
-                    .AddModelError("Invitation for the date has already been sent", $"{specDto.Date.Date}");
+                    .AddModelError("Invitation for the date has already been sent", $"{specDto.Date.ToString(dateFormat, CultureInfo.InvariantCulture)}");
                 return;
             }
 
@@ -155,7 +158,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (invitationId == Guid.Empty)
             {
                 ValidationDictionary
-                    .AddModelError("Invitation for date was not found", $"{specDto.Date.Date}");
+                    .AddModelError("Invitation for date was not found", $"{specDto.Date.ToString(dateFormat, CultureInfo.InvariantCulture)}");
                 return;
             }
 
@@ -184,7 +187,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (invitationId == Guid.Empty)
             {
                 ValidationDictionary
-                    .AddModelError("Invitation for date was not found", $"{confirmDto.Date.Date}");
+                    .AddModelError("Invitation for date was not found", $"{confirmDto.Date.ToString(dateFormat, CultureInfo.InvariantCulture)}");
                 return null;
             }
 

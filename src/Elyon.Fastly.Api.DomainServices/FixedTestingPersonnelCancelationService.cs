@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 using Elyon.Fastly.Api.Domain.Enums;
@@ -28,6 +29,8 @@ namespace Elyon.Fastly.Api.DomainServices
 {
     public class FixedTestingPersonnelCancelationService : BaseService, IFixedTestingPersonnelCancelationService
     {
+        private const string dateFormat = "d/M/yyyy";
+
         private readonly IFixedTestingPersonnelCancelationRepository _repository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
 
@@ -59,7 +62,7 @@ namespace Elyon.Fastly.Api.DomainServices
             if (cancelationForDateExists)
             {
                 ValidationDictionary
-                    .AddModelError("Cancelation for testing personnel for date already exists", $"{specDto.Date.Date}");
+                    .AddModelError("Cancelation for testing personnel for date already exists", $"{specDto.Date.ToString(dateFormat, CultureInfo.InvariantCulture)}");
                 return;
             }
 
