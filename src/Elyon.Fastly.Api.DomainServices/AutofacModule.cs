@@ -114,6 +114,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<AttachmentsSeedService>()
                 .As<IAttachmentsSeedService>()
                 .SingleInstance();
+
+            builder.RegisterType<FixedTestingPersonnelCancelationService>()
+                .As<IFixedTestingPersonnelCancelationService>()
+                .SingleInstance();
         }
     }
 }

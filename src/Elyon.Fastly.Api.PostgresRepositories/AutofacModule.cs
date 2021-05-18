@@ -119,6 +119,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             builder.RegisterType<AttachmentsSeedRepository>()
                 .As<IAttachmentsSeedRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<FixedTestingPersonnelCancelationRepository>()
+                .As<IFixedTestingPersonnelCancelationRepository>()
+                .SingleInstance();
         }
     }
 }

@@ -40,14 +40,18 @@ namespace Elyon.Fastly.Api.Controllers
     {
         private readonly ITestingPersonnelsService _testingPersonnelsService;
         private readonly ITestingPersonnelInvitationsService _testingPersonnelInvitationsService;
+        private readonly IFixedTestingPersonnelCancelationService _fixedTestingPersonnelCancelationService;
 
         public LaboratoryController(ITestingPersonnelsService testingPersonnelsService,
-            ITestingPersonnelInvitationsService testingPersonnelInvitationsService)
+            ITestingPersonnelInvitationsService testingPersonnelInvitationsService,
+            IFixedTestingPersonnelCancelationService fixedTestingPersonnelCancelationService)
         {
             _testingPersonnelsService = testingPersonnelsService ?? throw new ArgumentNullException(nameof(testingPersonnelsService));
             _testingPersonnelsService.ValidationDictionary = new ValidationDictionary(ModelState);
             _testingPersonnelInvitationsService = testingPersonnelInvitationsService ?? throw new ArgumentNullException(nameof(testingPersonnelInvitationsService));
             _testingPersonnelInvitationsService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
+            _fixedTestingPersonnelCancelationService = fixedTestingPersonnelCancelationService ?? throw new ArgumentNullException(nameof(fixedTestingPersonnelCancelationService));
+            _fixedTestingPersonnelCancelationService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
         }
 
         [HttpGet("personnelStatuses")]
@@ -244,6 +248,33 @@ namespace Elyon.Fastly.Api.Controllers
             await _testingPersonnelsService
                 .DeleteAsync(id)
                 .ConfigureAwait(false);
+
+            return Ok();
+        }
+
+        [HttpPost("fixedPersonnel/cancelForDate")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> CancelFixedTestingPersonnelForDateAsync([FromBody] CancelFixedTestingPersonnelForDateSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                return BadRequest();
+            }
+
+            var loggedUserId = HttpContext.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+            specDto.CanceledByUserId = Guid.Parse(loggedUserId);
+
+            await _fixedTestingPersonnelCancelationService
+                .CancelFixedTestingPersonnelForDateAsync(specDto)
+                .ConfigureAwait(false);
+
+            if (!_fixedTestingPersonnelCancelationService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _fixedTestingPersonnelCancelationService.ValidationDictionary.GetErrorMessages()
+                });
+            }
 
             return Ok();
         }
