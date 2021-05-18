@@ -233,5 +233,26 @@ namespace Elyon.Fastly.Api.DomainServices
 
             return confirmedShifts;
         }
+
+        public async Task IncreaseShiftCountAsync(TestingPersonnelInvitationIncreaseShiftSpecDto specDto)
+        {
+            var capacityToAdd = 1;
+
+            if (specDto == null)
+                throw new ArgumentNullException(nameof(specDto));
+
+            var doesInvitationExist = await _testingPersonnelInvitationsRepository.AnyAsync(i => i.Id == specDto.InvitationId)
+                .ConfigureAwait(false);
+
+            if (!doesInvitationExist)
+            {
+                ValidationDictionary
+                    .AddModelError("The invitation was not found", $"The invitation was not found");
+                return;
+            }
+
+            await _testingPersonnelInvitationsRepository.IncreaseShiftCountAsync(specDto.InvitationId, specDto.ShiftNumber, capacityToAdd)
+                .ConfigureAwait(false);
+        }
     }
 }
