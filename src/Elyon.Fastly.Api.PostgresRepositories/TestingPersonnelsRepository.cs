@@ -111,6 +111,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ThenInclude(x => x.TestingPersonnel)
                 .Select(x => new 
                 { 
+                    InvitationId = x.Id,
                     InvitationDate = x.InvitationForDate,
                     Shift1 = new 
                     {
@@ -162,6 +163,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift2 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.Second);
                     var testsDataValue = new TestsDataDto
                     {
+                        InvitationId = invitation?.InvitationId,
                         Date = currentDate,
                         InvitationAlreadySent = invitation != null,
                         Shifts = new List<TestDataPerShiftDto>()

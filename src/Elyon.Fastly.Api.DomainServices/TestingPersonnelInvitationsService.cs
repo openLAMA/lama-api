@@ -33,6 +33,7 @@ namespace Elyon.Fastly.Api.DomainServices
     public class TestingPersonnelInvitationsService : BaseCrudService<TestingPersonnelInvitationDto>, ITestingPersonnelInvitationsService
     {
         private const string dateFormat = "d/M/yyyy";
+        private const int capacityToAdd = 1;
 
         private readonly ITestingPersonnelInvitationsRepository _testingPersonnelInvitationsRepository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
@@ -232,6 +233,25 @@ namespace Elyon.Fastly.Api.DomainServices
             }
 
             return confirmedShifts;
+        }
+
+        public async Task IncreaseShiftCountAsync(TestingPersonnelInvitationIncreaseShiftSpecDto specDto)
+        {
+            if (specDto == null)
+                throw new ArgumentNullException(nameof(specDto));
+
+            var doesInvitationExist = await _testingPersonnelInvitationsRepository.AnyAsync(i => i.Id == specDto.InvitationId)
+                .ConfigureAwait(false);
+
+            if (!doesInvitationExist)
+            {
+                ValidationDictionary
+                    .AddModelError("The invitation was not found", $"The invitation was not found");
+                return;
+            }
+
+            await _testingPersonnelInvitationsRepository.IncreaseShiftCountAsync(specDto.InvitationId, specDto.ShiftNumber, capacityToAdd)
+                .ConfigureAwait(false);
         }
     }
 }

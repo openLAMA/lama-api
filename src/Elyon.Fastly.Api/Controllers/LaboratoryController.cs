@@ -156,6 +156,30 @@ namespace Elyon.Fastly.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("invitations/increaseShiftCount")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> IncreaseShiftCountAsync([FromBody] TestingPersonnelInvitationIncreaseShiftSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                return BadRequest();
+            }
+
+            await _testingPersonnelInvitationsService
+                .IncreaseShiftCountAsync(specDto)
+                .ConfigureAwait(false);
+
+            if (!_testingPersonnelInvitationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelInvitationsService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
         [HttpPost("invitations/confirm")]
         [AllowAnonymous]
         public async Task<ActionResult<TestingPersonnelInvitationConfirmedShiftsDto>> ConfirmInvitationAsync([FromBody] 

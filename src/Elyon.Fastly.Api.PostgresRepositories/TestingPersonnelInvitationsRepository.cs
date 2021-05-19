@@ -19,6 +19,7 @@
 
 using AutoMapper;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using Elyon.Fastly.Api.Domain.Enums;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,30 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .Where(item => item.InvitationForDate.Date == testDate)
                 .Select(i => i.Id)
                 .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task IncreaseShiftCountAsync(Guid invitationId, ShiftNumber shiftNumber, int capacityToAdd)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var items = context.TestingPersonnelInvitations;
+            var entity = await items.AsNoTracking()
+                .FirstAsync(t => t.Id == invitationId)
+                .ConfigureAwait(false);
+
+            if (shiftNumber == ShiftNumber.First)
+            {
+                entity.RequiredPersonnelCountShift1 += capacityToAdd;
+            }
+            else
+            {
+                entity.RequiredPersonnelCountShift2 += capacityToAdd;
+            }
+
+            context.Entry(entity).State = EntityState.Modified;
+            context.TestingPersonnelInvitations.Update(entity);
+
+            await context.SaveChangesAsync()
                 .ConfigureAwait(false);
         }
 

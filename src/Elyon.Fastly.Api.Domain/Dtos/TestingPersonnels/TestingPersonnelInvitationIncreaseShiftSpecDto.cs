@@ -18,16 +18,17 @@
 #endregion
 
 using System;
-using System.Threading.Tasks;
-using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
+using System.ComponentModel.DataAnnotations;
 using Elyon.Fastly.Api.Domain.Enums;
 
-namespace Elyon.Fastly.Api.Domain.Repositories
+namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 {
-    public interface ITestingPersonnelInvitationsRepository : IBaseCrudRepository<TestingPersonnelInvitationDto>
+    public class TestingPersonnelInvitationIncreaseShiftSpecDto
     {
-        Task<Guid> GetInvitationIdByDateAsync(DateTime testDate);
+        [Required]
+        public Guid InvitationId { get; set; }
 
-        Task IncreaseShiftCountAsync(Guid invitationId, ShiftNumber shiftNumber, int capacityToAdd);
+        [Required]
+        public ShiftNumber ShiftNumber { get; set; }
     }
 }

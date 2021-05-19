@@ -24,6 +24,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 {
     public class TestsDataDto
     {
+        public Guid? InvitationId { get; set; }
+
         public DateTime Date { get; set; }
 
         public int Samples { get; set; }
