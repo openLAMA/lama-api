@@ -63,8 +63,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             {
                 entity.RequiredPersonnelCountShift1 += capacityToAdd;
             }
-
-            if (shiftNumber == ShiftNumber.Second)
+            else
             {
                 entity.RequiredPersonnelCountShift2 += capacityToAdd;
             }

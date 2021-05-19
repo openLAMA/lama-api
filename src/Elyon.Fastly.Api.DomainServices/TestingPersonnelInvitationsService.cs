@@ -33,6 +33,7 @@ namespace Elyon.Fastly.Api.DomainServices
     public class TestingPersonnelInvitationsService : BaseCrudService<TestingPersonnelInvitationDto>, ITestingPersonnelInvitationsService
     {
         private const string dateFormat = "d/M/yyyy";
+        private const int capacityToAdd = 1;
 
         private readonly ITestingPersonnelInvitationsRepository _testingPersonnelInvitationsRepository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
@@ -236,8 +237,6 @@ namespace Elyon.Fastly.Api.DomainServices
 
         public async Task IncreaseShiftCountAsync(TestingPersonnelInvitationIncreaseShiftSpecDto specDto)
         {
-            var capacityToAdd = 1;
-
             if (specDto == null)
                 throw new ArgumentNullException(nameof(specDto));
 
