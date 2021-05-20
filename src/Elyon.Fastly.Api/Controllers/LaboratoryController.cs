@@ -109,10 +109,10 @@ namespace Elyon.Fastly.Api.Controllers
 
         [HttpGet("tests")]
         [AuthorizeUser(RoleType.University, RoleType.Laboratory)]
-        public async Task<ActionResult<List<TestsDataDto>>> GetTestsDataAsync()
+        public async Task<ActionResult<TestsDataWithIsEarliestDateDto>> GetTestsDataAsync(DateTime startDate)
         {
             var testsData = await _testingPersonnelsService
-                .GetTestsDataDtoAsync()
+                .GetTestsDataDtoAsync(startDate)
                 .ConfigureAwait(false);
 
             return testsData;

@@ -29,6 +29,7 @@ namespace Elyon.Fastly.Api.DomainServices
 {
     public class TestingPersonnelsService : BaseCrudService<TestingPersonnelDto>, ITestingPersonnelsService
     {
+        private readonly DateTime _testsHistoryEarliestDate = new DateTime(2021, 3, 1);
         private readonly ITestingPersonnelStatusesRepository _testingPersonnelStatusesRepository;
         private readonly ITestingPersonnelsRepository _testingPersonnelsRepository;
 
@@ -47,10 +48,11 @@ namespace Elyon.Fastly.Api.DomainServices
                 .ConfigureAwait(false);
         }
 
-        public async Task<List<TestsDataDto>> GetTestsDataDtoAsync()
+        public async Task<TestsDataWithIsEarliestDateDto> GetTestsDataDtoAsync(DateTime startDate)
         {
             return await _testingPersonnelsRepository
-               .GetTestsDataDtoAsync(DateTime.UtcNow, false)
+               .GetTestsDataDtoAsync(startDate != DateTime.MinValue ? 
+               (startDate < _testsHistoryEarliestDate ? _testsHistoryEarliestDate : startDate) : DateTime.UtcNow, false)
                .ConfigureAwait(false);
         }
 
@@ -60,7 +62,7 @@ namespace Elyon.Fastly.Api.DomainServices
                .GetTestsDataDtoAsync(testDate, true)
                .ConfigureAwait(false);
 
-            return result.FirstOrDefault();
+            return result.TestsData.FirstOrDefault();
         }
 
         public async Task<bool> CheckTestingPersonnelEmailExistAsync(string testingPersonnelEmail, Guid testingPersonnelId)

@@ -28,7 +28,7 @@ namespace Elyon.Fastly.Api.Domain.Services
     {
         Task<List<TestingPersonnelStatusDto>> GetAllTestingPersonnelStatusesAsync();
 
-        Task<List<TestsDataDto>> GetTestsDataDtoAsync();
+        Task<TestsDataWithIsEarliestDateDto> GetTestsDataDtoAsync(DateTime startDate);
 
         Task<TestsDataDto> GetTestsDataDtoForDateAsync(DateTime testDate);
 

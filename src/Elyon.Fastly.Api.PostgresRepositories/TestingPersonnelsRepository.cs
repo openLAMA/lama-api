@@ -39,7 +39,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
     {
         private const int OneDayPeriod = 1;
         private const int DaysPeriod = 28;
-
+        
+        private readonly DateTime _testsHistoryEarliestDate = new DateTime(2021, 3, 1);
         private readonly IAESCryptography _aesCryptography;
 
         public TestingPersonnelsRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory,
@@ -64,7 +65,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             base.OnBeforeInsert(entity);
         }
 
-        public async Task<List<TestsDataDto>> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate)
+        public async Task<TestsDataWithIsEarliestDateDto> GetTestsDataDtoAsync(DateTime startDate, bool isForOneDate)
         {
             const int companyOrganizationId = 82000;
             const int pharmacyOrganizationId = 82001;
@@ -215,7 +216,13 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 currentDate = currentDate.AddDays(1);
             }
 
-            return testDatesValues;
+            var testsDataWithEarliestDate = new TestsDataWithIsEarliestDateDto()
+            { 
+                IsEarliestDate = startDate == _testsHistoryEarliestDate,
+                TestsData = testDatesValues
+            };
+
+            return testsDataWithEarliestDate;
         }
 
         private List<TestingPersonnelTestDataDto> GetFixedTestingPersonnelForWeekday(List<TestingPersonnel> fixedPersonnel, DateTime date, Shift shift)
