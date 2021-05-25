@@ -27,5 +27,7 @@ namespace Elyon.Fastly.Api.Domain.Services
     public interface IUsersService : IBaseCrudService<UserDto>
     {
         Task<List<string>> GetExistingContactEmailsAsync(IEnumerable<string> contactEmails, Guid organizationId);
+
+        Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> usersIds);
     }
 }

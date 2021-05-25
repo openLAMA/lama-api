@@ -23,6 +23,7 @@ using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -75,9 +76,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     context.Users.Remove(user);                    
             }
 
+            var dbEntityUsers = new List<User>(dbEntity.Users);
             foreach (var newContact in entity.Users)
             {
-                var dbContact = dbEntity.Users.FirstOrDefault(i => i.Id == newContact.Id);
+                var dbContact = dbEntityUsers.FirstOrDefault(i => i.Id == newContact.Id);
                 if (dbContact == null)
                 {
                     dbEntity.Users.Add(newContact);
@@ -98,6 +100,25 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             organizations.Update(dbEntity);
 
             await context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task<List<Guid>> GetDeletedUsersIds(IEnumerable<Guid> usersIds, Guid lamaCompanyId)
+        {
+            if (usersIds == null)
+            {
+                throw new ArgumentNullException(nameof(usersIds));
+            }
+
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            var lamaCompanyUsersIds = await context.LamaCompanies.AsNoTracking()
+                .Include(x => x.Users)
+                .Where(item => item.Id == lamaCompanyId)
+                .Select(item => item.Users.Where(u => !usersIds.Contains(u.Id)).Select(u => u.Id))
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+
+            return lamaCompanyUsersIds.ToList();
         }
     }
 }

@@ -86,6 +86,17 @@ namespace Elyon.Fastly.Api.DomainServices
                 }                
             }
 
+            var deletedUsersIds = await GetDeletedUsersIds(userIds, lamaCompanyProfileDto.Id)
+                .ConfigureAwait(false);
+            var deletedUsersAssignedToOrganizationEmails = await GetEmailsOfUsersAssignedToOrganizationAsync(deletedUsersIds)
+                .ConfigureAwait(false);
+
+            if (deletedUsersAssignedToOrganizationEmails.Any())
+            {
+                ValidationDictionary
+                    .AddModelError("User that you want to delete is assigned to an Organization", string.Join(", ", deletedUsersAssignedToOrganizationEmails));
+            }
+
             if (!ValidationDictionary.IsValid())
             {
                 return;
@@ -93,6 +104,19 @@ namespace Elyon.Fastly.Api.DomainServices
 
             await _lamaCompaniesRepository
                 .UpdateLamaCompanyProfileAsync(lamaCompanyProfileDto)
+                .ConfigureAwait(false);
+        }
+
+        private async Task<List<Guid>> GetDeletedUsersIds(IEnumerable<Guid> userIds, Guid lamaCompanyId)
+        {
+            return await _lamaCompaniesRepository.GetDeletedUsersIds(userIds, lamaCompanyId)
+                .ConfigureAwait(false);
+        }
+
+        private async Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> userIds)
+        {
+            return await _usersService
+                .GetEmailsOfUsersAssignedToOrganizationAsync(userIds)
                 .ConfigureAwait(false);
         }
 

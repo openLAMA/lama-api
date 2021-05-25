@@ -121,5 +121,20 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             return existingEmails;
         }
+
+        public async Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> usersIds)
+        {
+            if (usersIds == null)
+            {
+                throw new ArgumentNullException(nameof(usersIds));
+            }
+
+            await using var context = ContextFactory.CreateDataContext(null);
+            return await context.Users
+                .Where(item => usersIds.Contains(item.Id) && item.SupportOrganizations.Any())
+                .Select(item => _aESCryptography.Decrypt(item.Email))
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
     }
 }
