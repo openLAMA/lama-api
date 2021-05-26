@@ -42,12 +42,5 @@ namespace Elyon.Fastly.Api.DomainServices
                 .GetExistingContactEmailsAsync(contactEmails, organizationId)
                 .ConfigureAwait(false);
         }
-
-        public async Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> usersIds)
-        {
-            return await _usersRepository
-                .GetEmailsOfUsersAssignedToOrganizationAsync(usersIds)
-                .ConfigureAwait(false);
-        }
     }
 }

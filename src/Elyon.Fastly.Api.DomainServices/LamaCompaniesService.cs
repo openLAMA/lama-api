@@ -86,9 +86,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 }                
             }
 
-            var deletedUsersIds = await GetDeletedUsersIds(userIds, lamaCompanyProfileDto.Id)
-                .ConfigureAwait(false);
-            var deletedUsersAssignedToOrganizationEmails = await GetEmailsOfUsersAssignedToOrganizationAsync(deletedUsersIds)
+            var deletedUsersAssignedToOrganizationEmails = await GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(userIds, lamaCompanyProfileDto.Id)
                 .ConfigureAwait(false);
 
             if (deletedUsersAssignedToOrganizationEmails.Any())
@@ -107,16 +105,9 @@ namespace Elyon.Fastly.Api.DomainServices
                 .ConfigureAwait(false);
         }
 
-        private async Task<List<Guid>> GetDeletedUsersIds(IEnumerable<Guid> userIds, Guid lamaCompanyId)
+        private async Task<List<string>> GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(IEnumerable<Guid> userIds, Guid lamaCompanyId)
         {
-            return await _lamaCompaniesRepository.GetDeletedUsersIds(userIds, lamaCompanyId)
-                .ConfigureAwait(false);
-        }
-
-        private async Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> userIds)
-        {
-            return await _usersService
-                .GetEmailsOfUsersAssignedToOrganizationAsync(userIds)
+            return await _lamaCompaniesRepository.GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(userIds, lamaCompanyId)
                 .ConfigureAwait(false);
         }
 

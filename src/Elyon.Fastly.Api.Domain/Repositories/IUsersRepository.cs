@@ -31,7 +31,5 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<UserDto> GetUserByEmailAsync(string email);
 
         Task<List<string>> GetExistingContactEmailsAsync(IEnumerable<string> emails, Guid excludeOrganizationId);
-
-        Task<List<string>> GetEmailsOfUsersAssignedToOrganizationAsync(IEnumerable<Guid> usersIds);
     }
 }

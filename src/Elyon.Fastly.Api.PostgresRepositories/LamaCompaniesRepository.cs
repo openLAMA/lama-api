@@ -18,6 +18,7 @@
 #endregion
 
 using AutoMapper;
+using Elyon.Fastly.Api.Domain;
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
@@ -31,9 +32,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 {
     public class LamaCompaniesRepository : BaseCrudRepository<LamaCompany, LamaCompanyDto>, ILamaCompaniesRepository
     {
-        public LamaCompaniesRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper)
+        private readonly IAESCryptography _aESCryptography;
+
+        public LamaCompaniesRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper, IAESCryptography aESCryptography)
             : base(contextFactory, mapper)
         {
+            _aESCryptography = aESCryptography;
         }
 
         public async Task<bool> IsUserPartOfLamaCompanyAsync(Guid lamaCompanyId, Guid userId)
@@ -102,7 +106,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<Guid>> GetDeletedUsersIds(IEnumerable<Guid> usersIds, Guid lamaCompanyId)
+        public async Task<List<string>> GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(IEnumerable<Guid> usersIds, Guid lamaCompanyId)
         {
             if (usersIds == null)
             {
@@ -111,14 +115,17 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             await using var context = ContextFactory.CreateDataContext(null);
 
-            var lamaCompanyUsersIds = await context.LamaCompanies.AsNoTracking()
+            var lamaCompanyUsersEmails = await context.LamaCompanies.AsNoTracking()
                 .Include(x => x.Users)
+                .ThenInclude(x => x.SupportOrganizations)
                 .Where(item => item.Id == lamaCompanyId)
-                .Select(item => item.Users.Where(u => !usersIds.Contains(u.Id)).Select(u => u.Id))
+                .Select(item => item.Users
+                    .Where(u => !usersIds.Contains(u.Id) && u.SupportOrganizations.Any())
+                    .Select(u => _aESCryptography.Decrypt(u.Email)))
                 .FirstOrDefaultAsync()
                 .ConfigureAwait(false);
 
-            return lamaCompanyUsersIds.ToList();
+            return lamaCompanyUsersEmails.ToList();
         }
     }
 }
