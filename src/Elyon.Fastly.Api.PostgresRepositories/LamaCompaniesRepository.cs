@@ -18,11 +18,13 @@
 #endregion
 
 using AutoMapper;
+using Elyon.Fastly.Api.Domain;
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.PostgresRepositories.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,9 +32,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 {
     public class LamaCompaniesRepository : BaseCrudRepository<LamaCompany, LamaCompanyDto>, ILamaCompaniesRepository
     {
-        public LamaCompaniesRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper)
+        private readonly IAESCryptography _aESCryptography;
+
+        public LamaCompaniesRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper, IAESCryptography aESCryptography)
             : base(contextFactory, mapper)
         {
+            _aESCryptography = aESCryptography;
         }
 
         public async Task<bool> IsUserPartOfLamaCompanyAsync(Guid lamaCompanyId, Guid userId)
@@ -75,9 +80,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     context.Users.Remove(user);                    
             }
 
+            var dbEntityUsers = new List<User>(dbEntity.Users);
             foreach (var newContact in entity.Users)
             {
-                var dbContact = dbEntity.Users.FirstOrDefault(i => i.Id == newContact.Id);
+                var dbContact = dbEntityUsers.FirstOrDefault(i => i.Id == newContact.Id);
                 if (dbContact == null)
                 {
                     dbEntity.Users.Add(newContact);
@@ -98,6 +104,28 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             organizations.Update(dbEntity);
 
             await context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task<List<string>> GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(IEnumerable<Guid> usersIds, Guid lamaCompanyId)
+        {
+            if (usersIds == null)
+            {
+                throw new ArgumentNullException(nameof(usersIds));
+            }
+
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            var lamaCompanyUsersEmails = await context.LamaCompanies.AsNoTracking()
+                .Include(x => x.Users)
+                .ThenInclude(x => x.SupportOrganizations)
+                .Where(item => item.Id == lamaCompanyId)
+                .Select(item => item.Users
+                    .Where(u => !usersIds.Contains(u.Id) && u.SupportOrganizations.Any())
+                    .Select(u => _aESCryptography.Decrypt(u.Email)))
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+
+            return lamaCompanyUsersEmails.ToList();
         }
     }
 }

@@ -19,6 +19,7 @@
 
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Domain.Repositories
@@ -30,5 +31,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<LamaCompanyProfileDto> GetLamaCompanyProfileAsync(Guid lamaCompanyId);
 
         Task UpdateLamaCompanyProfileAsync(LamaCompanyProfileSpecDto lamaCompanyProfileDto);
+
+        Task<List<string>> GetDeletedUsersEmailsThatHaveAssignedOrganizationAsync(IEnumerable<Guid> usersIds, Guid lamaCompanyId);
     }
 }
