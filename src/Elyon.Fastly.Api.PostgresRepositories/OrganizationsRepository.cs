@@ -462,7 +462,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             var organizations = await context.Organizations.AsNoTracking()
                 .Include(o => o.SupportPerson)
                 .Include(o => o.City)
-                .Where(o => o.OnboardingTimestamp.HasValue && o.OnboardingTimestamp.Value.Date >= DateTime.UtcNow.AddMonths(-MonthsInThePast).Date)
+                .Where(o => o.OnboardingTimestamp.HasValue &&
+                    o.OnboardingTimestamp.Value.Date >= DateTime.UtcNow.AddMonths(-MonthsInThePast).Date &&
+                    o.Status != OrganizationStatus.NotActive)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
