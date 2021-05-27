@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Elyon.Fastly.Api.Controllers
@@ -39,17 +40,22 @@ namespace Elyon.Fastly.Api.Controllers
     [ApiController]
     public class OrganizationsController : ControllerBase
     {
+        private const string IcsFileContentType = "calendar/text";
+        private const string IcsFileName = "OnboardingEvents.ics";
+
         private readonly IOrganizationTypesService _organizationTypesService;
         private readonly IOrganizationsService _organizationsService;
         private readonly IAuthorizeService _authService;
+        private readonly ICalendarService _calendarService;
 
         public OrganizationsController(IOrganizationTypesService organizationTypesService,
-            IOrganizationsService organizationsService, IAuthorizeService authService)
+            IOrganizationsService organizationsService, IAuthorizeService authService, ICalendarService calendarService)
         {
             _organizationTypesService = organizationTypesService;
             _organizationsService = organizationsService ?? throw new ArgumentNullException(nameof(organizationsService));
             _authService = authService;
             _organizationsService.ValidationDictionary = new ValidationDictionary(ModelState);
+            _calendarService = calendarService ?? throw new ArgumentNullException(nameof(calendarService));
         }
 
         [HttpGet("types")]
@@ -285,6 +291,17 @@ namespace Elyon.Fastly.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("onboardingCalendarEvents")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetOnboardingCalendarEvents()
+        {
+            string fileContent = await _calendarService
+                .GenerateOnboardingCalendarEventsAsync()
+                .ConfigureAwait(false);
+
+            return File(Encoding.UTF8.GetBytes(fileContent), IcsFileContentType, IcsFileName);
         }
     }
 }

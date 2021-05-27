@@ -26,3 +26,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Design", "CA1054:Uri parameters should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Elyon.Fastly.Api.DomainServices.AutofacModule.#ctor(System.String,System.String,System.String,System.String)")]
 [assembly: SuppressMessage("Design", "CA1054:Uri parameters should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Elyon.Fastly.Api.DomainServices.EmailSenderService.#ctor(Elyon.Fastly.EmailJob.RestClient.IEmailJobClient,System.String)")]
+[assembly: SuppressMessage("Design", "CA1054:Uri parameters should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Elyon.Fastly.Api.DomainServices.CalendarService.#ctor(Elyon.Fastly.Api.Domain.Repositories.IOrganizationsRepository,System.String)")]

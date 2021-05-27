@@ -63,5 +63,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<int?> GetOrganizationEpaadIdAsync(Guid organizationId);
 
         Task UpdateIsOnboardingEmailSent(bool isSent, Guid organizationId);
+
+        Task<List<OrganizationOnboardingEventDto>> GetOrganizationsOnboardingEventsDataAsync();
     }
 }
