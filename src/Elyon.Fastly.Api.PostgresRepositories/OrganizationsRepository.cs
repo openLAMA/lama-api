@@ -37,6 +37,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 {
     public class OrganizationsRepository : BaseCrudRepository<Organization, OrganizationDto>, IOrganizationsRepository
     {
+        private const int MonthsInThePast = 1;
+
         public OrganizationsRepository(
             Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper)
             : base(contextFactory, mapper)
@@ -451,6 +453,20 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             await context.SaveChangesAsync()
                 .ConfigureAwait(false);
+        }
+
+        public async Task<List<OrganizationOnboardingEventDto>> GetOrganizationsOnboardingEventsDataAsync()
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            var organizations = await context.Organizations.AsNoTracking()
+                .Include(o => o.SupportPerson)
+                .Include(o => o.City)
+                .Where(o => o.OnboardingTimestamp.HasValue && o.OnboardingTimestamp.Value.Date >= DateTime.UtcNow.AddMonths(-MonthsInThePast).Date)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            return Mapper.Map<List<OrganizationOnboardingEventDto>>(organizations);
         }
     }
 }

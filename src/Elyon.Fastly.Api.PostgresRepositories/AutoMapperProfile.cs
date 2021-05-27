@@ -221,6 +221,14 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             CreateMap<OrganizationType, OrganizationTypeDto>();
 
+            CreateMap<Organization, OrganizationOnboardingEventDto>()
+                .ForMember(opt => opt.SupportPersonName,
+                src => src.MapFrom(x => _aESCryptography.Decrypt(x.SupportPerson.Name)))
+                .ForMember(opt => opt.SupportPersonEmail,
+                src => src.MapFrom(x => _aESCryptography.Decrypt(x.SupportPerson.Email)))
+                .ForMember(opt => opt.City,
+                src => src.MapFrom(x => x.City.Name));
+
             CreateMap<TestingPersonnel, TestingPersonnelDto>()
                 .ForMember(opt => opt.Email,
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.Email)))

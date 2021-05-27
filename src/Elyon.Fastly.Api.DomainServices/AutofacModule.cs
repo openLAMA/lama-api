@@ -118,6 +118,11 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<FixedTestingPersonnelCancelationService>()
                 .As<IFixedTestingPersonnelCancelationService>()
                 .SingleInstance();
+
+            builder.RegisterType<CalendarService>()
+                .As<ICalendarService>()
+                .SingleInstance()
+                .WithParameter(baseFrontendUrlParamName, _baseFrontendUrl);
         }
     }
 }
