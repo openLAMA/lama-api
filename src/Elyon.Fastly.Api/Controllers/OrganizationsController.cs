@@ -298,7 +298,7 @@ namespace Elyon.Fastly.Api.Controllers
         public async Task<ActionResult> GetOnboardingCalendarEvents()
         {
             string fileContent = await _calendarService
-                .GenerateOnboardingCalendarEvents()
+                .GenerateOnboardingCalendarEventsAsync()
                 .ConfigureAwait(false);
 
             return File(Encoding.UTF8.GetBytes(fileContent), IcsFileContentType, IcsFileName);

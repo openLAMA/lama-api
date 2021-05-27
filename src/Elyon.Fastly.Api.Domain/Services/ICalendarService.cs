@@ -23,6 +23,6 @@ namespace Elyon.Fastly.Api.Domain.Services
 {
     public interface ICalendarService
     {
-        Task<string> GenerateOnboardingCalendarEvents();
+        Task<string> GenerateOnboardingCalendarEventsAsync();
     }
 }

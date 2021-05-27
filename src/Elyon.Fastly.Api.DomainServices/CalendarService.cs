@@ -45,7 +45,7 @@ namespace Elyon.Fastly.Api.DomainServices
             _baseFrontendUrl = baseFrontendUrl;
         }
 
-        public async Task<string> GenerateOnboardingCalendarEvents()
+        public async Task<string> GenerateOnboardingCalendarEventsAsync()
         {
             var organizationsOnboardingEventsDto = 
                 await _organizationsRepository.GetOrganizationsOnboardingEventsDataAsync()
