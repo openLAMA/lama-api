@@ -40,7 +40,7 @@ namespace Elyon.Fastly.Api.Controllers
     [ApiController]
     public class OrganizationsController : ControllerBase
     {
-        private const string IcsFileContentType = "calendar/text";
+        private const string IcsFileContentType = "text/calendar";
         private const string IcsFileName = "OnboardingEvents.ics";
 
         private readonly IOrganizationTypesService _organizationTypesService;
