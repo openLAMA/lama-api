@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
@@ -33,7 +32,6 @@ namespace Elyon.Fastly.Api.DomainServices
     public class CalendarService : ICalendarService
     {
         private const int eventDurationInHours = 1;
-        private const string dateFormat = "d-M-yyyy";
         private const string EditOrganizationPath = "university/edit-program-member/{organizationId}";
 
         private readonly IOrganizationsRepository _organizationsRepository;
@@ -51,14 +49,14 @@ namespace Elyon.Fastly.Api.DomainServices
                 await _organizationsRepository.GetOrganizationsOnboardingEventsDataAsync()
                     .ConfigureAwait(false);
 
-            var calendar = new Ical.Net.Calendar();
+            var calendar = new Calendar();
             foreach (var eventDto in organizationsOnboardingEventsDto)
             {
                 var linkToOrg = UrlHelper.UrlCombine(_baseFrontendUrl, EditOrganizationPath)
                     .Replace("{organizationId}", eventDto.Id.ToString(), StringComparison.InvariantCultureIgnoreCase);
                 var icalEvent = new CalendarEvent
                 {
-                    Uid = $"{eventDto.OnboardingTimestamp.Date.ToString(dateFormat, CultureInfo.InvariantCulture)}-{eventDto.Name}",
+                    Uid = eventDto.Id.ToString(),
                     Summary = eventDto.Name,
                     Description = $"Support Person: {eventDto.SupportPersonName}, {eventDto.SupportPersonEmail}.\nLink to organization: {linkToOrg}",
                     Location = eventDto.City,
