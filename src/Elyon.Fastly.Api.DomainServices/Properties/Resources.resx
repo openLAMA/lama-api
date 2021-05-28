@@ -118,8 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Handbuch_BTBL_BBL_KMU" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\AttachmentsFiles\CompanyOnboarding\Handbuch BTBL BBL_KMU.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Infoblatt_Betriebe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\Infoblatt Betriebe.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Infoblatt_KMU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\Infoblatt KMU.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Infoblatt_Mitarbeitende" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\Infoblatt Mitarbeitende.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_01_Schulungspräsentation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\01 Schulungspräsentation.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

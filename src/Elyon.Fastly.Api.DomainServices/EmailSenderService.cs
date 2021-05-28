@@ -185,7 +185,7 @@ namespace Elyon.Fastly.Api.DomainServices
             else if(organizationTypeId == _smeOrganizationTypeId)
             {
                 templateName = "SMEOnboarding";
-                attachmentsFilesHashes = EmailAttachments.GetCompanyOnboardingAttachmentHashes();
+                attachmentsFilesHashes = EmailAttachments.GetSMEOnboardingAttachmentHashes();
             }
 
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel

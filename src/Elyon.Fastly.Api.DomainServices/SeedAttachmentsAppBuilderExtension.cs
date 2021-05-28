@@ -47,7 +47,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 try
                 {
                     log.Info($"Seed attachments files");
-                    var attachmentsToSeed = EmailAttachments.GetCompanyOnboardingAttachments();
+                    var attachmentsToSeed = EmailAttachments.GetOnboardingAttachments();
                     foreach (var attachment in attachmentsToSeed)
                     {
                         try

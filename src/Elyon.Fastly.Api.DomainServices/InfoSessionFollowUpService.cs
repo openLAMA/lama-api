@@ -56,12 +56,6 @@ namespace Elyon.Fastly.Api.DomainServices
 
             if (organization.OrganizationType.Id == _smeOrganizationTypeId)
             {
-                if (!specDto.SMSStartDate.HasValue || specDto.SMSStartDate == default(DateTime))
-                {
-                    ValidationDictionary.AddModelError("SMS Start Date",
-                        "SMS Start Date is required.");
-                    return;
-                }
                 if (!ValidateOrganizationForOnboarding(organization))
                     return;
 
@@ -109,8 +103,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 var parameters = new Dictionary<string, string>
                     {
-                        { "CompanyShortcut", organization.OrganizationShortcutName },
-                        { "supportPerson", organization.SupportPerson.Name }
+                        { "CompanyShortcut", organization.OrganizationShortcutName }
                     };
 
                 await _emailSenderService.SendOnboardingEmailAsync(
@@ -128,8 +121,6 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 var parameters = new Dictionary<string, string>
                     {
-                        { "SMSdate", specDto.SMSStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
-                        { "OnboardingDate", organization.OnboardingTimestamp.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
                         { "areaPharmacy", organization.Area },
                         { "CompanyShortcut", organization.OrganizationShortcutName },
                         { "firstTestingDate", organization.FirstTestTimestamp.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
