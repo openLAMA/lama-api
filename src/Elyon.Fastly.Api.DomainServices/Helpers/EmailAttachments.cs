@@ -26,7 +26,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
 {
     public static class EmailAttachments
     {
-        public static List<AttachmentFileData> GetCompanyOnboardingAttachments()
+        public static List<AttachmentFileData> GetOnboardingAttachments()
         {
             var attachments = new List<AttachmentFileData>();
             var file = new AttachmentFileData { FileName = "01 Schulungspräsentation.pdf" };
@@ -57,8 +57,16 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
             file.SetContent(Resources._07_Anfahrtsplan_Labor_Muttenz);
             attachments.Add(file);
 
-            file = new AttachmentFileData { FileName = "Handbuch BTBL BBL_KMU.pdf" };
-            file.SetContent(Resources.Handbuch_BTBL_BBL_KMU);
+            file = new AttachmentFileData { FileName = "Infoblatt Betriebe.pdf" };
+            file.SetContent(Resources.Infoblatt_Betriebe);
+            attachments.Add(file);
+
+            file = new AttachmentFileData { FileName = "Infoblatt KMU.pdf" };
+            file.SetContent(Resources.Infoblatt_KMU);
+            attachments.Add(file);
+
+            file = new AttachmentFileData { FileName = "Infoblatt Mitarbeitende.pdf" };
+            file.SetContent(Resources.Infoblatt_Mitarbeitende);
             attachments.Add(file);
 
             return attachments;
@@ -72,10 +80,29 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "02 Informationsflyer_compressed.pdf", Hash = "i0OvzQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "03 Offizielles Informationsschreiben des Kanton Baselland.pdf", Hash = "jt9jHg==" },
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
-                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "W6wb+Q==" },
+                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "gJbpgg==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
-                new AttachmentFileNameAndHash(){ FileName = "Handbuch BTBL BBL_KMU.pdf", Hash = "HlE8HA==" }
+                new AttachmentFileNameAndHash(){ FileName = "Infoblatt Betriebe.pdf", Hash = "49XrNw==" },
+                new AttachmentFileNameAndHash(){ FileName = "Infoblatt Mitarbeitende.pdf", Hash = "gYOqww==" }
+            };
+
+            return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();
+        }
+
+        public static List<string> GetSMEOnboardingAttachmentHashes()
+        {
+            List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
+            {
+                new AttachmentFileNameAndHash(){ FileName = "01 Schulungspräsentation.pdf", Hash = "PkIkrg==" },
+                new AttachmentFileNameAndHash(){ FileName = "02 Informationsflyer_compressed.pdf", Hash = "i0OvzQ==" },
+                new AttachmentFileNameAndHash(){ FileName = "03 Offizielles Informationsschreiben des Kanton Baselland.pdf", Hash = "jt9jHg==" },
+                new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
+                new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "gJbpgg==" },
+                new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
+                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
+                new AttachmentFileNameAndHash(){ FileName = "Infoblatt KMU.pdf", Hash = "Q3wJDg==" },
+                new AttachmentFileNameAndHash(){ FileName = "Infoblatt Mitarbeitende.pdf", Hash = "gYOqww==" }
             };
 
             return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();

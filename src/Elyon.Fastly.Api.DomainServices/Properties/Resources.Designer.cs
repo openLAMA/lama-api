@@ -152,9 +152,29 @@ namespace Elyon.Fastly.Api.DomainServices.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Handbuch_BTBL_BBL_KMU {
+        internal static byte[] Infoblatt_Betriebe {
             get {
-                object obj = ResourceManager.GetObject("Handbuch_BTBL_BBL_KMU", resourceCulture);
+                object obj = ResourceManager.GetObject("Infoblatt_Betriebe", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Infoblatt_KMU {
+            get {
+                object obj = ResourceManager.GetObject("Infoblatt_KMU", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Infoblatt_Mitarbeitende {
+            get {
+                object obj = ResourceManager.GetObject("Infoblatt_Mitarbeitende", resourceCulture);
                 return ((byte[])(obj));
             }
         }
