@@ -38,6 +38,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
     public class OrganizationsRepository : BaseCrudRepository<Organization, OrganizationDto>, IOrganizationsRepository
     {
         private const int MonthsInThePast = 1;
+        private const int smeOrganizationTypeId = 99990;
 
         public OrganizationsRepository(
             Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper)
@@ -464,7 +465,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .Include(o => o.City)
                 .Where(o => o.OnboardingTimestamp.HasValue &&
                     o.OnboardingTimestamp.Value.Date >= DateTime.UtcNow.AddMonths(-MonthsInThePast).Date &&
-                    o.Status != OrganizationStatus.NotActive)
+                    o.Status != OrganizationStatus.NotActive &&
+                    o.OrganizationTypeId != smeOrganizationTypeId)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
