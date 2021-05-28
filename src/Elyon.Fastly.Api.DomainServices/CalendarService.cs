@@ -60,7 +60,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 {
                     Uid = eventDto.Id.ToString(),
                     Summary = eventDto.Name,
-                    Description = $"Onboarding Kontakt: {eventDto.SupportPersonName}, {eventDto.SupportPersonEmail}.\nLink zum bearbeiten der Organisation: {linkToOrg}",
+                    Description = $"Onboarding Kontakt:\n\n{eventDto.SupportPersonName}, {eventDto.SupportPersonEmail}.\n\nLink zum bearbeiten der Organisation:\n\n{linkToOrg}",
                     Location = eventDto.City,
                     Start = new CalDateTime(eventDto.OnboardingTimestamp, timeZone),
                     End = new CalDateTime(eventDto.OnboardingTimestamp.AddHours(eventDurationInHours), timeZone),
