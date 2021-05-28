@@ -32,6 +32,7 @@ namespace Elyon.Fastly.Api.DomainServices
     public class CalendarService : ICalendarService
     {
         private const int eventDurationInHours = 1;
+        private const string timeZone = "Europe/Zurich";
         private const string EditOrganizationPath = "university/edit-program-member/{organizationId}";
 
         private readonly IOrganizationsRepository _organizationsRepository;
@@ -50,6 +51,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     .ConfigureAwait(false);
 
             var calendar = new Calendar();
+            calendar.AddTimeZone(timeZone);
             foreach (var eventDto in organizationsOnboardingEventsDto)
             {
                 var linkToOrg = UrlHelper.UrlCombine(_baseFrontendUrl, EditOrganizationPath)
@@ -58,10 +60,10 @@ namespace Elyon.Fastly.Api.DomainServices
                 {
                     Uid = eventDto.Id.ToString(),
                     Summary = eventDto.Name,
-                    Description = $"Support Person: {eventDto.SupportPersonName}, {eventDto.SupportPersonEmail}.\nLink to organization: {linkToOrg}",
+                    Description = $"Onboarding Kontakt: {eventDto.SupportPersonName}, {eventDto.SupportPersonEmail}.\nLink zum bearbeiten der Organisation: {linkToOrg}",
                     Location = eventDto.City,
-                    Start = new CalDateTime(eventDto.OnboardingTimestamp),
-                    End = new CalDateTime(eventDto.OnboardingTimestamp.AddHours(eventDurationInHours)),
+                    Start = new CalDateTime(eventDto.OnboardingTimestamp, timeZone),
+                    End = new CalDateTime(eventDto.OnboardingTimestamp.AddHours(eventDurationInHours), timeZone),
                     Organizer = new Organizer()
                     {
                         CommonName = eventDto.SupportPersonName,
