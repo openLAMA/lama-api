@@ -103,7 +103,8 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 var parameters = new Dictionary<string, string>
                     {
-                        { "CompanyShortcut", organization.OrganizationShortcutName }
+                        { "CompanyShortcut", organization.OrganizationShortcutName },
+                        { "supportPerson", organization.SupportPerson.Name }
                     };
 
                 await _emailSenderService.SendOnboardingEmailAsync(
