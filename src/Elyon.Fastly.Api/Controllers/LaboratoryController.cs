@@ -18,6 +18,7 @@
 #endregion
 
 using Elyon.Fastly.Api.Domain;
+using Elyon.Fastly.Api.Domain.Dtos.Cantons;
 using Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels;
 using Elyon.Fastly.Api.Domain.Enums;
 using Elyon.Fastly.Api.Domain.Services;
@@ -41,10 +42,12 @@ namespace Elyon.Fastly.Api.Controllers
         private readonly ITestingPersonnelsService _testingPersonnelsService;
         private readonly ITestingPersonnelInvitationsService _testingPersonnelInvitationsService;
         private readonly IFixedTestingPersonnelCancelationService _fixedTestingPersonnelCancelationService;
+        private readonly ICantonsService _cantonService;
 
         public LaboratoryController(ITestingPersonnelsService testingPersonnelsService,
             ITestingPersonnelInvitationsService testingPersonnelInvitationsService,
-            IFixedTestingPersonnelCancelationService fixedTestingPersonnelCancelationService)
+            IFixedTestingPersonnelCancelationService fixedTestingPersonnelCancelationService,
+            ICantonsService cantonService)
         {
             _testingPersonnelsService = testingPersonnelsService ?? throw new ArgumentNullException(nameof(testingPersonnelsService));
             _testingPersonnelsService.ValidationDictionary = new ValidationDictionary(ModelState);
@@ -52,6 +55,8 @@ namespace Elyon.Fastly.Api.Controllers
             _testingPersonnelInvitationsService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
             _fixedTestingPersonnelCancelationService = fixedTestingPersonnelCancelationService ?? throw new ArgumentNullException(nameof(fixedTestingPersonnelCancelationService));
             _fixedTestingPersonnelCancelationService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
+            _cantonService = cantonService ?? throw new ArgumentNullException(nameof(cantonService));
+            _cantonService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
         }
 
         [HttpGet("personnelStatuses")]
@@ -297,6 +302,89 @@ namespace Elyon.Fastly.Api.Controllers
                 return BadRequest(new
                 {
                     errors = _fixedTestingPersonnelCancelationService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("cantons/{id}")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult<CantonDto>> GetCantonByIdAsync(Guid id)
+        {
+            return await _cantonService.GetByIdAsync(id)
+                .ConfigureAwait(false);
+        }
+
+        [HttpPost("cantons")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult<Guid>> CreateCantonWithSamplesCountAsync([FromBody] CantonSpecDto cantonSpecDto)
+        {
+            if (cantonSpecDto == null)
+            {
+                return BadRequest();
+            }
+
+            var cantonDto = await _cantonService
+                .CreateCantonWithSamplesCountAsync(cantonSpecDto)
+                .ConfigureAwait(false);
+
+            if (!_cantonService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _cantonService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok(cantonDto.Id);
+        }
+
+        [HttpPut("cantons")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> UpdateCantonWithSamplesCountAsync([FromBody] CantonDto cantonDto)
+        {
+            if (cantonDto == null)
+            {
+                return BadRequest();
+            }
+
+            await _cantonService
+                .UpdateCantonWithSamplesCountAsync(cantonDto)
+                .ConfigureAwait(false);
+
+            if (!_cantonService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _cantonService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("cantons/{id}")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> DeleteCantonAsync(Guid id)
+        {
+            var isCantonExisting = await _cantonService
+                 .AnyAsync(x => x.Id == id)
+                 .ConfigureAwait(false);
+            if (!isCantonExisting)
+            {
+                return NotFound();
+            }
+
+            await _cantonService
+                .DeleteCantonAsync(id)
+                .ConfigureAwait(false);
+
+            if (!_cantonService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _cantonService.ValidationDictionary.GetErrorMessages()
                 });
             }
 

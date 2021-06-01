@@ -17,29 +17,25 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.Domain.Dtos.Cantons
 {
-    public class TestsDataDto
+    public class CantonWeekdaysSamplesSpecDto
     {
-        public Guid? InvitationId { get; set; }
+        [Required]
+        public int MondaySamples { get; set; }
 
-        public DateTime Date { get; set; }
+        [Required]
+        public int TuesdaySamples { get; set; }
 
-        public int Samples { get; set; }
+        [Required]
+        public int WednesdaySamples { get; set; }
 
-        public int CantonsSamples { get; set; }
+        [Required]
+        public int ThursdaySamples { get; set; }
 
-        public int TotalSamples { get; set; }
-
-        public bool InvitationAlreadySent { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestDataPerShiftDto> Shifts { get; set; }
-
-        public ICollection<TestDataPerCantonDto> CantonsSamplesData { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+        [Required]
+        public int FridaySamples { get; set; }
     }
 }

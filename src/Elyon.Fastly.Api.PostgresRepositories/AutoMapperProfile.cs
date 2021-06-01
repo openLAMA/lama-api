@@ -20,6 +20,7 @@
 using AutoMapper;
 using Elyon.Fastly.Api.Domain;
 using Elyon.Fastly.Api.Domain.Dtos;
+using Elyon.Fastly.Api.Domain.Dtos.Cantons;
 using Elyon.Fastly.Api.Domain.Dtos.Cities;
 using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using Elyon.Fastly.Api.Domain.Dtos.LamaCompanies;
@@ -366,6 +367,32 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.CreatorName)))
                 .ForMember(opt => opt.Text,
                     src => src.MapFrom(x => _aESCryptography.Decrypt(x.Text)));
+
+            CreateMap<CantonSpecDto, Canton>()
+                .ForMember(opt => opt.Id,
+                    src => src.Ignore())
+                .ForMember(opt => opt.Country,
+                    src => src.Ignore())
+                .ForMember(opt => opt.Cities,
+                    src => src.Ignore());
+            CreateMap<CantonDto, Canton>()
+                .ForMember(opt => opt.Country,
+                    src => src.Ignore())
+                .ForMember(opt => opt.Cities,
+                    src => src.Ignore());
+            CreateMap<Canton, CantonDto>();
+
+            CreateMap<CantonWeekdaysSamplesSpecDto, CantonWeekdaysSamples>()
+                .ForMember(opt => opt.Id,
+                    src => src.Ignore())
+                .ForMember(opt => opt.Canton,
+                    src => src.Ignore())
+                .ForMember(opt => opt.CantonId,
+                    src => src.Ignore());
+            CreateMap<CantonWeekdaysSamplesDto, CantonWeekdaysSamples>()
+                .ForMember(opt => opt.Canton,
+                    src => src.Ignore());
+            CreateMap<CantonWeekdaysSamples, CantonWeekdaysSamplesDto>();
         }
 #pragma warning restore CA1308 // Normalize strings to uppercase
     }

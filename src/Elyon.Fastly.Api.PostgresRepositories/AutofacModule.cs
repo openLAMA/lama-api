@@ -123,6 +123,14 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             builder.RegisterType<FixedTestingPersonnelCancelationRepository>()
                 .As<IFixedTestingPersonnelCancelationRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<CantonsRepository>()
+                .As<ICantonsRepository>()
+                .SingleInstance();
+
+            builder.RegisterType<CountriesRepository>()
+                .As<ICountriesRepository>()
+                .SingleInstance();
         }
     }
 }

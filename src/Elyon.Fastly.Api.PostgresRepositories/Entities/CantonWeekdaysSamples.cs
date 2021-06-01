@@ -18,28 +18,32 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 {
-    public class TestsDataDto
+    public class CantonWeekdaysSamples : BaseEntityWithId
     {
-        public Guid? InvitationId { get; set; }
+        [Required]
+        public int MondaySamples { get; set; }
 
-        public DateTime Date { get; set; }
+        [Required]
+        public int TuesdaySamples { get; set; }
 
-        public int Samples { get; set; }
+        [Required]
+        public int WednesdaySamples { get; set; }
 
-        public int CantonsSamples { get; set; }
+        [Required]
+        public int ThursdaySamples { get; set; }
 
-        public int TotalSamples { get; set; }
+        [Required]
+        public int FridaySamples { get; set; }
 
-        public bool InvitationAlreadySent { get; set; }
+        [Required]
+        [ForeignKey("CantonId")]
+        public Guid CantonId { get; set; }
 
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestDataPerShiftDto> Shifts { get; set; }
-
-        public ICollection<TestDataPerCantonDto> CantonsSamplesData { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+        public virtual Canton Canton { get; set; }
     }
 }

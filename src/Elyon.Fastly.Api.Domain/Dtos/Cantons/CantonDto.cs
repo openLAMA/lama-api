@@ -18,28 +18,22 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.Domain.Dtos.Cantons
 {
-    public class TestsDataDto
+    public class CantonDto : BaseDtoWithId
     {
-        public Guid? InvitationId { get; set; }
+        [MaxLength(100)]
+        [Required]
+        public string Name { get; set; }
 
-        public DateTime Date { get; set; }
+        [MaxLength(20)]
+        [Required]
+        public string ShortName { get; set; }
 
-        public int Samples { get; set; }
+        public CantonWeekdaysSamplesDto CantonWeekdaysSamples { get; set; }
 
-        public int CantonsSamples { get; set; }
-
-        public int TotalSamples { get; set; }
-
-        public bool InvitationAlreadySent { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestDataPerShiftDto> Shifts { get; set; }
-
-        public ICollection<TestDataPerCantonDto> CantonsSamplesData { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+        public Guid CountryId { get; set; }
     }
 }
