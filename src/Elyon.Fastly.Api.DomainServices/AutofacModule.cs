@@ -123,6 +123,10 @@ namespace Elyon.Fastly.Api.DomainServices
                 .As<ICalendarService>()
                 .SingleInstance()
                 .WithParameter(baseFrontendUrlParamName, _baseFrontendUrl);
+
+            builder.RegisterType<CantonsService>()
+                .As<ICantonsService>()
+                .SingleInstance();
         }
     }
 }

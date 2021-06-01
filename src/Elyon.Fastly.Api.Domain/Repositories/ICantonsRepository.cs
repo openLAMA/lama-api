@@ -17,29 +17,11 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
+using Elyon.Fastly.Api.Domain.Dtos.Cantons;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.Domain.Repositories
 {
-    public class TestsDataDto
+    public interface ICantonsRepository : IBaseCrudRepository<CantonDto>
     {
-        public Guid? InvitationId { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public int Samples { get; set; }
-
-        public int CantonsSamples { get; set; }
-
-        public int TotalSamples { get; set; }
-
-        public bool InvitationAlreadySent { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestDataPerShiftDto> Shifts { get; set; }
-
-        public ICollection<TestDataPerCantonDto> CantonsSamplesData { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
     }
 }

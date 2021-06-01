@@ -143,13 +143,6 @@ namespace Elyon.Fastly.Api.DomainServices
             var isValid = true;
             if (organization.OrganizationType.Id == _smeOrganizationTypeId)
             {
-                if (!organization.OnboardingTimestamp.HasValue || organization.OnboardingTimestamp == default(DateTime))
-                {
-                    ValidationDictionary.AddModelError("Onboarding Date",
-                        "Onboarding Date is required.");
-                    isValid = false;
-                }
-
                 if (!organization.FirstTestTimestamp.HasValue || organization.FirstTestTimestamp == default(DateTime))
                 {
                     ValidationDictionary.AddModelError("First Test Date",

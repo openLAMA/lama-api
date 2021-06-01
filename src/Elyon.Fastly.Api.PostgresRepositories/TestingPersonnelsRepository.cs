@@ -152,6 +152,13 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ToListAsync()
                 .ConfigureAwait(false);
 
+            var cantonsWithWeekdaysSamples = await context.Cantons
+                .Where(c => c.CantonWeekdaysSamples != null)
+                .Include(c => c.CantonWeekdaysSamples)
+                .OrderBy(c => c.Name)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
             var testDatesValues = new List<TestsDataDto>();
 
             var currentDate = startDate;
@@ -185,7 +192,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                                 ConfirmedEmployees = invitation == null ? new List<TestingPersonnelTestDataDto>() : invitation.Shift2.ConfirmedEmployees.DistinctBy(x => x.Email).ToList(),
                                 FixedEmployees = fixedPersonnelForWeekdayShift2
                             }
-                        }
+                        },
+                        CantonsSamplesData = GetTestDataPerCantonAndWeekday(cantonsWithWeekdaysSamples, currentDate)
                     };
                     testDatesValues.Add(testsDataValue);
 
@@ -211,6 +219,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                                 : organization.TotalSamples / countOfTestingDates;
                         }
                     }
+
+                    testsDataValue.CantonsSamples = testsDataValue.CantonsSamplesData.Sum(x => x.Samples);
+                    testsDataValue.TotalSamples = testsDataValue.Samples + testsDataValue.CantonsSamples;
                 }
 
                 currentDate = currentDate.AddDays(1);
@@ -223,6 +234,60 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             };
 
             return testsDataWithEarliestDate;
+        }
+
+        private static List<TestDataPerCantonDto> GetTestDataPerCantonAndWeekday(List<Canton> cantonsWithWeekdaysSamples, DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return cantonsWithWeekdaysSamples
+                        .Select(x => new TestDataPerCantonDto
+                        {
+                            CantonId = x.Id,
+                            CantonName = x.Name,
+                            CantonShortName = x.ShortName,
+                            Samples = x.CantonWeekdaysSamples.MondaySamples
+                        }).ToList();
+                case DayOfWeek.Tuesday:
+                    return cantonsWithWeekdaysSamples
+                        .Select(x => new TestDataPerCantonDto
+                        {
+                            CantonId = x.Id,
+                            CantonName = x.Name,
+                            CantonShortName = x.ShortName,
+                            Samples = x.CantonWeekdaysSamples.TuesdaySamples
+                        }).ToList();
+                case DayOfWeek.Wednesday:
+                    return cantonsWithWeekdaysSamples
+                        .Select(x => new TestDataPerCantonDto
+                        {
+                            CantonId = x.Id,
+                            CantonName = x.Name,
+                            CantonShortName = x.ShortName,
+                            Samples = x.CantonWeekdaysSamples.WednesdaySamples
+                        }).ToList();
+                case DayOfWeek.Thursday:
+                    return cantonsWithWeekdaysSamples
+                        .Select(x => new TestDataPerCantonDto
+                        {
+                            CantonId = x.Id,
+                            CantonName = x.Name,
+                            CantonShortName = x.ShortName,
+                            Samples = x.CantonWeekdaysSamples.ThursdaySamples
+                        }).ToList();
+                case DayOfWeek.Friday:
+                    return cantonsWithWeekdaysSamples
+                        .Select(x => new TestDataPerCantonDto
+                        {
+                            CantonId = x.Id,
+                            CantonName = x.Name,
+                            CantonShortName = x.ShortName,
+                            Samples = x.CantonWeekdaysSamples.FridaySamples
+                        }).ToList();
+                default:
+                    return new List<TestDataPerCantonDto>();
+            }
         }
 
         private List<TestingPersonnelTestDataDto> GetFixedTestingPersonnelForWeekday(List<TestingPersonnel> fixedPersonnel, DateTime date, Shift shift)

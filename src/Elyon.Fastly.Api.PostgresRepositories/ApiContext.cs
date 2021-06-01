@@ -70,6 +70,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<FixedTestingPersonnelCancelation> FixedTestingPersonnelCancelations { get; set; }
 
+        public DbSet<CantonWeekdaysSamples> CantonWeekdaysSamples { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }
@@ -157,6 +159,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .HasOne(f => f.CanceledByUser)
                 .WithMany(t => t.FixedTestingPersonnelCancelations)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<CantonWeekdaysSamples>()
+                .HasOne(i => i.Canton)
+                .WithOne(o => o.CantonWeekdaysSamples)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrganizationType>()
                .HasData(DataSeeder.SeedOrganizationTypes());

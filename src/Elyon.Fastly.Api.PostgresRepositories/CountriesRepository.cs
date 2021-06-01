@@ -18,28 +18,29 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Elyon.Fastly.Api.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
+namespace Elyon.Fastly.Api.PostgresRepositories
 {
-    public class TestsDataDto
+    public class CountriesRepository : BaseRepository, ICountriesRepository
     {
-        public Guid? InvitationId { get; set; }
+        public CountriesRepository(Prime.Sdk.Db.Common.IDbContextFactory<ApiContext> contextFactory, IMapper mapper)
+           : base(contextFactory, mapper)
+        {
+        }
 
-        public DateTime Date { get; set; }
-
-        public int Samples { get; set; }
-
-        public int CantonsSamples { get; set; }
-
-        public int TotalSamples { get; set; }
-
-        public bool InvitationAlreadySent { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestDataPerShiftDto> Shifts { get; set; }
-
-        public ICollection<TestDataPerCantonDto> CantonsSamplesData { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+        public async Task<Guid> GetCountryIdByNameAsync(string countryName)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            return await context.Countries.AsNoTracking()
+                .Where(item => item.Name == countryName)
+                .Select(item => item.Id)
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
     }
 }
