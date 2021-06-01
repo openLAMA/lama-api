@@ -44,11 +44,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 throw new ArgumentNullException(nameof(cantonSpecDto));
             }
-
-            Guid countryId = await _countriesRepository.GetCountryIdByNameAsync(CountryName)
-                .ConfigureAwait(false);
-            cantonSpecDto.CountryId = countryId;
-
+            
             var doesCantonExist = await AnyAsync(c => c.Name == cantonSpecDto.Name || c.ShortName == cantonSpecDto.ShortName)
                 .ConfigureAwait(false);
 
@@ -59,6 +55,10 @@ namespace Elyon.Fastly.Api.DomainServices
 
                 return null;
             }
+
+            Guid countryId = await _countriesRepository.GetCountryIdByNameAsync(CountryName)
+                .ConfigureAwait(false);
+            cantonSpecDto.CountryId = countryId;
 
             return await AddAsync(cantonSpecDto)
                 .ConfigureAwait(false);
