@@ -17,27 +17,14 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 {
-    public class TestDataPerShiftDto
+    public class AvailableTemporaryPersonnelDto
     {
-        public ShiftNumber ShiftNumber { get; set; }
+        public Guid TestingPersonnelId { get; set; }
 
-        public int RequiredPersonnelCountShift { get; set; }
-
-        public int ConfirmedNotCanceledEmployeesCount { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        public ICollection<TestingPersonnelTestDataDto> ConfirmedEmployees { get; set; }
-
-        public ICollection<TestingPersonnelTestDataDto> ConfirmedWithoutInvitation { get; set; }
-
-        public ICollection<TestingPersonnelTestDataDto> FixedEmployees { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
+        public string Name { get; set; }
     }
 }

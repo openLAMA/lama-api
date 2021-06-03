@@ -127,6 +127,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<CantonsService>()
                 .As<ICantonsService>()
                 .SingleInstance();
+
+            builder.RegisterType<TestingPersonnelConfirmationsWithoutInvitationService>()
+                .As<ITestingPersonnelConfirmationsWithoutInvitationService>()
+                .SingleInstance();
         }
     }
 }

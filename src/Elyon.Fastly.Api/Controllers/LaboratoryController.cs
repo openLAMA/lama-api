@@ -43,11 +43,13 @@ namespace Elyon.Fastly.Api.Controllers
         private readonly ITestingPersonnelInvitationsService _testingPersonnelInvitationsService;
         private readonly IFixedTestingPersonnelCancelationService _fixedTestingPersonnelCancelationService;
         private readonly ICantonsService _cantonService;
+        private readonly ITestingPersonnelConfirmationsWithoutInvitationService _testingPersonnelConfirmationsWithoutInvitationService;
 
         public LaboratoryController(ITestingPersonnelsService testingPersonnelsService,
             ITestingPersonnelInvitationsService testingPersonnelInvitationsService,
             IFixedTestingPersonnelCancelationService fixedTestingPersonnelCancelationService,
-            ICantonsService cantonService)
+            ICantonsService cantonService,
+            ITestingPersonnelConfirmationsWithoutInvitationService testingPersonnelConfirmationsWithoutInvitationService)
         {
             _testingPersonnelsService = testingPersonnelsService ?? throw new ArgumentNullException(nameof(testingPersonnelsService));
             _testingPersonnelsService.ValidationDictionary = new ValidationDictionary(ModelState);
@@ -57,6 +59,9 @@ namespace Elyon.Fastly.Api.Controllers
             _fixedTestingPersonnelCancelationService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
             _cantonService = cantonService ?? throw new ArgumentNullException(nameof(cantonService));
             _cantonService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
+            _testingPersonnelConfirmationsWithoutInvitationService = 
+                testingPersonnelConfirmationsWithoutInvitationService ?? throw new ArgumentNullException(nameof(testingPersonnelConfirmationsWithoutInvitationService));
+            _testingPersonnelConfirmationsWithoutInvitationService.ValidationDictionary = _testingPersonnelsService.ValidationDictionary;
         }
 
         [HttpGet("personnelStatuses")]
@@ -389,6 +394,61 @@ namespace Elyon.Fastly.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost("confirmationsWithoutInvitation")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult<Guid>> CreateConfirmationWithoutInvitationAsync(
+            [FromBody] TestingPersonnelConfirmationsWithoutInvitationSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                return BadRequest();
+            }
+
+            await _testingPersonnelConfirmationsWithoutInvitationService
+                .CreateConfirmationWithoutInvitationAsync(specDto)
+                .ConfigureAwait(false);
+
+            if (!_testingPersonnelConfirmationsWithoutInvitationService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new
+                {
+                    errors = _testingPersonnelConfirmationsWithoutInvitationService.ValidationDictionary.GetErrorMessages()
+                });
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("confirmationsWithoutInvitation/{id}")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult> DeleteConfirmationWithoutInvitationAsync(Guid id)
+        {
+            bool doesConfirmationExist = await _testingPersonnelConfirmationsWithoutInvitationService
+                 .DoesConfirmationExistAsync(id)
+                 .ConfigureAwait(false);
+            if (!doesConfirmationExist)
+            {
+                return NotFound();
+            }
+
+            await _testingPersonnelConfirmationsWithoutInvitationService
+                .DeleteConfirmationWithoutInvitationAsync(id)
+                .ConfigureAwait(false);
+
+            return Ok();
+        }
+
+        [HttpGet("availableTemporaryPersonal")]
+        [AuthorizeUser(RoleType.Laboratory)]
+        public async Task<ActionResult<List<AvailableTemporaryPersonnelDto>>> GetAvailableTemporaryPersonnelAsync([FromQuery] AvailableTemporaryPersonnelSpecDto specDto)
+        {
+            List<AvailableTemporaryPersonnelDto> availablePersonnel = await _testingPersonnelsService
+                .GetAvailableTemporaryPersonnelAsync(specDto)
+                .ConfigureAwait(false);
+
+            return availablePersonnel;
         }
     }
 }

@@ -93,5 +93,17 @@ namespace Elyon.Fastly.Api.DomainServices
 
             return testingPersonnel;
         }
+
+        public async Task<List<AvailableTemporaryPersonnelDto>> GetAvailableTemporaryPersonnelAsync(AvailableTemporaryPersonnelSpecDto specDto)
+        {
+            if (specDto == null)
+            {
+                throw new ArgumentNullException(nameof(specDto));
+            }
+
+            return await _testingPersonnelsRepository
+                .GetAvailableTemporaryPersonnelForDateAndShiftAsync(specDto.Date, specDto.ShiftNumber)
+                .ConfigureAwait(false);
+        }
     }
 }
