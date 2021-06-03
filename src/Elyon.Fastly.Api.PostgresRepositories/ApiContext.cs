@@ -72,6 +72,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         public DbSet<CantonWeekdaysSamples> CantonWeekdaysSamples { get; set; }
 
+        public DbSet<TestingPersonnelConfirmationsWithoutInvitation> TestingPersonnelConfirmationsWithoutInvitation { get; set; }
+
         public ApiContext() : base(Schema)
         {            
         }

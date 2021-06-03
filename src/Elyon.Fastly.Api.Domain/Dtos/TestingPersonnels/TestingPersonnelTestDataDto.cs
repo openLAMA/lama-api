@@ -17,6 +17,8 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using System;
+
 namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
 {
     public class TestingPersonnelTestDataDto
@@ -28,5 +30,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.TestingPersonnels
         public string LastName { get; set; }
 
         public bool IsCanceled { get; set; }
+
+        public Guid? ConfirmationWithoutInvitationId { get; set; }
     }
 }

@@ -159,6 +159,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ToListAsync()
                 .ConfigureAwait(false);
 
+            var confirmationsWithoutInvitation = await context.TestingPersonnelConfirmationsWithoutInvitation
+                .Where(c => c.Date >= startDate.Date && c.Date < endDate.Date)
+                .Include(c => c.TestingPersonnel)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
             var testDatesValues = new List<TestsDataDto>();
 
             var currentDate = startDate;
@@ -167,8 +173,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 var invitation = invitations.FirstOrDefault(x => x.InvitationDate.Date == currentDate.Date);
                 if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift1 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.First);
-                    List<TestingPersonnelTestDataDto> fixedPersonnelForWeekdayShift2 = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.Second);
                     var testsDataValue = new TestsDataDto
                     {
                         InvitationId = invitation?.InvitationId,
@@ -182,7 +186,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                                 RequiredPersonnelCountShift = invitation == null ? 0 : invitation.Shift1.RequiredPersonnelCountShift,
                                 ConfirmedNotCanceledEmployeesCount = invitation == null ? 0 : invitation.Shift1.ConfirmedNotCanceledEmployeesCount,
                                 ConfirmedEmployees = invitation == null ? new List<TestingPersonnelTestDataDto>() : invitation.Shift1.ConfirmedEmployees.DistinctBy(x => x.Email).ToList(),
-                                FixedEmployees = fixedPersonnelForWeekdayShift1
+                                FixedEmployees = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.First),
+                                ConfirmedWithoutInvitation = GetConfirmedTestingPersonnelWithoutInvitationForWeekday(confirmationsWithoutInvitation, currentDate, ShiftNumber.First)
                             },
                             new TestDataPerShiftDto()
                             {
@@ -190,7 +195,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                                 RequiredPersonnelCountShift = invitation == null ? 0 : invitation.Shift2.RequiredPersonnelCountShift,
                                 ConfirmedNotCanceledEmployeesCount = invitation == null ? 0 : invitation.Shift2.ConfirmedNotCanceledEmployeesCount,
                                 ConfirmedEmployees = invitation == null ? new List<TestingPersonnelTestDataDto>() : invitation.Shift2.ConfirmedEmployees.DistinctBy(x => x.Email).ToList(),
-                                FixedEmployees = fixedPersonnelForWeekdayShift2
+                                FixedEmployees = GetFixedTestingPersonnelForWeekday(fixedPersonnel, currentDate, Shift.Second),
+                                ConfirmedWithoutInvitation = GetConfirmedTestingPersonnelWithoutInvitationForWeekday(confirmationsWithoutInvitation, currentDate, ShiftNumber.Second)
                             }
                         },
                         CantonsSamplesData = GetTestDataPerCantonAndWeekday(cantonsWithWeekdaysSamples, currentDate)
@@ -234,6 +240,70 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             };
 
             return testsDataWithEarliestDate;
+        }
+
+        private List<TestingPersonnelTestDataDto> GetConfirmedTestingPersonnelWithoutInvitationForWeekday(List<TestingPersonnelConfirmationsWithoutInvitation> confirmationsWithoutInvitation, DateTime date, ShiftNumber shift)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return confirmationsWithoutInvitation
+                        .Where(x => x.Date.DayOfWeek == DayOfWeek.Monday && x.ShiftNumber == shift)
+                        .Select(x => new TestingPersonnelTestDataDto
+                        {
+                            FirstName = _aesCryptography.Decrypt(x.TestingPersonnel.FirstName),
+                            LastName = _aesCryptography.Decrypt(x.TestingPersonnel.LastName),
+                            Email = _aesCryptography.Decrypt(x.TestingPersonnel.Email),
+                            IsCanceled = false,
+                            ConfirmationWithoutInvitationId = x.Id
+                        }).ToList();
+                case DayOfWeek.Tuesday:
+                    return confirmationsWithoutInvitation
+                        .Where(x => x.Date.DayOfWeek == DayOfWeek.Tuesday && x.ShiftNumber == shift)
+                        .Select(x => new TestingPersonnelTestDataDto
+                        {
+                            FirstName = _aesCryptography.Decrypt(x.TestingPersonnel.FirstName),
+                            LastName = _aesCryptography.Decrypt(x.TestingPersonnel.LastName),
+                            Email = _aesCryptography.Decrypt(x.TestingPersonnel.Email),
+                            IsCanceled = false,
+                            ConfirmationWithoutInvitationId = x.Id
+                        }).ToList();
+                case DayOfWeek.Wednesday:
+                    return confirmationsWithoutInvitation
+                        .Where(x => x.Date.DayOfWeek == DayOfWeek.Wednesday && x.ShiftNumber == shift)
+                        .Select(x => new TestingPersonnelTestDataDto
+                        {
+                            FirstName = _aesCryptography.Decrypt(x.TestingPersonnel.FirstName),
+                            LastName = _aesCryptography.Decrypt(x.TestingPersonnel.LastName),
+                            Email = _aesCryptography.Decrypt(x.TestingPersonnel.Email),
+                            IsCanceled = false,
+                            ConfirmationWithoutInvitationId = x.Id
+                        }).ToList();
+                case DayOfWeek.Thursday:
+                    return confirmationsWithoutInvitation
+                        .Where(x => x.Date.DayOfWeek == DayOfWeek.Thursday && x.ShiftNumber == shift)
+                        .Select(x => new TestingPersonnelTestDataDto
+                        {
+                            FirstName = _aesCryptography.Decrypt(x.TestingPersonnel.FirstName),
+                            LastName = _aesCryptography.Decrypt(x.TestingPersonnel.LastName),
+                            Email = _aesCryptography.Decrypt(x.TestingPersonnel.Email),
+                            IsCanceled = false,
+                            ConfirmationWithoutInvitationId = x.Id
+                        }).ToList();
+                case DayOfWeek.Friday:
+                    return confirmationsWithoutInvitation
+                        .Where(x => x.Date.DayOfWeek == DayOfWeek.Friday && x.ShiftNumber == shift)
+                        .Select(x => new TestingPersonnelTestDataDto
+                        {
+                            FirstName = _aesCryptography.Decrypt(x.TestingPersonnel.FirstName),
+                            LastName = _aesCryptography.Decrypt(x.TestingPersonnel.LastName),
+                            Email = _aesCryptography.Decrypt(x.TestingPersonnel.Email),
+                            IsCanceled = false,
+                            ConfirmationWithoutInvitationId = x.Id
+                        }).ToList();
+                default:
+                    return new List<TestingPersonnelTestDataDto>();
+            }
         }
 
         private static List<TestDataPerCantonDto> GetTestDataPerCantonAndWeekday(List<Canton> cantonsWithWeekdaysSamples, DateTime date)
@@ -292,11 +362,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
         private List<TestingPersonnelTestDataDto> GetFixedTestingPersonnelForWeekday(List<TestingPersonnel> fixedPersonnel, DateTime date, Shift shift)
         {
-            var testingPersonnelForWeekday = new List<TestingPersonnelTestDataDto>();
             switch (date.DayOfWeek)
             {
                 case DayOfWeek.Monday:
-                    testingPersonnelForWeekday = fixedPersonnel
+                    return fixedPersonnel
                         .Where(x => x.MondayShift == shift || x.MondayShift == Shift.FullDay)
                         .Select(x => new TestingPersonnelTestDataDto
                         { 
@@ -305,9 +374,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             Email = _aesCryptography.Decrypt(x.Email),
                             IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
-                    break;
                 case DayOfWeek.Tuesday:
-                    testingPersonnelForWeekday = fixedPersonnel
+                    return fixedPersonnel
                         .Where(x => x.TuesdayShift == shift || x.TuesdayShift == Shift.FullDay)
                         .Select(x => new TestingPersonnelTestDataDto
                         {
@@ -316,9 +384,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             Email = _aesCryptography.Decrypt(x.Email),
                             IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
-                    break;
                 case DayOfWeek.Wednesday:
-                    testingPersonnelForWeekday = fixedPersonnel
+                    return fixedPersonnel
                         .Where(x => x.WednesdayShift == shift || x.WednesdayShift == Shift.FullDay)
                         .Select(x => new TestingPersonnelTestDataDto
                         {
@@ -327,9 +394,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             Email = _aesCryptography.Decrypt(x.Email),
                             IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
-                    break;
                 case DayOfWeek.Thursday:
-                    testingPersonnelForWeekday = fixedPersonnel
+                    return fixedPersonnel
                         .Where(x => x.ThursdayShift == shift || x.ThursdayShift == Shift.FullDay)
                         .Select(x => new TestingPersonnelTestDataDto
                         {
@@ -338,9 +404,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             Email = _aesCryptography.Decrypt(x.Email),
                             IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
-                    break;
                 case DayOfWeek.Friday:
-                    testingPersonnelForWeekday = fixedPersonnel
+                    return fixedPersonnel
                         .Where(x => x.FridayShift == shift || x.FridayShift == Shift.FullDay)
                         .Select(x => new TestingPersonnelTestDataDto
                         {
@@ -349,12 +414,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             Email = _aesCryptography.Decrypt(x.Email),
                             IsCanceled = x.FixedTestingPersonnelCancelations.Any(c => c.CanceledDate == date.Date)
                         }).ToList();
-                    break;
                 default:
-                    break;
+                    return new List<TestingPersonnelTestDataDto>();
             }
-
-            return testingPersonnelForWeekday;
         }
 
         private static bool CheckIfDateIsExcluded(DateTime? exclusionStartDate, DateTime? exclusionEndDate,
@@ -454,6 +516,22 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .Where(item => item.Email == encryptedEmail && item.Type == type)
                 .Select(tp => tp.Id)
                 .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<List<AvailableTemporaryPersonnelDto>> GetAvailableTemporaryPersonnelForDateAndShiftAsync(DateTime testingDate, ShiftNumber shiftNumber)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            return await context.TestingPersonnels
+                .Where(item => item.Type == TestingPersonnelType.Temporary && !item.TestingPersonnelConfirmationsWithoutInvitations.Any(
+                    x => x.Date.Date == testingDate.Date && x.ShiftNumber == shiftNumber))
+                .Select(tp => new AvailableTemporaryPersonnelDto() 
+                {
+                    TestingPersonnelId = tp.Id,
+                    Name = $"{_aesCryptography.Decrypt(tp.FirstName)} {_aesCryptography.Decrypt(tp.LastName)}"
+                })
+                .ToListAsync()
                 .ConfigureAwait(false);
         }
     }

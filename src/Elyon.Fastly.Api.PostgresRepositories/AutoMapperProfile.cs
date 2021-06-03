@@ -255,7 +255,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.FixedTestingPersonnelCancelations, src => src.Ignore())
                 .ForMember(opt => opt.TestingPersonnelWorkingAreas,
                     src => src.MapFrom(x => x.WorkingAreas))
-                .ForMember(opt => opt.HasFixedWorkingDays, src => src.Ignore());
+                .ForMember(opt => opt.HasFixedWorkingDays, src => src.Ignore())
+                .ForMember(opt => opt.TestingPersonnelConfirmationsWithoutInvitations, src => src.Ignore());
 
             CreateMap<TestingPersonnelWorkingAreaSpecDto, TestingPersonnelWorkingArea>()
                 .ForMember(opt => opt.Area,

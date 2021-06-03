@@ -36,5 +36,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<Guid> GetTestingPersonnelIdByEmailAsync(string testingPersonnelEmail);
 
         Task<Guid> GetTestingPersonnelIdByEmailAndTypeAsync(string testingPersonnelEmail, TestingPersonnelType type);
+
+        Task<List<AvailableTemporaryPersonnelDto>> GetAvailableTemporaryPersonnelForDateAndShiftAsync(DateTime testingDate, ShiftNumber shiftNumber);
     }
 }
