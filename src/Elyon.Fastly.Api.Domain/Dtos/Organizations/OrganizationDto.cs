@@ -117,5 +117,9 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public InfoSessionFollowUpStatus FollowUpStatus { get; set; }
 
         public bool IsOnboardingEmailSent { get; set; }
+
+        public bool IsStaticPooling { get; set; }
+
+        public bool IsContractReceived { get; set; }
     }
 }

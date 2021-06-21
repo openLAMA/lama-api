@@ -50,5 +50,9 @@ namespace Elyon.Fastly.Api.Domain.Services
         Task PushOrganizationToEPaadAsync(OrganizationDto dto);
 
         Task ChangeOrganizationActiveStatusAsync(OrganizationActiveStatusDto dto);
+
+        Task SetIsStaticPoolingAsync(OrganizationIsStaticPoolingDto dto);
+
+        Task SetIsContractReceivedAsync(Guid organizationId);
     }
 }
