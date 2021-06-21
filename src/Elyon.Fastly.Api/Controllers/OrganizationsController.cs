@@ -293,6 +293,48 @@ namespace Elyon.Fastly.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("setIsStaticPooling")]
+        [AuthorizeUser(RoleType.University)]
+        public async Task<ActionResult> SetIsStaticPoolingAsync([FromBody] OrganizationIsStaticPoolingDto dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest();
+            }
+
+            await _organizationsService
+                .SetIsStaticPoolingAsync(dto)
+                .ConfigureAwait(false);
+
+            if (!_organizationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost("contractReceived")]
+        [AuthorizeUser(RoleType.University)]
+        public async Task<ActionResult> SetIsContractReceivedAsync([FromBody] OrganizationIsContractReceivedDto dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest();
+            }
+
+            await _organizationsService
+                .SetIsContractReceivedAsync(dto.Id)
+                .ConfigureAwait(false);
+
+            if (!_organizationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
+            }
+
+            return NoContent();
+        }
+
         [HttpGet("onboardingCalendarEvents")]
         [AllowAnonymous]
         public async Task<ActionResult> GetOnboardingCalendarEvents()

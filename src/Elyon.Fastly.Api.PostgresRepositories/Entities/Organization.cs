@@ -135,5 +135,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public InfoSessionFollowUp InfoSessionFollowUp { get; set; }
 
         public bool IsOnboardingEmailSent { get; set; }
+
+        public bool IsStaticPooling { get; set; }
+
+        public bool IsContractReceived { get; set; }
     }
 }

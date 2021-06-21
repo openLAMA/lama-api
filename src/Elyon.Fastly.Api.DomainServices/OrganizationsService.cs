@@ -422,5 +422,24 @@ namespace Elyon.Fastly.Api.DomainServices
                 .UpdateOrganizationInEpaadAsync(organizationEpaadId, epaadOrgDto)
                 .ConfigureAwait(false);
         }
+
+        public async Task SetIsStaticPoolingAsync(OrganizationIsStaticPoolingDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            await _organizationsRepository
+                .SetIsStaticPoolingAsync(dto)
+                .ConfigureAwait(false);
+        }
+
+        public async Task SetIsContractReceivedAsync(Guid organizationId)
+        {
+            await _organizationsRepository
+                .SetIsContractReceivedAsync(organizationId)
+                .ConfigureAwait(false);
+        }
     }
 }
