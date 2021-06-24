@@ -72,6 +72,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             const int nursingHomesOrganizationId = 82003;
             const int hospitalOrganizationId = 82004;
             const int smeOrganizationId = 99990;
+            const int campOrganizationId = 82006;
 
             startDate = startDate.Date;
             var endDate = startDate.AddDays(DaysPeriod);
@@ -83,6 +84,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             await using var context = ContextFactory.CreateDataContext(null);
             var orgs = await context.Organizations
                 .Where(x => x.Status != OrganizationStatus.NotActive &&
+                    x.OrganizationTypeId != campOrganizationId &&
                     ((x.FirstTestTimestamp.HasValue && x.FirstTestTimestamp.Value.Date < endDate.Date) ||
                     (x.SecondTestTimestamp.HasValue && x.SecondTestTimestamp.Value.Date < endDate.Date) ||
                     (x.ThirdTestTimestamp.HasValue && x.ThirdTestTimestamp.Value.Date < endDate.Date) ||
