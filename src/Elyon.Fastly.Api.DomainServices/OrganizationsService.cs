@@ -36,6 +36,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private const int companyOrganizationTypeId = 82000;
         private const int smeOrganizationTypeId = 99990;
         private const string smeOrgTypePoolFirstName = "KMU Baselland";
+        private const int campOrganizationTypeId = 82006;
 
         private readonly ISupportPersonOrgTypeDefaultRepository _supportPersonOrgTypeDefaultRepository;
         private readonly IOrganizationsRepository _organizationsRepository;
@@ -330,6 +331,13 @@ namespace Elyon.Fastly.Api.DomainServices
             if (dto == null)
             {
                 throw new ArgumentNullException(nameof(dto));
+            }
+
+            if (dto.OrganizationTypeId == campOrganizationTypeId)
+            {
+                ValidationDictionary
+                    .AddModelError("Camps can not be pushed to Epaad", $"Camps can not be pushed to Epaad.");
+                return;
             }
 
             var existinOrganizationType = await _organizationTypesRepository
