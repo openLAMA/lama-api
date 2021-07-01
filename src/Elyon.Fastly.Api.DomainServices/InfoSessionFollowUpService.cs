@@ -143,6 +143,7 @@ namespace Elyon.Fastly.Api.DomainServices
 
         private async Task SendCampOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
         {
+            var ccReceivers = new List<string>() { organization.SupportPerson.Email };
             foreach (var receiver in specDto.Receivers)
             {
                 var parameters = new Dictionary<string, string>
@@ -153,7 +154,7 @@ namespace Elyon.Fastly.Api.DomainServices
                         { "OrgContactPersonEmail", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Email }
                     };
 
-                await _emailSenderService.SendOnboardingEmailAsync(receiver, null, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, ccReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
             }
         }
 
