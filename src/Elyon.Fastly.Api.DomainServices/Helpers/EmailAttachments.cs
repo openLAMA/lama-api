@@ -86,7 +86,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
                 new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "nstcPg==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
+                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt Betriebe.pdf", Hash = "49XrNw==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt Mitarbeitende.pdf", Hash = "gYOqww==" }
             };
@@ -104,7 +104,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
                 new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "nstcPg==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
+                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt KMU.pdf", Hash = "Q3wJDg==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt Mitarbeitende.pdf", Hash = "gYOqww==" }
             };
@@ -116,7 +116,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
         {
             List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
             {
-                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
+                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "Konzept Lagertestungen Basel-Landschaft V1_0 210622.pdf", Hash = "MjSjEw==" }
             };
 
