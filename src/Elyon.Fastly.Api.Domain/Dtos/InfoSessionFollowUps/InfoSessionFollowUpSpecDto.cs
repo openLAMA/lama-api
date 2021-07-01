@@ -28,5 +28,6 @@ namespace Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps
         public string Message { get; set; }
         public Guid OrganizationId { get; set; }
         public IEnumerable<string> CcReceivers { get; set; }
+        public Guid? OrganizationContactPersonId { get; set; }
     }
 }

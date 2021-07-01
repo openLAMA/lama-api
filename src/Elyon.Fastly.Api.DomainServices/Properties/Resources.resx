@@ -127,6 +127,9 @@
   <data name="Infoblatt_Mitarbeitende" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\Infoblatt Mitarbeitende.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Konzept_Lagertestungen_Basel_Landschaft_V1_0_210622" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\Konzept Lagertestungen Basel-Landschaft V1_0 210622.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_01_Schulungspräsentation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\01 Schulungspräsentation.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

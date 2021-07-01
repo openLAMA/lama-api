@@ -36,6 +36,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private readonly IEmailSenderService _emailSenderService;
         private const int _companyOrganizationTypeId = 82000;
         private const int _smeOrganizationTypeId = 99990;
+        private const int _campOrganizationTypeId = 82006;
 
         public InfoSessionFollowUpService(IInfoSessionFollowUpRepository infoSessionFollowUpRepository,
             IEmailSenderService emailSenderService,
@@ -54,20 +55,28 @@ namespace Elyon.Fastly.Api.DomainServices
             var organization = await _organizationsRepository
                 .GetByIdAsync(specDto.OrganizationId).ConfigureAwait(false);
 
-            if (organization.OrganizationType.Id == _smeOrganizationTypeId)
+            if (organization.OrganizationTypeId == _smeOrganizationTypeId)
             {
-                if (!ValidateOrganizationForOnboarding(organization))
+                if (!ValidateOrganizationForOnboarding(organization, specDto.OrganizationContactPersonId))
                     return;
 
                 await SendSMEOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
                 await _organizationsRepository.UpdateIsOnboardingEmailSent(true, organization.Id).ConfigureAwait(false);
             }
-            else if (organization.OrganizationType.Id == _companyOrganizationTypeId)
+            else if (organization.OrganizationTypeId == _companyOrganizationTypeId)
             {
-                if (!ValidateOrganizationForOnboarding(organization))
+                if (!ValidateOrganizationForOnboarding(organization, specDto.OrganizationContactPersonId))
                     return;
 
                 await SendCompanyOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
+                await _organizationsRepository.UpdateIsOnboardingEmailSent(true, organization.Id).ConfigureAwait(false);
+            }
+            else if (organization.OrganizationTypeId == _campOrganizationTypeId)
+            {
+                if (!ValidateOrganizationForOnboarding(organization, specDto.OrganizationContactPersonId))
+                    return;
+
+                await SendCampOnboardingEmailAsync(specDto, organization).ConfigureAwait(false);
                 await _organizationsRepository.UpdateIsOnboardingEmailSent(true, organization.Id).ConfigureAwait(false);
             }
             else
@@ -132,7 +141,23 @@ namespace Elyon.Fastly.Api.DomainServices
             }
         }
 
-        private bool ValidateOrganizationForOnboarding(OrganizationDto organization)
+        private async Task SendCampOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
+        {
+            foreach (var receiver in specDto.Receivers)
+            {
+                var parameters = new Dictionary<string, string>
+                    {
+                        { "numberOfTestParticipants", organization.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
+                        { "supportPerson", organization.SupportPerson.Name },
+                        { "OrgContactPersonName", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Name },
+                        { "OrgContactPersonEmail", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Email }
+                    };
+
+                await _emailSenderService.SendOnboardingEmailAsync(receiver, null, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+            }
+        }
+
+        private bool ValidateOrganizationForOnboarding(OrganizationDto organization, Guid? organizationContactPersonId)
         {
             if (organization == null)
             {
@@ -178,6 +203,22 @@ namespace Elyon.Fastly.Api.DomainServices
                 {
                     ValidationDictionary.AddModelError("Organization Support Person",
                         "Organization Support Person is required.");
+                    isValid = false;
+                }
+            }
+            else if (organization.OrganizationType.Id == _campOrganizationTypeId)
+            {
+                if (organization.SupportPerson == null)
+                {
+                    ValidationDictionary.AddModelError("Organization Support Person",
+                        "Organization Support Person is required.");
+                    isValid = false;
+                }
+
+                if (!organization.Contacts.Any(c => c.Id == organizationContactPersonId))
+                {
+                    ValidationDictionary.AddModelError("Organization Contact Person not found",
+                        "Organization Contact Person not found.");
                     isValid = false;
                 }
             }

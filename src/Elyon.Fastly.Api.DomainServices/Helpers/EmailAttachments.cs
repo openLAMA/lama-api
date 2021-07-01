@@ -69,6 +69,10 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
             file.SetContent(Resources.Infoblatt_Mitarbeitende);
             attachments.Add(file);
 
+            file = new AttachmentFileData { FileName = "Konzept Lagertestungen Basel-Landschaft V1_0 210622.pdf" };
+            file.SetContent(Resources.Konzept_Lagertestungen_Basel_Landschaft_V1_0_210622);
+            attachments.Add(file);
+
             return attachments;
         }
 
@@ -103,6 +107,17 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt KMU.pdf", Hash = "Q3wJDg==" },
                 new AttachmentFileNameAndHash(){ FileName = "Infoblatt Mitarbeitende.pdf", Hash = "gYOqww==" }
+            };
+
+            return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();
+        }
+
+        public static List<string> GetCampsOnboardingAttachmentHashes()
+        {
+            List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
+            {
+                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "aDVddw==" },
+                new AttachmentFileNameAndHash(){ FileName = "Konzept Lagertestungen Basel-Landschaft V1_0 210622.pdf", Hash = "MjSjEw==" }
             };
 
             return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();

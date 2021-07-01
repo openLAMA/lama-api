@@ -178,5 +178,15 @@ namespace Elyon.Fastly.Api.DomainServices.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Konzept_Lagertestungen_Basel_Landschaft_V1_0_210622 {
+            get {
+                object obj = ResourceManager.GetObject("Konzept_Lagertestungen_Basel_Landschaft_V1_0_210622", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

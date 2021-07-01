@@ -39,6 +39,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private const string InfoSessionFollowUpConfirmationUrl = "/follow-up-email-confirmation?token={token}&accepted={isAccepted}";
         private const int _companyOrganizationTypeId = 82000;
         private const int _smeOrganizationTypeId = 99990;
+        private const int _campOrganizationTypeId = 82006;
 
         private readonly IEmailJobClient _emailClient;
 
@@ -182,10 +183,15 @@ namespace Elyon.Fastly.Api.DomainServices
                 templateName = "CompanyOnboarding";
                 attachmentsFilesHashes = EmailAttachments.GetCompanyOnboardingAttachmentHashes();
             }
-            else if(organizationTypeId == _smeOrganizationTypeId)
+            else if (organizationTypeId == _smeOrganizationTypeId)
             {
                 templateName = "SMEOnboarding";
                 attachmentsFilesHashes = EmailAttachments.GetSMEOnboardingAttachmentHashes();
+            }
+            else if (organizationTypeId == _campOrganizationTypeId)
+            {
+                templateName = "CampOnboarding";
+                attachmentsFilesHashes = EmailAttachments.GetCampsOnboardingAttachmentHashes();
             }
 
             await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
