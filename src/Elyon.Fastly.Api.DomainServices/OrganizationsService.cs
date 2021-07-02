@@ -484,22 +484,22 @@ namespace Elyon.Fastly.Api.DomainServices
                .GetOrganizationCreationDateAsync(dto.OrganizationId)
                .ConfigureAwait(false);
 
+            var parameters = new Dictionary<string, string>
+                {
+                    { "organizationName", organizationDto.Name },
+                    { "shortcutName", organizationDto.OrganizationShortcutName },
+                    { "country", city.CountryShortName },
+                    { "canton", DefaultEpaadOrganizationState },
+                    { "zip", organizationDto.Zip ?? city.ZipCode },
+                    { "city", city.Name },
+                    { "street", organizationDto.Address },
+                    { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
+                    { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
+                    { "activeSince", organizationCreationDate.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
+                };
+
             foreach (var receiver in dto.Receivers)
             {
-                var parameters = new Dictionary<string, string>
-                    {
-                        { "organizationName", organizationDto.Name },
-                        { "shortcutName", organizationDto.OrganizationShortcutName },
-                        { "country", city.CountryShortName },
-                        { "canton", DefaultEpaadOrganizationState },
-                        { "zip", organizationDto.Zip ?? city.ZipCode },
-                        { "city", city.Name },
-                        { "street", organizationDto.Address },
-                        { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
-                        { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
-                        { "activeSince", organizationCreationDate.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
-                    };
-
                 await _mailSender.SendEmailForEpaadAsync(receiver, parameters).ConfigureAwait(false);
             }
         }
