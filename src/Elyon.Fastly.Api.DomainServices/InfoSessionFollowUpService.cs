@@ -143,18 +143,25 @@ namespace Elyon.Fastly.Api.DomainServices
 
         private async Task SendCampOnboardingEmailAsync(InfoSessionFollowUpSpecDto specDto, OrganizationDto organization)
         {
-            var ccReceivers = new List<string>() { organization.SupportPerson.Email };
-            foreach (var receiver in specDto.Receivers)
-            {
-                var parameters = new Dictionary<string, string>
-                    {
-                        { "numberOfTestParticipants", organization.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
-                        { "supportPerson", organization.SupportPerson.Name },
-                        { "OrgContactPersonName", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Name },
-                        { "OrgContactPersonEmail", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Email }
-                    };
+            var parameters = new Dictionary<string, string>
+                {
+                    { "numberOfTestParticipants", organization.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
+                    { "supportPerson", organization.SupportPerson.Name },
+                    { "OrgContactPersonName", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Name },
+                    { "OrgContactPersonEmail", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Email }
+                };
 
-                await _emailSenderService.SendOnboardingEmailAsync(receiver, ccReceivers, organization.OrganizationTypeId, parameters).ConfigureAwait(false);
+            var ccReceivers = specDto.CcReceivers.ToList();
+            ccReceivers.Add(organization.SupportPerson.Email);
+            var receiversList = specDto.Receivers.ToList();
+            for (int i = 0; i < receiversList.Count; i++)
+            {
+                await _emailSenderService.SendOnboardingEmailAsync(
+                    receiversList[i],
+                    (receiversList.Count > 1 && i == 0) ? null : ccReceivers,
+                    organization.OrganizationTypeId, 
+                    parameters)
+                    .ConfigureAwait(false);
             }
         }
 
