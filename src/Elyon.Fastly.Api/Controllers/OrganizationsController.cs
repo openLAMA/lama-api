@@ -293,6 +293,27 @@ namespace Elyon.Fastly.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("sendEmailForEpaad")]
+        [AuthorizeUser(RoleType.University)]
+        public async Task<ActionResult> SendEmailForEpaadAsync([FromBody] OrganizationSendEmailForEpaadDto dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest();
+            }
+
+            await _organizationsService
+              .SendEmailForEpaadAsync(dto)
+              .ConfigureAwait(false);
+
+            if (!_organizationsService.ValidationDictionary.IsValid())
+            {
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
+            }
+
+            return Ok();
+        }
+
         [HttpPost("setIsStaticPooling")]
         [AuthorizeUser(RoleType.University)]
         public async Task<ActionResult> SetIsStaticPoolingAsync([FromBody] OrganizationIsStaticPoolingDto dto)
