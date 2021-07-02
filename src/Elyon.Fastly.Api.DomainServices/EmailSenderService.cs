@@ -214,5 +214,15 @@ namespace Elyon.Fastly.Api.DomainServices
 
             return url;
         }
+
+        public async Task SendEmailForEpaadAsync(string receiver, Dictionary<string, string> parameters)
+        {
+            await _emailClient.EmailsApi.SendEmailAsync(new EmailSpecModel
+            {
+                Receiver = receiver,
+                TemplateName = "EmailForEpaad",
+                Parameters = parameters
+            }).ConfigureAwait(false);
+        }
     }
 }

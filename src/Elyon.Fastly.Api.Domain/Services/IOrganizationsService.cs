@@ -54,5 +54,7 @@ namespace Elyon.Fastly.Api.Domain.Services
         Task SetIsStaticPoolingAsync(OrganizationIsStaticPoolingDto dto);
 
         Task SetIsContractReceivedAsync(Guid organizationId);
+
+        Task SendEmailForEpaadAsync(OrganizationSendEmailForEpaadDto dto);
     }
 }

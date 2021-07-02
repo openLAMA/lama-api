@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using Prime.Sdk.Logging;
 using System.Linq.Expressions;
 using Elyon.Fastly.Api.Domain;
+using System.Globalization;
 
 namespace Elyon.Fastly.Api.DomainServices
 {
@@ -448,6 +449,59 @@ namespace Elyon.Fastly.Api.DomainServices
             await _organizationsRepository
                 .SetIsContractReceivedAsync(organizationId)
                 .ConfigureAwait(false);
+        }
+
+        public async Task SendEmailForEpaadAsync(OrganizationSendEmailForEpaadDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            var organizationDto = await _organizationsRepository
+                .GetByIdAsync(dto.OrganizationId)
+                .ConfigureAwait(false);
+
+            if (organizationDto == null)
+            {
+                ValidationDictionary
+                    .AddModelError("Organization not found", $"Organization not found.");
+                return;
+            }
+
+            if (organizationDto.OrganizationTypeId != campOrganizationTypeId)
+            {
+                ValidationDictionary
+                    .AddModelError("Organization type is not a Camp", $"Organization type is not a Camp.");
+                return;
+            }
+
+            var city = await _citiesRepository
+                .GetCityEpaadDtoAsync(organizationDto.CityId)
+                .ConfigureAwait(false);
+
+            var organizationCreationDate = await _organizationsRepository
+               .GetOrganizationCreationDateAsync(dto.OrganizationId)
+               .ConfigureAwait(false);
+
+            var parameters = new Dictionary<string, string>
+                {
+                    { "organizationName", organizationDto.Name },
+                    { "shortcutName", organizationDto.OrganizationShortcutName },
+                    { "country", city.CountryShortName },
+                    { "canton", DefaultEpaadOrganizationState },
+                    { "zip", organizationDto.Zip ?? city.ZipCode },
+                    { "city", city.Name },
+                    { "street", organizationDto.Address },
+                    { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
+                    { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
+                    { "activeSince", organizationCreationDate.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
+                };
+
+            foreach (var receiver in dto.Receivers)
+            {
+                await _mailSender.SendEmailForEpaadAsync(receiver, parameters).ConfigureAwait(false);
+            }
         }
     }
 }

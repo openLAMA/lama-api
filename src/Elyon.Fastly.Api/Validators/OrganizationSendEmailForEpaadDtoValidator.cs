@@ -17,28 +17,21 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Elyon.Fastly.Api.Domain.Dtos.Organizations;
+using FluentValidation;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Validators
 {
-    public interface IEmailSenderService : IBaseService
+    public class OrganizationSendEmailForEpaadDtoValidator : AbstractValidator<OrganizationSendEmailForEpaadDto>
     {
-        Task SendLoginConfirmationAsync(string receiver, string confirmationToken);
+        public OrganizationSendEmailForEpaadDtoValidator()
+        {
+            RuleFor(x => x.Receivers)
+                .NotEmpty()
+                .WithMessage("Must have some email receivers.");
 
-        Task SendRegisterConfirmationAsync(string receiver, string confirmationToken);
-
-        Task SendInvitationForPoolingAssignmentAsync(string receiver, 
-            string confirmationToken, DateTime poolingDate);
-
-        Task SendConfirmationForPoolingAssignmentAsync(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmailAsync(string receiver, string messageContent, string confirmationToken);
-
-        Task SendOnboardingEmailAsync(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters);
-
-        Task SendEmailForEpaadAsync(string receiver, Dictionary<string, string> parameters);
+            RuleFor(x => x.Receivers)
+                .ForEach(ruleBuilder => ruleBuilder.EmailAddress());
+        }
     }
 }

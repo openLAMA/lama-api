@@ -19,26 +19,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Elyon.Fastly.Api.Domain.Services
+namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 {
-    public interface IEmailSenderService : IBaseService
+    public class OrganizationSendEmailForEpaadDto
     {
-        Task SendLoginConfirmationAsync(string receiver, string confirmationToken);
+        public Guid OrganizationId { get; set; }
 
-        Task SendRegisterConfirmationAsync(string receiver, string confirmationToken);
-
-        Task SendInvitationForPoolingAssignmentAsync(string receiver, 
-            string confirmationToken, DateTime poolingDate);
-
-        Task SendConfirmationForPoolingAssignmentAsync(string receiver,
-            DateTime poolingDate, ICollection<int> shifts);
-
-        Task SendInfoSessionFollowUpEmailAsync(string receiver, string messageContent, string confirmationToken);
-
-        Task SendOnboardingEmailAsync(string receiver, IEnumerable<string> ccReceivers, int organizationTypeId, Dictionary<string, string> parameters);
-
-        Task SendEmailForEpaadAsync(string receiver, Dictionary<string, string> parameters);
+        public IEnumerable<string> Receivers { get; set; }
     }
 }
