@@ -151,14 +151,12 @@ namespace Elyon.Fastly.Api.DomainServices
                     { "OrgContactPersonEmail", organization.Contacts.First(c => c.Id == specDto.OrganizationContactPersonId).Email }
                 };
 
-            var ccReceivers = specDto.CcReceivers.ToList();
-            ccReceivers.Add(organization.SupportPerson.Email);
             var receiversList = specDto.Receivers.ToList();
             for (int i = 0; i < receiversList.Count; i++)
             {
                 await _emailSenderService.SendOnboardingEmailAsync(
                     receiversList[i],
-                    (receiversList.Count > 1 && i == 0) ? null : ccReceivers,
+                    (receiversList.Count > 1 && i == 0) ? null : specDto.CcReceivers,
                     organization.OrganizationTypeId, 
                     parameters)
                     .ConfigureAwait(false);
