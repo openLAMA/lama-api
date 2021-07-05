@@ -487,7 +487,6 @@ namespace Elyon.Fastly.Api.DomainServices
             var parameters = new Dictionary<string, string>
                 {
                     { "organizationName", organizationDto.Name },
-                    { "shortcutName", organizationDto.OrganizationShortcutName },
                     { "country", city.CountryShortName },
                     { "canton", DefaultEpaadOrganizationState },
                     { "zip", organizationDto.Zip ?? city.ZipCode },
