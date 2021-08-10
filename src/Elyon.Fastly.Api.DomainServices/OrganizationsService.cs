@@ -38,6 +38,7 @@ namespace Elyon.Fastly.Api.DomainServices
         private const int smeOrganizationTypeId = 99990;
         private const string smeOrgTypePoolFirstName = "KMU Baselland";
         private const int campOrganizationTypeId = 82006;
+        private const string zeroNumberOfPools = "0";
 
         private readonly ISupportPersonOrgTypeDefaultRepository _supportPersonOrgTypeDefaultRepository;
         private readonly IOrganizationsRepository _organizationsRepository;
@@ -494,6 +495,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     { "street", organizationDto.Address },
                     { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
                     { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
+                    { "numberOfPools", organizationDto.NumberOfPools != null ? organizationDto.NumberOfPools.ToString() : zeroNumberOfPools },
                     { "activeSince", organizationCreationDate.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
                 };
 

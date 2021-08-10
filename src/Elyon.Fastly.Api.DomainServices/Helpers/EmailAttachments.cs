@@ -45,6 +45,10 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
             file.SetContent(Resources._04_Vereinbarung_zwischen_Kanton_und_Betrieb);
             attachments.Add(file);
 
+            file = new AttachmentFileData { FileName = "04 Vertragsverlängerung zwischen Kanton und Betrieb.pdf" };
+            file.SetContent(Resources._04_Vertragsverlängerung_zwischen_Kanton_und_Betrieb);
+            attachments.Add(file);
+
             file = new AttachmentFileData { FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf" };
             file.SetContent(Resources._05_Einverständniserklärung_für_den_Teilnehmenden);
             attachments.Add(file);
@@ -84,6 +88,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "02 Informationsflyer_compressed.pdf", Hash = "i0OvzQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "03 Offizielles Informationsschreiben des Kanton Baselland.pdf", Hash = "jt9jHg==" },
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
+                new AttachmentFileNameAndHash(){ FileName = "04 Vertragsverlängerung zwischen Kanton und Betrieb.pdf", Hash = "f0eBEA==" },
                 new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "nstcPg==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" },
@@ -102,6 +107,7 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
                 new AttachmentFileNameAndHash(){ FileName = "02 Informationsflyer_compressed.pdf", Hash = "i0OvzQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "03 Offizielles Informationsschreiben des Kanton Baselland.pdf", Hash = "jt9jHg==" },
                 new AttachmentFileNameAndHash(){ FileName = "04 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "e46z5g==" },
+                new AttachmentFileNameAndHash(){ FileName = "04 Vertragsverlängerung zwischen Kanton und Betrieb.pdf", Hash = "f0eBEA==" },
                 new AttachmentFileNameAndHash(){ FileName = "05 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "nstcPg==" },
                 new AttachmentFileNameAndHash(){ FileName = "06 Anmeldeformular Depooling für die Teilnehmenden.pdf", Hash = "6ah2dQ==" },
                 new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" },
