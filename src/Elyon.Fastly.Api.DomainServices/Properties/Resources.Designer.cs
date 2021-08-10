@@ -122,6 +122,16 @@ namespace Elyon.Fastly.Api.DomainServices.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] _04_Vertragsverlängerung_zwischen_Kanton_und_Betrieb {
+            get {
+                object obj = ResourceManager.GetObject("_04_Vertragsverlängerung_zwischen_Kanton_und_Betrieb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] _05_Einverständniserklärung_für_den_Teilnehmenden {
             get {
                 object obj = ResourceManager.GetObject("_05_Einverständniserklärung_für_den_Teilnehmenden", resourceCulture);
