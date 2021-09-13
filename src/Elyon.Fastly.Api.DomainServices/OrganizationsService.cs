@@ -470,20 +470,16 @@ namespace Elyon.Fastly.Api.DomainServices
                 return;
             }
 
-            if (organizationDto.OrganizationTypeId != campOrganizationTypeId)
+            if (organizationDto.OrganizationTypeId != campOrganizationTypeId && !organizationDto.IsStaticPooling)
             {
                 ValidationDictionary
-                    .AddModelError("Organization type is not a Camp", $"Organization type is not a Camp.");
+                    .AddModelError("Organization type is not a Camp or organization is not with Static Pooling", $"Organization type is not a Camp or organization is not with Static Pooling.");
                 return;
             }
 
             var city = await _citiesRepository
                 .GetCityEpaadDtoAsync(organizationDto.CityId)
                 .ConfigureAwait(false);
-
-            var organizationCreationDate = await _organizationsRepository
-               .GetOrganizationCreationDateAsync(dto.OrganizationId)
-               .ConfigureAwait(false);
 
             var parameters = new Dictionary<string, string>
                 {
@@ -496,7 +492,7 @@ namespace Elyon.Fastly.Api.DomainServices
                     { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
                     { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
                     { "numberOfPools", organizationDto.NumberOfPools != null ? organizationDto.NumberOfPools.ToString() : zeroNumberOfPools },
-                    { "activeSince", organizationCreationDate.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
+                    { "activeSince", organizationDto.CreatedOn.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
                 };
 
             foreach (var receiver in dto.Receivers)
