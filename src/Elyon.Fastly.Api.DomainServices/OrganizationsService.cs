@@ -50,6 +50,17 @@ namespace Elyon.Fastly.Api.DomainServices
         private readonly IEmailSenderService _mailSender;
         private readonly ILog _log;
 
+        private readonly Dictionary<int, string> organizationTypes = new Dictionary<int, string>()
+        {
+            { 82000, "Unternehmen" },
+            { 82001, "Apotheke" },
+            { 82002, "Schule" },
+            { 82003, "Altersheim" },
+            { 82004, "Spital" },
+            { 82006, "Lager" },
+            { 99990, "KMU" }
+        };
+
         public OrganizationsService(IOrganizationsRepository organizationsRepository,
             ISupportPersonOrgTypeDefaultRepository supportPersonOrgTypeDefaultRepository, IOrganizationTypesRepository organizationTypesRepository,
             ICitiesRepository citiesRepository, IAuthorizeService authorizeService, IUsersService usersService, IEpaadService epaadService,
@@ -492,7 +503,8 @@ namespace Elyon.Fastly.Api.DomainServices
                     { "email", string.Join(", ", organizationDto.Contacts.Select(c => c.Email)) },
                     { "numberOfSamples", organizationDto.NumberOfSamples.ToString(CultureInfo.InvariantCulture) },
                     { "numberOfPools", organizationDto.NumberOfPools != null ? organizationDto.NumberOfPools.ToString() : zeroNumberOfPools },
-                    { "activeSince", organizationDto.CreatedOn.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) }
+                    { "activeSince", organizationDto.CreatedOn.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
+                    { "organizationType", organizationTypes[organizationDto.OrganizationType.Id] }
                 };
 
             foreach (var receiver in dto.Receivers)
