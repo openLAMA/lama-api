@@ -38,6 +38,7 @@ namespace Elyon.Fastly.Api.DomainServices
     public class EpaadService : IEpaadService
     {
         private const string AuthSchema = "Bearer";
+        private const int RequestTimeoutInMinutes = 5;
 
         private readonly string _epaadEmail;
         private readonly string _epaadPassword;
@@ -180,6 +181,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {                
                 var jwtToken = await GetEpaadJWTTokenAsync().ConfigureAwait(false);
                 using var client = _httpClientFactory.CreateClient();
+                client.Timeout = TimeSpan.FromMinutes(RequestTimeoutInMinutes);
                 client.BaseAddress = new Uri(_baseEpaadUrl);
                 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthSchema, jwtToken.Token);
