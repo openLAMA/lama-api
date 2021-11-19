@@ -28,7 +28,8 @@ namespace Elyon.Fastly.Api.DomainServices
 {
     public class EpaadHostedService : BackgroundService
     {
-        private const int TaskDelayInMilliSeconds = 600000;
+        // 4 hours delay
+        private const int TaskDelayInMilliSeconds = 14400000;
 
         private readonly IEpaadService _epaadService;
         private readonly ILog _log;
@@ -53,9 +54,6 @@ namespace Elyon.Fastly.Api.DomainServices
                     await _epaadService
                       .UpdateRegisteredEmployeesAsync()
                       .ConfigureAwait(false);
-
-                    await Task.Delay(TaskDelayInMilliSeconds, stoppingToken)
-                        .ConfigureAwait(false);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
@@ -63,6 +61,9 @@ namespace Elyon.Fastly.Api.DomainServices
                 {
                     _log.Error(ex, ex.Message);
                 }
+
+                await Task.Delay(TaskDelayInMilliSeconds, stoppingToken)
+                        .ConfigureAwait(false);
             }            
         }
     }
