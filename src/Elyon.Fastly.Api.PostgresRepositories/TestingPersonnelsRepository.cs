@@ -103,7 +103,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     ExclusionEndDate = x.ExclusionEndDate,
                     IsCompanyOrPharmacyOrNursingOrganization = x.OrganizationTypeId == companyOrganizationId || x.OrganizationTypeId == pharmacyOrganizationId
                     || x.OrganizationTypeId == nursingHomesOrganizationId || x.OrganizationTypeId == hospitalOrganizationId
-                    || x.OrganizationTypeId == smeOrganizationId
+                    || x.OrganizationTypeId == smeOrganizationId,
+                    IsNursery = x.OrganizationTypeId == nursingHomesOrganizationId
                 })
                 .ToListAsync()
                 .ConfigureAwait(false);
@@ -222,9 +223,20 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                             allTestingDates.Add(organization.FifthDate);
 
                             var countOfTestingDates = allTestingDates.Where(x => x.HasValue).Count();
-                            testsDataValue.Samples += organization.IsCompanyOrPharmacyOrNursingOrganization
-                                ? organization.RegisteredEmployees / countOfTestingDates ?? 0
-                                : organization.TotalSamples / countOfTestingDates;
+                            var avgSample = 0;
+                            if (organization.IsCompanyOrPharmacyOrNursingOrganization)
+                            {
+                                avgSample = organization.RegisteredEmployees / countOfTestingDates ?? 0;
+                                if (organization.IsNursery)
+                                {
+                                    avgSample = 2 * avgSample;
+                                }
+                            }
+                            else
+                            {
+                                avgSample = organization.TotalSamples / countOfTestingDates;
+                            }
+                            testsDataValue.Samples += avgSample;
                         }
                     }
 
