@@ -130,14 +130,29 @@
   <data name="Konzept_Lagertestungen_Basel_Landschaft_V1_0_210622" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\Konzept Lagertestungen Basel-Landschaft V1_0 210622.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_01_Infoblatt_Betriebe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\01 Infoblatt Betriebe.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_01_Infoblatt_KMU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\01 Infoblatt KMU.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_01_Schulungspräsentation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\01 Schulungspräsentation.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_02_Infoblatt_Mitarbeitende" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\02 Infoblatt Mitarbeitende.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_02_Informationsflyer_compressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\02 Informationsflyer_compressed.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_03_Informationsflyer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\03 Informationsflyer.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_03_Offizielles_Informationsschreiben_des_Kanton_Baselland" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\03 Offizielles Informationsschreiben des Kanton Baselland.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_04_Einverständniserklärung_für_den_Teilnehmenden" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\04 Einverständniserklärung für den Teilnehmenden.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_04_Vereinbarung_zwischen_Kanton_und_Betrieb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\04 Vereinbarung zwischen Kanton und Betrieb.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -150,6 +165,9 @@
   </data>
   <data name="_06_Anmeldeformular_Depooling_für_die_Teilnehmenden" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\06 Anmeldeformular Depooling für die Teilnehmenden.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_06_Vereinbarung_zwischen_Kanton_und_Betrieb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\AttachmentsFiles\CompanyOnboarding\06 Vereinbarung zwischen Kanton und Betrieb.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_07_Anfahrtsplan_Labor_Muttenz" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\AttachmentsFiles\CompanyOnboarding\07 Anfahrtsplan Labor Muttenz.pdf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
