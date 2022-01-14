@@ -42,5 +42,12 @@ namespace Elyon.Fastly.Api.DomainServices
                 .GetExistingContactEmailsAsync(contactEmails, organizationId)
                 .ConfigureAwait(false);
         }
+        public async Task<List<ExportUserDataDto>> ExportDataAsync()
+        {
+            return await _usersRepository
+                .ExportDataAsync()
+                .ConfigureAwait(false);
+        }
+
     }
 }

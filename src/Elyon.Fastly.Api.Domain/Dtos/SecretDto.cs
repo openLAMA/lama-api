@@ -17,21 +17,13 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace Elyon.Fastly.Api.Domain.Repositories
+namespace Elyon.Fastly.Api.Domain.Dtos
 {
-    public interface IUsersRepository : IBaseCrudRepository<UserDto>
+    public class SecretDto
     {
-        Task<JWTokenUserDataDto> GenerateJwtUserDataAsync(Guid userId);
-
-        Task<UserDto> GetUserByEmailAsync(string email);
-
-        Task<List<string>> GetExistingContactEmailsAsync(IEnumerable<string> emails, Guid excludeOrganizationId);
-
-        Task<List<ExportUserDataDto>> ExportDataAsync();
+        [Required]
+        public string Password { get; set; }
     }
 }
