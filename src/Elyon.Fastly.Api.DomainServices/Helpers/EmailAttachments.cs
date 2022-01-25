@@ -108,12 +108,6 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
         {
             List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
             {
-                new AttachmentFileNameAndHash(){ FileName = "01 Infoblatt Betriebe.pdf", Hash = "a/sMWA==" },
-                new AttachmentFileNameAndHash(){ FileName = "02 Infoblatt Mitarbeitende.pdf", Hash = "/iX1vQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "03 Informationsflyer.pdf", Hash = "3TntoQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "04 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "Gep8vg==" },
-                new AttachmentFileNameAndHash(){ FileName = "06 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "FZsH9A==" },
-                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" }
             };
 
             return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();
@@ -123,12 +117,6 @@ namespace Elyon.Fastly.Api.DomainServices.Helpers
         {
             List<AttachmentFileNameAndHash> attachmentsFileNamesAndHashes = new List<AttachmentFileNameAndHash>()
             {
-                new AttachmentFileNameAndHash(){ FileName = "01 Infoblatt KMU.pdf", Hash = "Wl258Q==" },
-                new AttachmentFileNameAndHash(){ FileName = "02 Infoblatt Mitarbeitende.pdf", Hash = "/iX1vQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "03 Informationsflyer.pdf", Hash = "3TntoQ==" },
-                new AttachmentFileNameAndHash(){ FileName = "04 Einverständniserklärung für den Teilnehmenden.pdf", Hash = "Gep8vg==" },
-                new AttachmentFileNameAndHash(){ FileName = "06 Vereinbarung zwischen Kanton und Betrieb.pdf", Hash = "FZsH9A==" },
-                new AttachmentFileNameAndHash(){ FileName = "07 Anfahrtsplan Labor Muttenz.pdf", Hash = "wAepHQ==" }
             };
 
             return attachmentsFileNamesAndHashes.Select(a => a.Hash).ToList();
