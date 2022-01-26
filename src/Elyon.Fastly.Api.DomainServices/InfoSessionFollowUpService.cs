@@ -110,9 +110,13 @@ namespace Elyon.Fastly.Api.DomainServices
             var receiversList = specDto.Receivers.ToList();
             for (int i = 0; i < receiversList.Count; i++)
             {
+                var OrganizationShortcutName = organization.OrganizationShortcutName;
+                if(OrganizationShortcutName == null){
+                    OrganizationShortcutName = " ";
+                }
                 var parameters = new Dictionary<string, string>
                     {
-                        { "CompanyShortcut", organization.OrganizationShortcutName },
+                        { "CompanyShortcut", OrganizationShortcutName },
                         { "supportPerson", organization.SupportPerson.Name }
                     };
 
@@ -129,10 +133,14 @@ namespace Elyon.Fastly.Api.DomainServices
         {
             foreach (var receiver in specDto.Receivers)
             {
+                var OrganizationShortcutName = organization.OrganizationShortcutName;
+                if(OrganizationShortcutName == null){
+                    OrganizationShortcutName = " ";
+                }
                 var parameters = new Dictionary<string, string>
                     {
                         { "areaPharmacy", organization.Area },
-                        { "CompanyShortcut", organization.OrganizationShortcutName },
+                        { "CompanyShortcut", OrganizationShortcutName },
                         { "firstTestingDate", organization.FirstTestTimestamp.Value.ToString("d", CultureInfo.CreateSpecificCulture("de-CH")) },
                         { "TestingDay", organization.FirstTestTimestamp.Value.ToString("dddd", CultureInfo.CreateSpecificCulture("de-CH")) }
                     };
@@ -187,24 +195,9 @@ namespace Elyon.Fastly.Api.DomainServices
                         "Organization Area is required.");
                     isValid = false;
                 }
-
-                if (string.IsNullOrWhiteSpace(organization.OrganizationShortcutName))
-                {
-                    ValidationDictionary.AddModelError("Organization Shortcut Name",
-                        "Organization Shortcut Name is required.");
-                    isValid = false;
-                }
-
             }
             else if (organization.OrganizationType.Id == _companyOrganizationTypeId)
             {
-                if (string.IsNullOrWhiteSpace(organization.OrganizationShortcutName))
-                {
-                    ValidationDictionary.AddModelError("Organization Shortcut Name",
-                        "Organization Shortcut Name is required.");
-                    isValid = false;
-                }
-
                 if (organization.SupportPerson == null)
                 {
                     ValidationDictionary.AddModelError("Organization Support Person",
