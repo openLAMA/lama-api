@@ -121,5 +121,9 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public bool IsStaticPooling { get; set; }
 
         public bool IsContractReceived { get; set; }
+
+        public string ReportingContact { get; set; }
+
+        public string ReportingEmail { get; set; }
     }
 }

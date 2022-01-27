@@ -135,6 +135,10 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             builder.RegisterType<TestingPersonnelConfirmationsWithoutInvitationRepository>()
                 .As<ITestingPersonnelConfirmationsWithoutInvitationRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<UtilRepository>()
+            .As<IUtilRepository>()
+            .SingleInstance();
         }
     }
 }

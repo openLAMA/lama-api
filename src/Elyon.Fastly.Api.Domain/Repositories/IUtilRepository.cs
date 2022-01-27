@@ -17,44 +17,19 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos;
+using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
+namespace Elyon.Fastly.Api.Domain.Repositories
 {
-    public class OrganizationSpecDto
+    public interface IUtilRepository : IBaseCrudRepository<OrganizationBasicDto>
     {
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+        Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter);
 
-        [Required]
-        public int TypeId { get; set; }
-
-        [Required]
-        public Guid CityId { get; set; }
-
-        public string Zip { get; set; }
-
-        [Required]
-        [MaxLength(200)]
-        public string Address { get; set; }
-
-        [Required]
-        public int NumberOfSamples { get; set; }
-
-        public int? NumberOfPools { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        [Required]
-        public ICollection<UserSpecDto> Contacts { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
-
-        public Guid SupportPersonId { get; set; }
-
-        public string ReportingContact { get; set; }
-
-        public string ReportingEmail { get; set; }
+        Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id);
     }
 }
