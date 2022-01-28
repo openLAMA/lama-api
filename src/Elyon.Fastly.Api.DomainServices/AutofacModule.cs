@@ -131,6 +131,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<TestingPersonnelConfirmationsWithoutInvitationService>()
                 .As<ITestingPersonnelConfirmationsWithoutInvitationService>()
                 .SingleInstance();
+
+            builder.RegisterType<UtilService>()
+                .As<IUtilService>()
+                .SingleInstance();
         }
     }
 }

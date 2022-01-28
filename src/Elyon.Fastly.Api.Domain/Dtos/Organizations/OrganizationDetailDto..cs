@@ -17,42 +17,32 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
-using Elyon.Fastly.Api.Domain.Dtos.Organizations;
+using Elyon.Fastly.Api.Domain.Dtos.InfoSessionFollowUps;
 using Elyon.Fastly.Api.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Elyon.Fastly.Api.PostgresRepositories.Entities
+namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 {
-    public class Organization : BaseEntityWithId
+    public class OrganizationDetailDto : BaseDtoWithId
     {
         public int? EpaadId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
         public string Name { get; set; }
 
-        public int OrganizationTypeId { get; set; }
+        public int TypeId { get; set; }
 
-        public virtual OrganizationType OrganizationType { get; set; }
+        public string Type { get; set; }
 
-        [Required]
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; }
 
-        [Required]
         public DateTime LastUpdatedOn { get; set; }
 
-        public Guid CityId { get; set; }
+        public string City { get; set; }
 
-        public virtual City City { get; set; }
-
-        [MaxLength(10)]
         public string Zip { get; set; }
 
-        [Required]
-        [MaxLength(200)]
         public string Address { get; set; }
 
         public DateTime? TrainingTimestamp { get; set; }
@@ -73,45 +63,34 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public DateTime? ExclusionEndDate { get; set; }
 
-        [Required]
         public int NumberOfSamples { get; set; }
 
         public int? NumberOfPools { get; set; }
 
 #pragma warning disable CA2227 // Collection properties should be read only
-        public virtual ICollection<User> Contacts { get; set; }
+        public ICollection<UserDto> Contacts { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
 
 #pragma warning disable CA2227 // Collection properties should be read only
-        public virtual ICollection<SubOrganization> SubOrganizations { get; set; }
+        public ICollection<SubOrganizationDto> SubOrganizations { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
 
-#pragma warning disable CA2227 // Collection properties should be read only
-        public virtual ICollection<OrganizationNote> Notes { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
-
-        [ForeignKey("SupportPersonId")]
         public Guid SupportPersonId { get; set; }
 
-        public virtual User SupportPerson { get; set; }
+        public UserDto SupportPerson { get; set; }
 
         public OrganizationStatus Status { get; set; }
 
-        [MaxLength(100)]
         public string Manager { get; set; }
 
         public int? StudentsCount { get; set; }
 
         public int? EmployeesCount { get; set; }
 
-        public int? PlannedNumberOfSamples { get; set; }
-
         public int? RegisteredEmployees { get; set; }
 
-        [MaxLength(100)]
         public string Area { get; set; }
 
-        [MaxLength(100)]
         public string County { get; set; }
 
         public int? PrioLogistic { get; set; }
@@ -126,13 +105,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
 
         public int? NumberOfRakoBoxes { get; set; }
 
-        [MaxLength(200)]
         public string PickupLocation { get; set; }
 
-        [MaxLength(100)]
-        public string OrganizationShortcutName { get; set; }
+        public string ShortcutName { get; set; }
 
-        public InfoSessionFollowUp InfoSessionFollowUp { get; set; }
+        public InfoSessionFollowUpStatus FollowUpStatus { get; set; }
 
         public bool IsOnboardingEmailSent { get; set; }
 

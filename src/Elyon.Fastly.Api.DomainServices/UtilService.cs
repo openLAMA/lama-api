@@ -17,44 +17,36 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos.Organizations;
+using Elyon.Fastly.Api.Domain.Repositories;
+using Elyon.Fastly.Api.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
-namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
+namespace Elyon.Fastly.Api.DomainServices
 {
-    public class OrganizationSpecDto
+    public class UtilService : BaseCrudService<OrganizationBasicDto>, IUtilService
     {
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+        private readonly IUtilRepository _utilRepository;
 
-        [Required]
-        public int TypeId { get; set; }
+        public UtilService(IUtilRepository utilRepository) : base(utilRepository)
+        {
+            _utilRepository = utilRepository;
+        }
 
-        [Required]
-        public Guid CityId { get; set; }
+        public async Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter)
+        {
+            return await _utilRepository
+                .GetOrganizationsAsync(typeFilter)
+                .ConfigureAwait(false);
+        }
 
-        public string Zip { get; set; }
-
-        [Required]
-        [MaxLength(200)]
-        public string Address { get; set; }
-
-        [Required]
-        public int NumberOfSamples { get; set; }
-
-        public int? NumberOfPools { get; set; }
-
-#pragma warning disable CA2227 // Collection properties should be read only
-        [Required]
-        public ICollection<UserSpecDto> Contacts { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
-
-        public Guid SupportPersonId { get; set; }
-
-        public string ReportingContact { get; set; }
-
-        public string ReportingEmail { get; set; }
+        public async Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id)
+        {
+            return await _utilRepository
+                .GetOrganizationByIdAsync(id)
+                .ConfigureAwait(false);
+        }
     }
 }
