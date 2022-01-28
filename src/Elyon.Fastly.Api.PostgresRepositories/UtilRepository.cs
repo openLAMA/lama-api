@@ -46,16 +46,20 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             await using var context = ContextFactory.CreateDataContext(null);
             var orgs = new List<Organization>();
             if (typeFilter > 0){
-                orgs = await context.Organizations
-                    .Where(item => item.Status != OrganizationStatus.NotActive)
-                    .Where(item => item.IsOnboardingEmailSent == true)
-                    .Where(item => item.OrganizationTypeId == typeFilter)
-                    .Include(x => x.City)
-                    .Include(x => x.OrganizationType)
-                    .ToListAsync()
-                    .ConfigureAwait(false);
+                if (typeFilter != 82002)
+                {
+                    orgs = await context.Organizations
+                        .Where(item => item.OrganizationTypeId == typeFilter)
+                        .Where(item => item.Status != OrganizationStatus.NotActive)
+                        .Where(item => item.IsOnboardingEmailSent == true)
+                        .Include(x => x.City)
+                        .Include(x => x.OrganizationType)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
+                }
             }else{
                 orgs = await context.Organizations
+                    .Where(item => item.OrganizationTypeId != 82002)
                     .Where(item => item.Status != OrganizationStatus.NotActive)
                     .Where(item => item.IsOnboardingEmailSent == true)
                     .Include(x => x.City)
@@ -100,86 +104,89 @@ namespace Elyon.Fastly.Api.PostgresRepositories
             var orgDataDto = new OrganizationDetailDto();
             if (org != null)
             {
-                orgDataDto.Id = org.Id;
-                if (org.OrganizationType != null)
+                if (org.OrganizationTypeId != 82002)
                 {
-                    orgDataDto.Type = org.OrganizationType.Name;
-                }
-                if (org.City != null)
-                {
-                    orgDataDto.City = org.City.Name;
-                }
-                orgDataDto.TypeId = org.OrganizationTypeId;
-                orgDataDto.Zip = org.Zip;
-                orgDataDto.Name = org.Name;
-                orgDataDto.ShortcutName = org.OrganizationShortcutName;
-                orgDataDto.ReportingContact = org.ReportingContact;
-                orgDataDto.ReportingEmail = org.ReportingEmail;
+                    orgDataDto.Id = org.Id;
+                    if (org.OrganizationType != null)
+                    {
+                        orgDataDto.Type = org.OrganizationType.Name;
+                    }
+                    if (org.City != null)
+                    {
+                        orgDataDto.City = org.City.Name;
+                    }
+                    orgDataDto.TypeId = org.OrganizationTypeId;
+                    orgDataDto.Zip = org.Zip;
+                    orgDataDto.Name = org.Name;
+                    orgDataDto.ShortcutName = org.OrganizationShortcutName;
+                    orgDataDto.ReportingContact = org.ReportingContact;
+                    orgDataDto.ReportingEmail = org.ReportingEmail;
 
-                orgDataDto.Contacts = new List<UserDto>();
-                if (org.Contacts != null)
-                {
-                    foreach (var contact in org.Contacts)
+                    orgDataDto.Contacts = new List<UserDto>();
+                    if (org.Contacts != null)
                     {
-                        var userDto = Mapper.Map<User, UserDto>(contact);
-                        orgDataDto.Contacts.Add(userDto);
+                        foreach (var contact in org.Contacts)
+                        {
+                            var userDto = Mapper.Map<User, UserDto>(contact);
+                            orgDataDto.Contacts.Add(userDto);
+                        }
                     }
-                }
-                orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
-                if (org.SubOrganizations != null)
-                {
-                    foreach (var subOrganization in org.SubOrganizations)
+                    orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
+                    if (org.SubOrganizations != null)
                     {
-                        var subOrganizationDto = Mapper.Map<SubOrganization, SubOrganizationDto>(subOrganization);
-                        orgDataDto.SubOrganizations.Add(subOrganizationDto);
+                        foreach (var subOrganization in org.SubOrganizations)
+                        {
+                            var subOrganizationDto = Mapper.Map<SubOrganization, SubOrganizationDto>(subOrganization);
+                            orgDataDto.SubOrganizations.Add(subOrganizationDto);
+                        }
                     }
+                    if (org.SupportPerson != null)
+                    {
+                        var supportPersonDto = Mapper.Map<User, UserDto>(org.SupportPerson);
+                        orgDataDto.SupportPerson = supportPersonDto;
+                    }
+                    if (org.InfoSessionFollowUp != null)
+                    {
+                        orgDataDto.FollowUpStatus = org.InfoSessionFollowUp.Status;
+                    }
+                    orgDataDto.EpaadId = org.EpaadId;
+                    orgDataDto.CreatedOn = org.CreatedOn;
+                    orgDataDto.LastUpdatedOn = org.LastUpdatedOn;
+                    orgDataDto.Address = org.Address;
+                    orgDataDto.TrainingTimestamp = org.TrainingTimestamp;
+                    orgDataDto.OnboardingTimestamp = org.OnboardingTimestamp;
+                    orgDataDto.FirstTestTimestamp = org.FirstTestTimestamp;
+                    orgDataDto.SecondTestTimestamp = org.SecondTestTimestamp;
+                    orgDataDto.ThirdTestTimestamp = org.ThirdTestTimestamp;
+                    orgDataDto.FourthTestTimestamp = org.FourthTestTimestamp;
+                    orgDataDto.FifthTestTimestamp = org.FifthTestTimestamp;
+                    orgDataDto.ExclusionStartDate = org.ExclusionStartDate;
+                    orgDataDto.ExclusionEndDate = org.ExclusionEndDate;
+                    orgDataDto.NumberOfSamples = org.NumberOfSamples;
+                    orgDataDto.NumberOfPools = org.NumberOfPools;
+                    orgDataDto.SupportPersonId = org.SupportPersonId;
+                    orgDataDto.Status = org.Status;
+                    if (org.Manager != null)
+                    {
+                        orgDataDto.Manager = _aESCryptography.Decrypt(org.Manager);
+                    }
+
+                    orgDataDto.StudentsCount = org.StudentsCount;
+                    orgDataDto.EmployeesCount = org.EmployeesCount;
+                    orgDataDto.RegisteredEmployees = org.RegisteredEmployees;
+                    orgDataDto.Area = org.Area;
+                    orgDataDto.County = org.County;
+                    orgDataDto.PrioLogistic = org.PrioLogistic;
+                    orgDataDto.SchoolType = org.SchoolType;
+                    orgDataDto.NumberOfBags = org.NumberOfBags;
+                    orgDataDto.NaclLosing = org.NaclLosing;
+                    orgDataDto.AdditionalTestTubes = org.AdditionalTestTubes;
+                    orgDataDto.NumberOfRakoBoxes = org.NumberOfRakoBoxes;
+                    orgDataDto.PickupLocation = org.PickupLocation;
+                    orgDataDto.IsOnboardingEmailSent = org.IsOnboardingEmailSent;
+                    orgDataDto.IsStaticPooling = org.IsStaticPooling;
+                    orgDataDto.IsContractReceived = org.IsContractReceived;
                 }
-                if (org.SupportPerson != null)
-                {
-                    var supportPersonDto = Mapper.Map<User, UserDto>(org.SupportPerson);
-                    orgDataDto.SupportPerson = supportPersonDto;
-                }
-                if (org.InfoSessionFollowUp != null)
-                {
-                    orgDataDto.FollowUpStatus = org.InfoSessionFollowUp.Status;
-                }
-                orgDataDto.EpaadId = org.EpaadId;
-                orgDataDto.CreatedOn = org.CreatedOn;
-                orgDataDto.LastUpdatedOn = org.LastUpdatedOn;
-                orgDataDto.Address = org.Address;
-                orgDataDto.TrainingTimestamp = org.TrainingTimestamp;
-                orgDataDto.OnboardingTimestamp = org.OnboardingTimestamp;
-                orgDataDto.FirstTestTimestamp = org.FirstTestTimestamp;
-                orgDataDto.SecondTestTimestamp = org.SecondTestTimestamp;
-                orgDataDto.ThirdTestTimestamp = org.ThirdTestTimestamp;
-                orgDataDto.FourthTestTimestamp = org.FourthTestTimestamp;
-                orgDataDto.FifthTestTimestamp = org.FifthTestTimestamp;
-                orgDataDto.ExclusionStartDate = org.ExclusionStartDate;
-                orgDataDto.ExclusionEndDate = org.ExclusionEndDate;
-                orgDataDto.NumberOfSamples = org.NumberOfSamples;
-                orgDataDto.NumberOfPools = org.NumberOfPools;
-                orgDataDto.SupportPersonId = org.SupportPersonId;
-                orgDataDto.Status = org.Status;
-                if (org.Manager != null)
-                {
-                    orgDataDto.Manager = _aESCryptography.Decrypt(org.Manager);
-                }
-                
-                orgDataDto.StudentsCount = org.StudentsCount;
-                orgDataDto.EmployeesCount = org.EmployeesCount;
-                orgDataDto.RegisteredEmployees = org.RegisteredEmployees;
-                orgDataDto.Area = org.Area;
-                orgDataDto.County = org.County;
-                orgDataDto.PrioLogistic = org.PrioLogistic;
-                orgDataDto.SchoolType = org.SchoolType;
-                orgDataDto.NumberOfBags = org.NumberOfBags;
-                orgDataDto.NaclLosing = org.NaclLosing;
-                orgDataDto.AdditionalTestTubes = org.AdditionalTestTubes;
-                orgDataDto.NumberOfRakoBoxes = org.NumberOfRakoBoxes;
-                orgDataDto.PickupLocation = org.PickupLocation;
-                orgDataDto.IsOnboardingEmailSent = org.IsOnboardingEmailSent;
-                orgDataDto.IsStaticPooling = org.IsStaticPooling;
-                orgDataDto.IsContractReceived = org.IsContractReceived;
             }
             return orgDataDto;
         }
