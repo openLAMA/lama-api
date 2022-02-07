@@ -277,7 +277,7 @@ namespace Elyon.Fastly.Api.DomainServices
                 .UpdateOrganizationStatusAsync(dto.Id, dto.Status)
                 .ConfigureAwait(false);
             
-            var organizationEpaadId = await _organizationsRepository
+            /*var organizationEpaadId = await _organizationsRepository
                 .GetOrganizationEpaadIdAsync(dto.Id)
                 .ConfigureAwait(false);
 
@@ -285,7 +285,7 @@ namespace Elyon.Fastly.Api.DomainServices
             {
                 await UpdateOrganizationinEpaadAsync(organizationEpaadId.Value, dto)
                     .ConfigureAwait(false);
-            }            
+            }*/
         }
 
         public async Task<List<ShortContactInfoDto>> GetSupportPeopleByOrganizationTypeAsync(int organizationTypeId)

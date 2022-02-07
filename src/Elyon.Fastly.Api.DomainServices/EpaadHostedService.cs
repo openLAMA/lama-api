@@ -47,7 +47,7 @@ namespace Elyon.Fastly.Api.DomainServices
         {
             _log.Info($"Getting all available organizations from ePaad");
 
-            while (!stoppingToken.IsCancellationRequested)
+            while (false && !stoppingToken.IsCancellationRequested)
             {
                 try
                 {
@@ -64,7 +64,7 @@ namespace Elyon.Fastly.Api.DomainServices
 
                 await Task.Delay(TaskDelayInMilliSeconds, stoppingToken)
                         .ConfigureAwait(false);
-            }            
+            }
         }
     }
 }
