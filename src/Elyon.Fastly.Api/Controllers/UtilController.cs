@@ -23,6 +23,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text;
+using Elyon.Fastly.Api.Domain.Enums;
+using Elyon.Fastly.Api.Helpers;
 
 namespace Elyon.Fastly.Api.Controllers
 {
@@ -58,6 +62,59 @@ namespace Elyon.Fastly.Api.Controllers
             }
             return organizationDto;
         }
-
+        
+        [HttpGet("export-data")]
+        [AuthorizeUser(RoleType.University)]
+        public async Task<IActionResult> ExportDataAsync()
+        {
+            var exportDataDtos = await _utilService.ExportDataAsync().ConfigureAwait(false);
+            var stream = new MemoryStream();
+            using (var writeFile = new StreamWriter(stream, Encoding.UTF8, 128, true))
+            {
+                var line = "OrganizationId,EpaadId,OrganizationName,OrganizationShortcutName,OrganizationTypeId,OrganizationTypeName,OrganizationAddress,OrganizationCity,OrganizationCounty,OrganizationZip,OrganizationArea,OrganizationManager,OrganizationSupportPerson,OrganizationReportingContact,OrganizationReportingEmail,OrganizationStatus,OrganizationSchoolType,OrganizationStudentsCount,IsOnboardingEmailSent,IsContractReceived,IsStaticPooling,OrganizationCreatedOn,OrganizationLastUpdatedOn,OnboardingTimestamp,FirstTestTimestamp,SecondTestTimestamp,ThirdTestTimestamp,FourthTestTimestamp,FifthTestTimestamp,OrganizationNumberOfSamples,OrganizationNumberOfPolls,OrganizationRegisteredEmployees,OrganizationContact1Name,OrganizationContact1Email,OrganizationContact1PhoneNumber,OrganizationContact1LandLineNumber,OrganizationContact2Name,OrganizationContact2Email,OrganizationContact2PhoneNumber,OrganizationContact2LandLineNumber,OrganizationContact3Name,OrganizationContact3Email,OrganizationContact3PhoneNumber,OrganizationContact3LandLineNumberUserId,Email,Name,PhoneNumber,LandLineNumber";
+                writeFile.WriteLine(line);
+                exportDataDtos.ForEach(exportData =>
+                {
+                    var line = exportData.OrganizationId + "," + exportData.EpaadId + "," +
+                    "\""+exportData.OrganizationName + "\"," +
+                    "\"" + exportData.OrganizationShortcutName + "\"," +
+                    exportData.OrganizationTypeId + "," +
+                    "\"" + exportData.OrganizationTypeName + "\"," +
+                    "\"" + exportData.OrganizationAddress + "\"," +
+                    "\"" + exportData.OrganizationCity + "\"," +
+                    "\"" + exportData.OrganizationCounty + "\"," +
+                    "\"" + exportData.OrganizationZip + "\"," +
+                    "\"" + exportData.OrganizationArea + "\"," +
+                    "\"" + exportData.OrganizationManager + "\"," +
+                    "\"" + exportData.OrganizationSupportPerson + "\"," +
+                    "\"" + exportData.ReportingContact + "\"," +
+                    "\"" + exportData.ReportingEmail + "\"," +
+                    exportData.OrganizationStatus + "," +
+                    exportData.OrganizationSchoolType + "," +
+                    exportData.OrganizationStudentsCount + "," +
+                    exportData.IsOnboardingEmailSent + "," +
+                    exportData.IsContractReceived + "," +
+                    exportData.IsStaticPooling + "," +
+                    exportData.OrganizationCreatedOn + "," +
+                    exportData.OrganizationLastUpdatedOn + "," +
+                    exportData.OnboardingTimestamp + "," +
+                    exportData.FirstTestTimestamp + "," +
+                    exportData.SecondTestTimestamp + "," +
+                    exportData.ThirdTestTimestamp + "," +
+                    exportData.FourthTestTimestamp + "," +
+                    exportData.FifthTestTimestamp + "," +
+                    exportData.OrganizationNumberOfSamples + "," +
+                    exportData.OrganizationNumberOfPolls + "," + exportData.OrganizationRegisteredEmployees + "," +
+                    exportData.OrganizationContact1Name + "," + exportData.OrganizationContact1Email + "," + exportData.OrganizationContact1PhoneNumber + "," + exportData.OrganizationContact1LandLineNumber + "," +
+                    exportData.OrganizationContact2Name + "," + exportData.OrganizationContact2Email + "," + exportData.OrganizationContact2PhoneNumber + "," + exportData.OrganizationContact2LandLineNumber + "," +
+                    exportData.OrganizationContact3Name + "," + exportData.OrganizationContact3Email + "," + exportData.OrganizationContact3PhoneNumber + "," + exportData.OrganizationContact3LandLineNumber + "," +
+                    exportData.UserId + "," + exportData.Email + "," + exportData.Name + "," +
+                    exportData.PhoneNumber + "," + exportData.LandLineNumber;
+                    writeFile.WriteLine(line);
+                });
+            }
+            stream.Position = 0;
+            return File(stream, "application/octet-stream", "data.csv");
+        }
     }
 }

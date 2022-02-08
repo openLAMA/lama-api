@@ -17,6 +17,7 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos;
 using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using Elyon.Fastly.Api.Domain.Repositories;
 using Elyon.Fastly.Api.Domain.Services;
@@ -47,6 +48,13 @@ namespace Elyon.Fastly.Api.DomainServices
             return await _utilRepository
                 .GetOrganizationByIdAsync(id)
                 .ConfigureAwait(false);
+        }
+
+        public async Task<List<ExportUserDataDto>> ExportDataAsync()
+        {
+             return await _utilRepository
+                 .ExportDataAsync()
+                 .ConfigureAwait(false);
         }
     }
 }

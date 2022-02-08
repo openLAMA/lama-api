@@ -31,5 +31,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter);
 
         Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id);
+
+        Task<List<ExportUserDataDto>> ExportDataAsync();
     }
 }
