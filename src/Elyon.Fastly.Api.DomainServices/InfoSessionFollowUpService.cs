@@ -111,7 +111,7 @@ namespace Elyon.Fastly.Api.DomainServices
             for (int i = 0; i < receiversList.Count; i++)
             {
                 var OrganizationShortcutName = organization.OrganizationShortcutName;
-                if(OrganizationShortcutName == null){
+                if(String.IsNullOrEmpty(OrganizationShortcutName)){
                     OrganizationShortcutName = " ";
                 }
                 var parameters = new Dictionary<string, string>
@@ -134,7 +134,8 @@ namespace Elyon.Fastly.Api.DomainServices
             foreach (var receiver in specDto.Receivers)
             {
                 var OrganizationShortcutName = organization.OrganizationShortcutName;
-                if(OrganizationShortcutName == null){
+                if(String.IsNullOrEmpty(OrganizationShortcutName))
+                {
                     OrganizationShortcutName = " ";
                 }
                 var parameters = new Dictionary<string, string>

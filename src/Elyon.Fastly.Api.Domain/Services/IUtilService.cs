@@ -17,6 +17,7 @@
 // along with this program.  If not, see https://www.gnu.org/licenses/.
 #endregion
 
+using Elyon.Fastly.Api.Domain.Dtos;
 using Elyon.Fastly.Api.Domain.Dtos.Organizations;
 using System;
 using System.Collections.Generic;
@@ -29,5 +30,7 @@ namespace Elyon.Fastly.Api.Domain.Services
         Task<List<OrganizationBasicDto>> GetOrganizationsAsync (int typeFilter);
 
         Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id);
+
+        Task<List<ExportUserDataDto>> ExportDataAsync();
     }
 }
