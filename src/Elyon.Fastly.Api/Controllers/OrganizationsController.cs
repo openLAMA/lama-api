@@ -47,15 +47,17 @@ namespace Elyon.Fastly.Api.Controllers
         private readonly IOrganizationsService _organizationsService;
         private readonly IAuthorizeService _authService;
         private readonly ICalendarService _calendarService;
+        private readonly ISubOrganizationsService _subOrganizationsService;
 
         public OrganizationsController(IOrganizationTypesService organizationTypesService,
-            IOrganizationsService organizationsService, IAuthorizeService authService, ICalendarService calendarService)
+            IOrganizationsService organizationsService, IAuthorizeService authService, ICalendarService calendarService, ISubOrganizationsService subOrganizationsService)
         {
             _organizationTypesService = organizationTypesService;
             _organizationsService = organizationsService ?? throw new ArgumentNullException(nameof(organizationsService));
             _authService = authService;
             _organizationsService.ValidationDictionary = new ValidationDictionary(ModelState);
             _calendarService = calendarService ?? throw new ArgumentNullException(nameof(calendarService));
+            _subOrganizationsService = subOrganizationsService;
         }
 
         [HttpGet("types")]
@@ -365,6 +367,82 @@ namespace Elyon.Fastly.Api.Controllers
                 .ConfigureAwait(false);
 
             return File(Encoding.UTF8.GetBytes(fileContent), IcsFileContentType, IcsFileName);
+        }
+
+        [HttpGet("{organizationId}/subOrganizations")]
+        [Authorize]
+        public async Task<ActionResult<PagedResults<SubOrganizationDto>>> GetSubOrganizationsByParentIdAsync(Guid organizationId)
+        {
+            var userId = HttpContext.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+            var roleType = HttpContext.User.Claims.First(x => x.Type == ClaimTypes.Role).Value;
+
+            var hasAccessToOrganization = await _authService
+                .HasAccessToOrganizationAsync(roleType, Guid.Parse(userId), organizationId)
+                .ConfigureAwait(false);
+            if (!hasAccessToOrganization)
+            {
+                return Unauthorized();
+            }
+            var pager = new Paginator
+            {
+                CurrentPage = 1,
+                PageSize = int.MaxValue
+            };
+            var subOrganizationDtos = await _organizationsService
+                .GetSubOrganizationsByParentIdAsync(organizationId, pager)
+                .ConfigureAwait(false);
+
+            return subOrganizationDtos;
+        }
+
+        [HttpPost("{organizationId}/subOrganizations")]
+        [Authorize]
+        public async Task<ActionResult<Guid>> CreateSubOrganization(Guid organizationId, [FromBody] SubOrganizationSpecDto specDto)
+        {
+            var userId = HttpContext.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+            var roleType = HttpContext.User.Claims.First(x => x.Type == ClaimTypes.Role).Value;
+
+            var hasAccessToOrganization = await _authService
+                .HasAccessToOrganizationAsync(roleType, Guid.Parse(userId), organizationId)
+                .ConfigureAwait(false);
+            if (!hasAccessToOrganization)
+            {
+                return Unauthorized();
+            }
+            var createdDto = await _subOrganizationsService
+                .CreateSubOrganizationAsync(organizationId, specDto)
+                .ConfigureAwait(false);
+
+            if (createdDto == null)
+            {
+                return BadRequest(new { errors = _organizationsService.ValidationDictionary.GetErrorMessages() });
+            }
+
+            return Ok(createdDto.Id);
+        }
+        [HttpPut("{organizationId}/subOrganizations/{id}")]
+        [AuthorizeUser(RoleType.University, RoleType.Laboratory, RoleType.State)]
+        public async Task<ActionResult> UpdateSubOrganization(Guid organizationId, Guid id, [FromBody] SubOrganizationDto dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest();
+            }
+
+            await _subOrganizationsService
+                .UpdateSubOrganizationAsync(organizationId, id, dto)
+                .ConfigureAwait(false);
+            return NoContent();
+        }
+
+        [HttpDelete("{organizationId}/subOrganizations/{id}")]
+        [AuthorizeUser(RoleType.University, RoleType.Laboratory, RoleType.State)]
+        public async Task<ActionResult> DeleteSubOrganization(Guid organizationId, Guid id)
+        {
+            await _subOrganizationsService
+                .DeleteSubOrganizationAsync(organizationId, id)
+                .ConfigureAwait(false);
+            return NoContent();
         }
     }
 }

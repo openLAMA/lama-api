@@ -44,9 +44,9 @@ namespace Elyon.Fastly.Api.Controllers
         }
 
         [HttpGet("organizations")]
-        public async Task<ActionResult<List<OrganizationBasicDto>>> GetOrganizationsAsync([FromQuery] int typeId)
+        public async Task<ActionResult<List<OrganizationBasicDto>>> GetOrganizationsAsync([FromQuery] int typeId, [FromQuery] int status, [FromQuery] DateTime updatedFrom, [FromQuery] DateTime updatedTo)
         {
-            var organizationDtos = await _utilService.GetOrganizationsAsync(typeId).ConfigureAwait(false);
+            var organizationDtos = await _utilService.GetOrganizationsAsync(typeId, status, updatedFrom, updatedTo).ConfigureAwait(false);
             return organizationDtos;
         }
 

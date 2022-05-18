@@ -34,5 +34,27 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public Guid OrganizationId { get; set; }
 
         public virtual Organization Organization { get; set; }
+
+        public Guid CityId { get; set; }
+
+        public virtual City City { get; set; }
+
+        [MaxLength(10)]
+        public string Zip { get; set; }
+
+        [MaxLength(100)]
+        public string Area { get; set; }
+
+        [MaxLength(100)]
+        public string County { get; set; }
+
+        [MaxLength(100)]
+        public string BuildingName { get; set; }
+
+        public int? NumberOfParticipants { get; set; }
+
+        public string ReportingContact { get; set; }
+
+        public string ReportingEmail { get; set; }
     }
 }

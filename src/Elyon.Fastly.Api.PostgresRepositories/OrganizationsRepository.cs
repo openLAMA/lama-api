@@ -254,7 +254,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 }
             }
 
-            foreach (var dbSubOrganization in dbEntity.SubOrganizations)
+            /*foreach (var dbSubOrganization in dbEntity.SubOrganizations)
             {
                 if (!entity.SubOrganizations.Any(i => i.Id == dbSubOrganization.Id))
                     context.SubOrganizations.Remove(dbSubOrganization);
@@ -273,7 +273,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                     context.Entry(dbSubOrganization).CurrentValues.SetValues(newSubOrganization);
                     context.Entry(dbSubOrganization).State = EntityState.Modified;
                 }
-            }
+            }*/
 
             Mapper.Map(item, dbEntity);
 
@@ -516,6 +516,32 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 await context.SaveChangesAsync()
                     .ConfigureAwait(false);
             }
+        }
+
+        public async Task UpdateTimeStampAsync(Guid organizationId)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+            var items = context.Organizations;
+            var entity = await items.AsNoTracking()
+                .FirstAsync(t => t.Id == organizationId)
+                .ConfigureAwait(false);
+            var utcNow = DateTime.UtcNow;
+            entity.LastUpdatedOn = utcNow;
+            context.Entry(entity).State = EntityState.Modified;
+            context.Organizations.Update(entity);
+
+            await context.SaveChangesAsync()
+                .ConfigureAwait(false);
+        }
+        public async Task<PagedResults<SubOrganizationDto>> GetSubOrganizationsByParentIdAsync( Guid organizationId, Paginator paginator)
+        {
+            await using var context = ContextFactory.CreateDataContext(null);
+
+            var query = context.SubOrganizations.AsNoTracking().AsQueryable().Where(item => item.OrganizationId == organizationId);
+
+            return await Mapper.ProjectTo<SubOrganizationDto>(query)
+                .PaginateAsync(paginator)
+                .ConfigureAwait(false);
         }
     }
 }

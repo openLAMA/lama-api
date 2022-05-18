@@ -193,6 +193,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             modelBuilder.Entity<AttachmentsSeed>()
              .HasData(DataSeeder.SeedAttachmentsSeed());
+
+            /*modelBuilder.Entity<SubOrganization>()
+             .HasData(DataSeeder.SeedSubOrgs());*/
         }
     }
 }

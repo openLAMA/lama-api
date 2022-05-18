@@ -56,5 +56,6 @@ namespace Elyon.Fastly.Api.Domain.Services
         Task SetIsContractReceivedAsync(Guid organizationId);
 
         Task SendEmailForEpaadAsync(OrganizationSendEmailForEpaadDto dto);
+        Task<PagedResults<SubOrganizationDto>> GetSubOrganizationsByParentIdAsync(Guid organizationId, Paginator paginator);
     }
 }

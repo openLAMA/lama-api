@@ -69,5 +69,9 @@ namespace Elyon.Fastly.Api.Domain.Repositories
         Task SetIsStaticPoolingAsync(OrganizationIsStaticPoolingDto dto);
         
         Task SetIsContractReceivedAsync(Guid organizationId);
+
+        Task UpdateTimeStampAsync(Guid organizationId);
+
+        Task<PagedResults<SubOrganizationDto>> GetSubOrganizationsByParentIdAsync(Guid organizationId, Paginator paginator);
     }
 }

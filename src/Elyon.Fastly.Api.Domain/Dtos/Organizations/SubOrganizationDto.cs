@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using Elyon.Fastly.Api.Domain.Dtos.Cities;
 
 namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 {
@@ -31,5 +32,25 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public string Address { get; set; }
 
         public Guid OrganizationId { get; set; }
+
+        public virtual string OrganizationName { get; set; }
+
+        public Guid CityId { get; set; }
+
+        public CityDto City { get; set; }
+
+        public string Zip { get; set; }
+
+        public string Area { get; set; }
+
+        public string County { get; set; }
+
+        public string BuildingName { get; set; }
+
+        public int? NumberOfParticipants { get; set; }
+
+        public string ReportingContact { get; set; }
+
+        public string ReportingEmail { get; set; }
     }
 }

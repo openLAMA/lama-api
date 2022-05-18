@@ -27,7 +27,7 @@ namespace Elyon.Fastly.Api.Domain.Services
 {
     public interface IUtilService : IBaseCrudService<OrganizationBasicDto>
     {
-        Task<List<OrganizationBasicDto>> GetOrganizationsAsync (int typeFilter);
+        Task<List<OrganizationBasicDto>> GetOrganizationsAsync (int typeFilter, int status, DateTime updatedFrom, DateTime updatedTo);
 
         Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id);
 

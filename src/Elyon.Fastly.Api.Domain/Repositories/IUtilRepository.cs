@@ -28,7 +28,7 @@ namespace Elyon.Fastly.Api.Domain.Repositories
 {
     public interface IUtilRepository : IBaseCrudRepository<OrganizationBasicDto>
     {
-        Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter);
+        Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter, int status, DateTime updatedFrom, DateTime updatedTo);
 
         Task<OrganizationDetailDto> GetOrganizationByIdAsync(Guid id);
 

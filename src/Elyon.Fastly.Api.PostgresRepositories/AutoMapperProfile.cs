@@ -94,8 +94,11 @@ namespace Elyon.Fastly.Api.PostgresRepositories
 
             CreateMap<City, CityDto>();
 
-            CreateMap<SubOrganization, SubOrganizationDto>();
+            CreateMap<SubOrganization, SubOrganizationDto>()
+                .ForMember(opt => opt.OrganizationName, src => src.Ignore());
             CreateMap<SubOrganizationDto, SubOrganization>()
+                .ForMember(opt => opt.City, src => src.Ignore())
+                .ForMember(opt => opt.Organization, src => src.Ignore())
                 .ForMember(opt => opt.Organization, src => src.Ignore());
 
             CreateMap<OrganizationSpecDto, Organization>()
@@ -404,6 +407,22 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.Canton,
                     src => src.Ignore());
             CreateMap<CantonWeekdaysSamples, CantonWeekdaysSamplesDto>();
+            
+            CreateMap<SubOrganizationSpecDto, SubOrganization>()
+                .ForMember(opt => opt.Id,
+                    src => src.Ignore())
+                .ForMember(opt => opt.City,
+                    src => src.Ignore())
+                .ForMember(opt => opt.Organization,
+                    src => src.Ignore());
+            
+            CreateMap<SubOrganizationSpecDto, SubOrganizationDto>()
+                .ForMember(opt => opt.Id,
+                    src => src.Ignore())
+                .ForMember(opt => opt.City,
+                    src => src.Ignore())
+                .ForMember(opt => opt.OrganizationName,
+                    src => src.Ignore());
         }
 #pragma warning restore CA1308 // Normalize strings to uppercase
     }

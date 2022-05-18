@@ -135,6 +135,10 @@ namespace Elyon.Fastly.Api.DomainServices
             builder.RegisterType<UtilService>()
                 .As<IUtilService>()
                 .SingleInstance();
+
+            builder.RegisterType<SubOrganizationsService>()
+                .As<ISubOrganizationsService>()
+                .SingleInstance();
         }
     }
 }

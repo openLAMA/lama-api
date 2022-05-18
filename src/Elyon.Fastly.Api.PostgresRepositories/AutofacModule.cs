@@ -137,8 +137,12 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .SingleInstance();
 
             builder.RegisterType<UtilRepository>()
-            .As<IUtilRepository>()
-            .SingleInstance();
+                .As<IUtilRepository>()
+                .SingleInstance();
+
+            builder.RegisterType<SubOrganizationsRepository>()
+                .As<ISubOrganizationsRepository>()
+                .SingleInstance();
         }
     }
 }

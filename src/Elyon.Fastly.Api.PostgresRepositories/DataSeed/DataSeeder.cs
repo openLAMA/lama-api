@@ -275,5 +275,21 @@ namespace Elyon.Fastly.Api.PostgresRepositories.DataSeed
         {
             return new AttachmentsSeed { Id = Guid.Parse("0c5e5ef7-4a46-4f53-93ad-3f0dc89016ad"), IsSeeded = false };
         }
+
+        /*public static List<SubOrganization> SeedSubOrgs()
+        {
+            var result = new List<SubOrganization>();
+            var suborgsBytesArray = Resources.suborgs_list;
+
+            if (suborgsBytesArray.Any())
+            {
+                using var ms = new MemoryStream(suborgsBytesArray);
+                using StreamReader reader = new StreamReader(ms);
+                var json = reader.ReadToEnd();
+                result = JsonConvert.DeserializeObject<List<SubOrganization>>(json);
+            }
+
+            return result;
+        }*/
     }
 }

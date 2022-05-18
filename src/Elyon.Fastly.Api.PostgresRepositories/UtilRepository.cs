@@ -41,33 +41,48 @@ namespace Elyon.Fastly.Api.PostgresRepositories
         {
             _aESCryptography = aESCryptography;
         }
-        public async Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter)
+        public async Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter, int status, DateTime updatedFrom, DateTime updatedTo)
         {
             var orgData = new List<OrganizationBasicDto>();
             await using var context = ContextFactory.CreateDataContext(null);
-            var orgs = new List<Organization>();
-            if (typeFilter > 0){
-                if (typeFilter != 82002)
+            var emptyDate = new DateTime(1970, 1, 1);
+            var orgs = context.Organizations.Where(item => item.Id != null);
+            if (typeFilter > 0)
+            {
+                orgs = orgs.Where(item => item.OrganizationTypeId == typeFilter);
+            }
+            if(status == 1)
+            {
+                orgs = orgs.Where(item => item.Status != OrganizationStatus.NotActive);
+            }
+            if(status == 2)
+            {
+                orgs = orgs.Where(item => item.Status == OrganizationStatus.NotActive);
+            }
+            if (updatedFrom > emptyDate)
+            {
+                if (updatedTo > emptyDate)
                 {
-                    orgs = await context.Organizations
-                        .Where(item => item.OrganizationTypeId == typeFilter)
-                        .Where(item => item.Status != OrganizationStatus.NotActive)
-                        .Where(item => item.IsOnboardingEmailSent == true)
-                        .Include(x => x.City)
-                        .Include(x => x.OrganizationType)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+                    orgs = orgs.Where(item => item.LastUpdatedOn > updatedFrom && item.LastUpdatedOn < updatedTo);
                 }
-            }else{
-                orgs = await context.Organizations
-                    .Where(item => item.OrganizationTypeId != 82002)
-                    .Where(item => item.Status != OrganizationStatus.NotActive)
-                    .Where(item => item.IsOnboardingEmailSent == true)
-                    .Include(x => x.City)
+                else
+                {
+                    Console.WriteLine(updatedFrom.Date);
+                    orgs = orgs.Where(item => item.LastUpdatedOn > updatedFrom);
+                }
+            }
+            else
+            {
+                if (updatedTo > emptyDate)
+                {
+                    orgs = orgs.Where(item => item.LastUpdatedOn < updatedTo);
+                }
+            }
+            await orgs.Include(x => x.City)
                     .Include(x => x.OrganizationType)
+                    .Include(x => x.SubOrganizations).ThenInclude(cs => cs.City)
                     .ToListAsync()
                     .ConfigureAwait(false);
-            }
             foreach (var org in orgs)
             {
                 var orgDataDto = new OrganizationBasicDto();
@@ -86,6 +101,16 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 orgDataDto.ShortcutName = org.OrganizationShortcutName;
                 orgDataDto.ReportingContact = org.ReportingContact;
                 orgDataDto.ReportingEmail = org.ReportingEmail;
+                orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
+                if (org.SubOrganizations != null)
+                {
+                    foreach (var subOrganization in org.SubOrganizations)
+                    {
+                        var subOrganizationDto = Mapper.Map<SubOrganization, SubOrganizationDto>(subOrganization);
+                        subOrganizationDto.OrganizationName = org.Name;
+                        orgDataDto.SubOrganizations.Add(subOrganizationDto);
+                    }
+                }
                 orgData.Add(orgDataDto);
             }
             return orgData;
@@ -97,97 +122,95 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .Include(x => x.Contacts)
                 .Include(x => x.SupportPerson)
                 .Include(x => x.OrganizationType)
-                .Include(x => x.SubOrganizations)
                 .Include(x => x.InfoSessionFollowUp)
                 .Include(x => x.City)
+                .Include(x => x.SubOrganizations).ThenInclude(cs => cs.City)
                 .FirstOrDefaultAsync(item => item.Id == id)
                 .ConfigureAwait(false);
             var orgDataDto = new OrganizationDetailDto();
             if (org != null)
             {
-                if (org.OrganizationTypeId != 82002)
+                orgDataDto.Id = org.Id;
+                if (org.OrganizationType != null)
                 {
-                    orgDataDto.Id = org.Id;
-                    if (org.OrganizationType != null)
-                    {
-                        orgDataDto.Type = org.OrganizationType.Name;
-                    }
-                    if (org.City != null)
-                    {
-                        orgDataDto.City = org.City.Name;
-                    }
-                    orgDataDto.TypeId = org.OrganizationTypeId;
-                    orgDataDto.Zip = org.Zip;
-                    orgDataDto.Name = org.Name;
-                    orgDataDto.ShortcutName = org.OrganizationShortcutName;
-                    orgDataDto.ReportingContact = org.ReportingContact;
-                    orgDataDto.ReportingEmail = org.ReportingEmail;
-
-                    orgDataDto.Contacts = new List<UserDto>();
-                    if (org.Contacts != null)
-                    {
-                        foreach (var contact in org.Contacts)
-                        {
-                            var userDto = Mapper.Map<User, UserDto>(contact);
-                            orgDataDto.Contacts.Add(userDto);
-                        }
-                    }
-                    orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
-                    if (org.SubOrganizations != null)
-                    {
-                        foreach (var subOrganization in org.SubOrganizations)
-                        {
-                            var subOrganizationDto = Mapper.Map<SubOrganization, SubOrganizationDto>(subOrganization);
-                            orgDataDto.SubOrganizations.Add(subOrganizationDto);
-                        }
-                    }
-                    if (org.SupportPerson != null)
-                    {
-                        var supportPersonDto = Mapper.Map<User, UserDto>(org.SupportPerson);
-                        orgDataDto.SupportPerson = supportPersonDto;
-                    }
-                    if (org.InfoSessionFollowUp != null)
-                    {
-                        orgDataDto.FollowUpStatus = org.InfoSessionFollowUp.Status;
-                    }
-                    orgDataDto.EpaadId = org.EpaadId;
-                    orgDataDto.CreatedOn = org.CreatedOn;
-                    orgDataDto.LastUpdatedOn = org.LastUpdatedOn;
-                    orgDataDto.Address = org.Address;
-                    orgDataDto.TrainingTimestamp = org.TrainingTimestamp;
-                    orgDataDto.OnboardingTimestamp = org.OnboardingTimestamp;
-                    orgDataDto.FirstTestTimestamp = org.FirstTestTimestamp;
-                    orgDataDto.SecondTestTimestamp = org.SecondTestTimestamp;
-                    orgDataDto.ThirdTestTimestamp = org.ThirdTestTimestamp;
-                    orgDataDto.FourthTestTimestamp = org.FourthTestTimestamp;
-                    orgDataDto.FifthTestTimestamp = org.FifthTestTimestamp;
-                    orgDataDto.ExclusionStartDate = org.ExclusionStartDate;
-                    orgDataDto.ExclusionEndDate = org.ExclusionEndDate;
-                    orgDataDto.NumberOfSamples = org.NumberOfSamples;
-                    orgDataDto.NumberOfPools = org.NumberOfPools;
-                    orgDataDto.SupportPersonId = org.SupportPersonId;
-                    orgDataDto.Status = org.Status;
-                    if (org.Manager != null)
-                    {
-                        orgDataDto.Manager = _aESCryptography.Decrypt(org.Manager);
-                    }
-
-                    orgDataDto.StudentsCount = org.StudentsCount;
-                    orgDataDto.EmployeesCount = org.EmployeesCount;
-                    orgDataDto.RegisteredEmployees = org.RegisteredEmployees;
-                    orgDataDto.Area = org.Area;
-                    orgDataDto.County = org.County;
-                    orgDataDto.PrioLogistic = org.PrioLogistic;
-                    orgDataDto.SchoolType = org.SchoolType;
-                    orgDataDto.NumberOfBags = org.NumberOfBags;
-                    orgDataDto.NaclLosing = org.NaclLosing;
-                    orgDataDto.AdditionalTestTubes = org.AdditionalTestTubes;
-                    orgDataDto.NumberOfRakoBoxes = org.NumberOfRakoBoxes;
-                    orgDataDto.PickupLocation = org.PickupLocation;
-                    orgDataDto.IsOnboardingEmailSent = org.IsOnboardingEmailSent;
-                    orgDataDto.IsStaticPooling = org.IsStaticPooling;
-                    orgDataDto.IsContractReceived = org.IsContractReceived;
+                    orgDataDto.Type = org.OrganizationType.Name;
                 }
+                if (org.City != null)
+                {
+                    orgDataDto.City = org.City.Name;
+                }
+                orgDataDto.TypeId = org.OrganizationTypeId;
+                orgDataDto.Zip = org.Zip;
+                orgDataDto.Name = org.Name;
+                orgDataDto.ShortcutName = org.OrganizationShortcutName;
+                orgDataDto.ReportingContact = org.ReportingContact;
+                orgDataDto.ReportingEmail = org.ReportingEmail;
+
+                orgDataDto.Contacts = new List<UserDto>();
+                if (org.Contacts != null)
+                {
+                    foreach (var contact in org.Contacts)
+                    {
+                        var userDto = Mapper.Map<User, UserDto>(contact);
+                        orgDataDto.Contacts.Add(userDto);
+                    }
+                }
+                orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
+                if (org.SubOrganizations != null)
+                {
+                    foreach (var subOrganization in org.SubOrganizations)
+                    {
+                        var subOrganizationDto = Mapper.Map<SubOrganization, SubOrganizationDto>(subOrganization);
+                        subOrganizationDto.OrganizationName = org.Name;
+                        orgDataDto.SubOrganizations.Add(subOrganizationDto);
+                    }
+                }
+                if (org.SupportPerson != null)
+                {
+                    var supportPersonDto = Mapper.Map<User, UserDto>(org.SupportPerson);
+                    orgDataDto.SupportPerson = supportPersonDto;
+                }
+                if (org.InfoSessionFollowUp != null)
+                {
+                    orgDataDto.FollowUpStatus = org.InfoSessionFollowUp.Status;
+                }
+                orgDataDto.EpaadId = org.EpaadId;
+                orgDataDto.CreatedOn = org.CreatedOn;
+                orgDataDto.LastUpdatedOn = org.LastUpdatedOn;
+                orgDataDto.Address = org.Address;
+                orgDataDto.TrainingTimestamp = org.TrainingTimestamp;
+                orgDataDto.OnboardingTimestamp = org.OnboardingTimestamp;
+                orgDataDto.FirstTestTimestamp = org.FirstTestTimestamp;
+                orgDataDto.SecondTestTimestamp = org.SecondTestTimestamp;
+                orgDataDto.ThirdTestTimestamp = org.ThirdTestTimestamp;
+                orgDataDto.FourthTestTimestamp = org.FourthTestTimestamp;
+                orgDataDto.FifthTestTimestamp = org.FifthTestTimestamp;
+                orgDataDto.ExclusionStartDate = org.ExclusionStartDate;
+                orgDataDto.ExclusionEndDate = org.ExclusionEndDate;
+                orgDataDto.NumberOfSamples = org.NumberOfSamples;
+                orgDataDto.NumberOfPools = org.NumberOfPools;
+                orgDataDto.SupportPersonId = org.SupportPersonId;
+                orgDataDto.Status = org.Status;
+                if (org.Manager != null)
+                {
+                    orgDataDto.Manager = _aESCryptography.Decrypt(org.Manager);
+                }
+
+                orgDataDto.StudentsCount = org.StudentsCount;
+                orgDataDto.EmployeesCount = org.EmployeesCount;
+                orgDataDto.RegisteredEmployees = org.RegisteredEmployees;
+                orgDataDto.Area = org.Area;
+                orgDataDto.County = org.County;
+                orgDataDto.PrioLogistic = org.PrioLogistic;
+                orgDataDto.SchoolType = org.SchoolType;
+                orgDataDto.NumberOfBags = org.NumberOfBags;
+                orgDataDto.NaclLosing = org.NaclLosing;
+                orgDataDto.AdditionalTestTubes = org.AdditionalTestTubes;
+                orgDataDto.NumberOfRakoBoxes = org.NumberOfRakoBoxes;
+                orgDataDto.PickupLocation = org.PickupLocation;
+                orgDataDto.IsOnboardingEmailSent = org.IsOnboardingEmailSent;
+                orgDataDto.IsStaticPooling = org.IsStaticPooling;
+                orgDataDto.IsContractReceived = org.IsContractReceived;
             }
             return orgDataDto;
         }

@@ -36,10 +36,10 @@ namespace Elyon.Fastly.Api.DomainServices
             _utilRepository = utilRepository;
         }
 
-        public async Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter)
+        public async Task<List<OrganizationBasicDto>> GetOrganizationsAsync(int typeFilter, int status, DateTime updatedFrom, DateTime updatedTo)
         {
             return await _utilRepository
-                .GetOrganizationsAsync(typeFilter)
+                .GetOrganizationsAsync(typeFilter, status, updatedFrom, updatedTo)
                 .ConfigureAwait(false);
         }
 

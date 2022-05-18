@@ -512,5 +512,11 @@ namespace Elyon.Fastly.Api.DomainServices
                 await _mailSender.SendEmailForEpaadAsync(receiver, parameters).ConfigureAwait(false);
             }
         }
+        public async Task<PagedResults<SubOrganizationDto>> GetSubOrganizationsByParentIdAsync(Guid organizationId, Paginator paginator)
+        {
+            return await _organizationsRepository
+                .GetSubOrganizationsByParentIdAsync(organizationId, paginator)
+                .ConfigureAwait(false);
+        }
     }
 }
