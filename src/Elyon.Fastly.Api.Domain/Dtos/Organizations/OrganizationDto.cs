@@ -125,5 +125,9 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public string ReportingContact { get; set; }
 
         public string ReportingEmail { get; set; }
+
+        public string SubTypeName { get; set; }
+
+        public string SubTypeCode { get; set; }
     }
 }

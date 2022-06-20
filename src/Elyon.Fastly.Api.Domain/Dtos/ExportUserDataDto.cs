@@ -77,6 +77,10 @@ namespace Elyon.Fastly.Api.Domain.Dtos
 
         public string ReportingEmail { get; set; }
 
+        public string SubTypeName { get; set; }
+
+        public string SubTypeCode { get; set; }
+
         public string OrganizationCreatedOn { get; set; }
 
         public string OrganizationLastUpdatedOn { get; set; }

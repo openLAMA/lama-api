@@ -144,7 +144,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.IsStaticPooling, src => src.Ignore())
                 .ForMember(opt => opt.IsContractReceived, src => src.Ignore())
                 .ForMember(opt => opt.ReportingContact, src => src.Ignore())
-                .ForMember(opt => opt.ReportingEmail, src => src.Ignore());
+                .ForMember(opt => opt.ReportingEmail, src => src.Ignore())
+                .ForMember(opt => opt.SubTypeName, src => src.Ignore())
+                .ForMember(opt => opt.SubTypeCode, src => src.Ignore());
 
             CreateMap<OrganizationProfileSpecDto, Organization>()
                 .ForMember(opt => opt.OrganizationTypeId,
@@ -188,7 +190,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.IsStaticPooling, src => src.Ignore())
                 .ForMember(opt => opt.IsContractReceived, src => src.Ignore())
                 .ForMember(opt => opt.ReportingContact, src => src.Ignore())
-                .ForMember(opt => opt.ReportingEmail, src => src.Ignore());
+                .ForMember(opt => opt.ReportingEmail, src => src.Ignore())
+                .ForMember(opt => opt.SubTypeName, src => src.Ignore())
+                .ForMember(opt => opt.SubTypeCode, src => src.Ignore());
 
 
             CreateMap<OrganizationDto, Organization>()

@@ -101,6 +101,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 orgDataDto.ShortcutName = org.OrganizationShortcutName;
                 orgDataDto.ReportingContact = org.ReportingContact;
                 orgDataDto.ReportingEmail = org.ReportingEmail;
+                orgDataDto.SubTypeName = org.SubTypeName;
+                orgDataDto.SubTypeCode = org.SubTypeCode;
                 orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
                 if (org.SubOrganizations != null)
                 {
@@ -145,6 +147,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 orgDataDto.ShortcutName = org.OrganizationShortcutName;
                 orgDataDto.ReportingContact = org.ReportingContact;
                 orgDataDto.ReportingEmail = org.ReportingEmail;
+                orgDataDto.SubTypeName = org.SubTypeName;
+                orgDataDto.SubTypeCode = org.SubTypeCode;
 
                 orgDataDto.Contacts = new List<UserDto>();
                 if (org.Contacts != null)
@@ -339,6 +343,8 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 userDataDto.LandLineNumber = _aESCryptography.Decrypt(user.LandLineNumber);
                 userDataDto.ReportingContact = user.Organization.ReportingContact;
                 userDataDto.ReportingEmail = user.Organization.ReportingEmail;
+                userDataDto.SubTypeName = user.Organization.SubTypeName;
+                userDataDto.SubTypeCode = user.Organization.SubTypeCode;
                 userData.Add(userDataDto);
             }
             return userData;

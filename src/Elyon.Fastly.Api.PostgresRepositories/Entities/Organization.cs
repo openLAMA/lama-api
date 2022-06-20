@@ -143,5 +143,9 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public string ReportingContact { get; set; }
 
         public string ReportingEmail { get; set; }
+
+        public string SubTypeName { get; set; }
+
+        public string SubTypeCode { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace Elyon.Fastly.Api.Controllers
             var stream = new MemoryStream();
             using (var writeFile = new StreamWriter(stream, Encoding.UTF8, 128, true))
             {
-                var line = "OrganizationId,EpaadId,OrganizationName,OrganizationShortcutName,OrganizationTypeId,OrganizationTypeName,OrganizationAddress,OrganizationCity,OrganizationCounty,OrganizationZip,OrganizationArea,OrganizationManager,OrganizationSupportPerson,OrganizationReportingContact,OrganizationReportingEmail,OrganizationStatus,OrganizationSchoolType,OrganizationStudentsCount,IsOnboardingEmailSent,IsContractReceived,IsStaticPooling,OrganizationCreatedOn,OrganizationLastUpdatedOn,OnboardingTimestamp,FirstTestTimestamp,SecondTestTimestamp,ThirdTestTimestamp,FourthTestTimestamp,FifthTestTimestamp,OrganizationNumberOfSamples,OrganizationNumberOfPolls,OrganizationRegisteredEmployees,OrganizationContact1Name,OrganizationContact1Email,OrganizationContact1PhoneNumber,OrganizationContact1LandLineNumber,OrganizationContact2Name,OrganizationContact2Email,OrganizationContact2PhoneNumber,OrganizationContact2LandLineNumber,OrganizationContact3Name,OrganizationContact3Email,OrganizationContact3PhoneNumber,OrganizationContact3LandLineNumberUserId,Email,Name,PhoneNumber,LandLineNumber";
+                var line = "OrganizationId,EpaadId,OrganizationName,OrganizationShortcutName,OrganizationTypeId,OrganizationTypeName,OrganizationAddress,OrganizationCity,OrganizationCounty,OrganizationZip,OrganizationArea,OrganizationManager,OrganizationSupportPerson,OrganizationReportingContact,OrganizationSubTypeName,OrganizationSubTypeCode,OrganizationReportingEmail,OrganizationStatus,OrganizationSchoolType,OrganizationStudentsCount,IsOnboardingEmailSent,IsContractReceived,IsStaticPooling,OrganizationCreatedOn,OrganizationLastUpdatedOn,OnboardingTimestamp,FirstTestTimestamp,SecondTestTimestamp,ThirdTestTimestamp,FourthTestTimestamp,FifthTestTimestamp,OrganizationNumberOfSamples,OrganizationNumberOfPolls,OrganizationRegisteredEmployees,OrganizationContact1Name,OrganizationContact1Email,OrganizationContact1PhoneNumber,OrganizationContact1LandLineNumber,OrganizationContact2Name,OrganizationContact2Email,OrganizationContact2PhoneNumber,OrganizationContact2LandLineNumber,OrganizationContact3Name,OrganizationContact3Email,OrganizationContact3PhoneNumber,OrganizationContact3LandLineNumberUserId,Email,Name,PhoneNumber,LandLineNumber";
                 writeFile.WriteLine(line);
                 exportDataDtos.ForEach(exportData =>
                 {
@@ -89,6 +89,8 @@ namespace Elyon.Fastly.Api.Controllers
                     "\"" + exportData.OrganizationSupportPerson + "\"," +
                     "\"" + exportData.ReportingContact + "\"," +
                     "\"" + exportData.ReportingEmail + "\"," +
+                    "\"" + exportData.SubTypeName + "\"," +
+                    "\"" + exportData.SubTypeCode + "\"," +
                     exportData.OrganizationStatus + "," +
                     exportData.OrganizationSchoolType + "," +
                     exportData.OrganizationStudentsCount + "," +
