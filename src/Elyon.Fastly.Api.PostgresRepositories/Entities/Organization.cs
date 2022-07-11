@@ -147,5 +147,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories.Entities
         public string SubTypeName { get; set; }
 
         public string SubTypeCode { get; set; }
+
+        public string Attribut { get; set; }
     }
 }

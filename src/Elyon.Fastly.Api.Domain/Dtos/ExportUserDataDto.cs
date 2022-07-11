@@ -81,6 +81,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos
 
         public string SubTypeCode { get; set; }
 
+        public string Attribut { get; set; }
+
         public string OrganizationCreatedOn { get; set; }
 
         public string OrganizationLastUpdatedOn { get; set; }
