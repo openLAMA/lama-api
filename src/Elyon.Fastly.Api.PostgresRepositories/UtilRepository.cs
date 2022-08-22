@@ -104,6 +104,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 orgDataDto.SubTypeName = org.SubTypeName;
                 orgDataDto.SubTypeCode = org.SubTypeCode;
                 orgDataDto.Attribut = org.Attribut;
+                orgDataDto.DataPassword = org.DataPassword;
                 orgDataDto.SubOrganizations = new List<SubOrganizationDto>();
                 if (org.SubOrganizations != null)
                 {
@@ -151,6 +152,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 orgDataDto.SubTypeName = org.SubTypeName;
                 orgDataDto.SubTypeCode = org.SubTypeCode;
                 orgDataDto.Attribut = org.Attribut;
+                orgDataDto.DataPassword = org.DataPassword;
 
                 orgDataDto.Contacts = new List<UserDto>();
                 if (org.Contacts != null)
@@ -348,6 +350,7 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 userDataDto.SubTypeName = user.Organization.SubTypeName;
                 userDataDto.SubTypeCode = user.Organization.SubTypeCode;
                 userDataDto.Attribut = user.Organization.Attribut;
+                userDataDto.DataPassword = user.Organization.DataPassword;
                 userData.Add(userDataDto);
             }
             return userData;

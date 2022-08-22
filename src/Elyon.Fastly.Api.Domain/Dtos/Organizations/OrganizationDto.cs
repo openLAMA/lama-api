@@ -131,5 +131,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public string SubTypeCode { get; set; }
 
         public string Attribut { get; set; }
+ 
+        public string DataPassword { get; set; }
     }
 }

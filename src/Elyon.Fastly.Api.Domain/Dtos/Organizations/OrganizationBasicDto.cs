@@ -48,6 +48,8 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
 
         public string Attribut { get; set; }
 
+        public string DataPassword { get; set; }
+
 #pragma warning disable CA2227 // Collection properties should be read only
         public ICollection<SubOrganizationDto> SubOrganizations { get; set; }
     }
