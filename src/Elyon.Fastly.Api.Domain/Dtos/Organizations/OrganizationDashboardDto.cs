@@ -36,5 +36,7 @@ namespace Elyon.Fastly.Api.Domain.Dtos.Organizations
         public DateTime? TestDate4 { get; set; }
 
         public DateTime? TestDate5 { get; set; }
+
+        public string DataPassword { get; set; }
     }
 }

@@ -195,7 +195,6 @@ namespace Elyon.Fastly.Api.PostgresRepositories
                 .ForMember(opt => opt.ReportingEmail, src => src.Ignore())
                 .ForMember(opt => opt.SubTypeName, src => src.Ignore())
                 .ForMember(opt => opt.SubTypeCode, src => src.Ignore())
-                .ForMember(opt => opt.DataPassword, src => src.Ignore())
                 .ForMember(opt => opt.Attribut, src => src.Ignore());
 
 
